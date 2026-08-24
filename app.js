@@ -62,7 +62,6 @@
       "#splash .sp{text-align:center;padding:20px;animation:spUp .7s ease both}" +
       "@keyframes spUp{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}" +
       "#splash .hi{font-size:30px;color:#f8fafc;font-weight:800;line-height:1.35}" +
-      "#splash .hi b{color:#6ee7b7}" +
       "#splash .q{margin-top:12px;font-size:17px;color:#94a3b8}" +
       "#splash .go{margin-top:26px;background:linear-gradient(90deg,#059669,#10b981);color:#fff;border:none;" +
       "border-radius:13px;padding:13px 28px;font-size:15px;font-weight:700;cursor:pointer;" +
@@ -74,7 +73,7 @@
     w.id = "splash";
     w.innerHTML =
       '<div class="sp">' +
-        '<div class="hi">' + USERS[cur].greet + '<br><b>' + USERS[cur].name.split(" ")[0] + '</b> 👋</div>' +
+        '<div class="hi">' + USERS[cur].greet + ' 👋</div>' +
         '<div class="q">Готовы снова учиться?</div>' +
         '<button class="go">▶ К занятиям</button>' +
       '</div>';
