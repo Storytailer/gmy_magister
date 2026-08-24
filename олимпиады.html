@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Олимпиады · ГМУ-магистратура 2027</title>
+<script src="app.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Segoe UI", system-ui, sans-serif; background:#0f172a; color:#e2e8f0; padding:26px 16px 70px; }
+  .wrap { max-width:940px; margin:0 auto; }
+  a.back { display:inline-flex; align-items:center; gap:6px; color:#94a3b8; text-decoration:none; font-size:13.5px;
+    background:#1e293b; border:1px solid #334155; border-radius:999px; padding:7px 15px; margin-bottom:20px; }
+  a.back:hover { color:#6ee7b7; border-color:#10b98188; }
+  h1 { font-size:27px; color:#f8fafc; }
+  h2 { font-size:20px; color:#f1f5f9; margin:34px 0 14px; padding-left:12px; border-left:4px solid #10b981; }
+  h3 { font-size:15.5px; color:#93c5fd; margin:18px 0 8px; }
+  .sub { color:#64748b; margin-top:6px; font-size:14px; line-height:1.55; max-width:760px; }
+  .card { background:#1e293b; border:1px solid #334155; border-radius:16px; padding:22px 26px; margin-bottom:20px; }
+  .card.gold { border-color:#f59e0b66; box-shadow:0 0 24px rgba(245,158,11,.06); }
+  .card.blue { border-color:#38bdf855; }
+  .o-head { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; }
+  .o-title { font-size:19px; font-weight:800; color:#f8fafc; }
+  .o-tag { font-size:11.5px; font-weight:700; padding:4px 12px; border-radius:999px; white-space:nowrap; }
+  .tg-amber { background:#78350f; color:#fcd34d; } .tg-green { background:#064e3b; color:#6ee7b7; }
+  .p { font-size:14px; color:#cbd5e1; line-height:1.65; margin-top:10px; }
+  .p b, li b { color:#f1f5f9; }
+  ul.cl { list-style:none; margin-top:10px; }
+  ul.cl li { padding:6px 0 6px 24px; position:relative; font-size:14px; color:#cbd5e1; line-height:1.55; }
+  ul.cl li::before { content:"▸"; position:absolute; left:6px; color:#10b981; }
+  table.tl { width:100%; border-collapse:collapse; margin-top:12px; }
+  table.tl td { padding:9px 12px; border-top:1px solid #233150; font-size:13.5px; vertical-align:top; line-height:1.5; }
+  table.tl td:first-child { min-width:190px; color:#93c5fd; font-weight:600; white-space:nowrap; }
+  table.tl td:last-child { color:#cbd5e1; }
+  .appr { color:#fbbf24; font-size:11px; border:1px dashed #fbbf2455; border-radius:6px; padding:0 5px; white-space:nowrap; }
+  a.lnk { color:#38bdf8; text-decoration:none; }
+  a.lnk:hover { text-decoration:underline; }
+  .links-box { background:#16223a; border:1px solid #2c3b57; border-radius:12px; padding:14px 18px; margin-top:14px;
+    font-size:13.5px; line-height:2; }
+  .task { background:#16223a; border-left:4px solid #38bdf8; border-radius:0 12px 12px 0; padding:14px 18px; margin:12px 0;
+    font-size:14px; color:#cbd5e1; line-height:1.6; }
+  .task .tt { font-weight:700; color:#93c5fd; display:block; margin-bottom:5px; }
+  details { background:#16223a; border:1px solid #2c3b57; border-radius:12px; padding:12px 18px; margin:10px 0; }
+  summary { cursor:pointer; font-size:14px; font-weight:700; color:#e2e8f0; }
+  summary:hover { color:#6ee7b7; }
+  details .ans { margin-top:10px; font-size:13.5px; color:#94a3b8; line-height:1.65; border-top:1px solid #233150; padding-top:10px; }
+  .warn { background:#451a03aa; border:1px solid #d9770666; border-radius:12px; padding:13px 17px; font-size:13px;
+    color:#fcd34d; line-height:1.55; margin-top:14px; }
+  .steps { counter-reset:s; margin-top:8px; }
+  .step { display:flex; gap:12px; padding:8px 0; font-size:14px; color:#cbd5e1; line-height:1.55; align-items:baseline; }
+  .step::before { counter-increment:s; content:counter(s); min-width:26px; height:26px; border-radius:50%;
+    background:#064e3b; color:#6ee7b7; font-weight:700; font-size:13px; display:inline-flex; align-items:center;
+    justify-content:center; transform:translateY(4px); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html">← Дашборд</a>
+  <h1>🏆 Олимпиады для поступления в магистратуру</h1>
+  <div class="sub">Диплом победителя/призёра = <b style="color:#6ee7b7">максимум баллов за вступительное испытание</b> или поступление вне конкурса.
+  Проверено по официальным сайтам 24.08.2026. Даты сезона 2026/27 публикуются осенью — обновим сразу после анонса.</div>
+
+  <!-- ══════════ Я — ПРОФЕССИОНАЛ ══════════ -->
+  <h2>1 · Олимпиада «Я — профессионал» · направление «Государственное управление»</h2>
+  <div class="card gold">
+    <div class="o-head">
+      <div class="o-title">Яндекс · РСВ · РСПП · Минобрнауки</div>
+      <span class="o-tag tg-amber">X сезон — следить за стартом!</span>
+    </div>
+    <div class="p">Крупнейшая олимпиада страны по направлению «Государственное управление» (уровень магистратуры).
+    Организатор направления — <b>РАНХиГС (ИГСУ)</b>. Бесплатно: онлайн-отборочный + очный финал.
+    Дипломанты получают льготы при поступлении в вузы-партнёры, медалистам — премии
+    (магистратура: золото <b>200–300 тыс ₽</b>, серебро <b>150–200 тыс ₽</b>, бронза <b>100–150 тыс ₽</b>) и стажировки.</div>
+
+    <table class="tl">
+      <tr><td>IX сезон · регистрация</td><td>9 сентября — 11 ноября 2025 <i>(завершён)</i></td></tr>
+      <tr><td>IX сезон · отборочный этап</td><td>14 ноября — 1 декабря 2025 · онлайн-тест, итоги — конец декабря</td></tr>
+      <tr><td>IX сезон · заключительный этап</td><td>февраль — апрель 2026 · очные кейсы</td></tr>
+      <tr><td>X сезон · ожидаемый график <span class="appr">≈</span></td><td>регистрация с сентября–октября 2026 · отборочный ноябрь–декабрь 2026 · финалы весна 2027</td></tr>
+    </table>
+
+    <div class="warn">🔔 Даты X сезона ещё не объявлены. Подпишись на уведомления о старте:
+    <a class="lnk" href="https://yandex.ru/profi/subscribe" target="_blank">yandex.ru/profi/subscribe</a>.
+    Как только откроется регистрация — ставим её в календарь как дедлайн №1.</div>
+
+    <h3>🔗 Официальные ссылки</h3>
+    <div class="links-box">
+      🌐 Портал: <a class="lnk" href="https://yandex.ru/profi/" target="_blank">yandex.ru/profi</a><br>
+      📜 Правила и документы сезона: <a class="lnk" href="https://yandex.ru/profi/rules" target="_blank">yandex.ru/profi/rules</a><br>
+      🗂 Архив материалов и демоверсии прошлых сезонов: <a class="lnk" href="https://yandex.ru/profi/archive" target="_blank">yandex.ru/profi/archive</a><br>
+      🏛 Вузы, учитывающие результаты: <a class="lnk" href="https://yandex.ru/profi/university_admission" target="_blank">yandex.ru/profi/university_admission</a><br>
+      🎓 Страница направления от организатора: <a class="lnk" href="https://igsu.ranepa.ru/profi/" target="_blank">igsu.ranepa.ru/profi</a>
+    </div>
+  </div>
+
+  <!-- ══════════ ЛОМОНОСОВ ══════════ -->
+  <h2>2 · Универсиада «Ломоносов» по государственному управлению ⭐ наша главная</h2>
+  <div class="card blue">
+    <div class="o-head">
+      <div class="o-title">МГУ им. М.В. Ломоносова · Факультет государственного управления</div>
+      <span class="o-tag tg-green">выпускникам можно!</span>
+    </div>
+    <div class="p">Творческое состязание по направлениям <b>38.03.04 «ГМУ»</b> и 38.03.03 «Управление персоналом»
+    (заявка только на одно направление). Участвуют студенты и <b>уже закончившие бакалавриат</b> — наш случай,
+    плюс студенты III курса. Победителям и призёрам финала ЦПК МГУ засчитывает
+    <b>максимум баллов по вступительному испытанию «Основы ГМУ» при приёме в магистратуру ФГУ</b>.</div>
+
+    <table class="tl">
+      <tr><td>Регистрация</td><td>15 января — 10 марта 2026 · портал <a class="lnk" href="https://universiade.msu.ru/" target="_blank">universiade.msu.ru</a>; после 10 марта зарегистрироваться нельзя</td></tr>
+      <tr><td>Отборочный этап</td><td>00:00 11 марта — 23:59 15 марта 2026 · заочно, творческая работа</td></tr>
+      <tr><td>Дорегистрация на финал</td><td>1 — 7 апреля 2026 · загрузка паспорта, диплома, заявления на портале</td></tr>
+      <tr><td>Заключительный этап</td><td><b>очно в ФГУ МГУ, 3 часа</b> (в 2026 — 11 апреля, начало в 10:00, Шуваловский, ауд. Е-740/Е-737)</td></tr>
+      <tr><td>Сезон 2027 <span class="appr">≈</span></td><td>ожидаем тот же график: регистрация январь–март, отбор март, финал апрель</td></tr>
+    </table>
+
+    <h3>🔗 Официальные ссылки</h3>
+    <div class="links-box">
+      📄 Страница Универсиады на сайте ФГУ: <a class="lnk" href="https://spa.msu.ru/students/universiada-lomonosov-po-gosudarstvennomu-upravleniyu/" target="_blank">spa.msu.ru → Универсиада</a><br>
+      🌐 Портал заявок: <a class="lnk" href="https://universiade.msu.ru/" target="_blank">universiade.msu.ru</a><br>
+      🧭 Поступающим в магистратуру ФГУ (льготы олимпиадникам): <a class="lnk" href="https://spa.msu.ru/postuplenie/magistratura/gmu/" target="_blank">spa.msu.ru → Магистратура → ГМУ</a><br>
+      ☎️ ПК ФГУ МГУ: +7 (495) 939-35-21 · pk@spa.msu.ru
+    </div>
+  </div>
+
+  <!-- ══════════ ЧТО ЗАДАНИЯ ══════════ -->
+  <h2>3 · Что там за задания · план задач и тренировка</h2>
+  <div class="card">
+    <div class="p"><b>Формат заданий по прошлым сезонам</b> (полные архивы олимпиады не публикуют открыто — работаем по демо-материалам портала и программе испытания МГУ):</div>
+    <ul class="cl">
+      <li><b>«Я — профессионал», отборочный:</b> онлайн-тест ~40–60 вопросов на время. Темы: теория управления, система органов власти РФ, госслужба (ФЗ-79), госполитика и нацпроекты, экономика госсектора, право, текущие события.</li>
+      <li><b>«Я — профессионал», финал:</b> кейс-задания — анализ ситуации, поиск проблем, предложения по решению, обоснование.</li>
+      <li><b>Универсиада, отборочный:</b> творческая работа (эссе) по теме направления — важна структура и опора на нормативку/теорию.</li>
+      <li><b>Универсиада, финал:</b> письменная работа 3 часа = теоретические вопросы + практическое задание (мини-кейс) в объёме программы бакалавриата ГМУ. Совпадает с нашим экзаменом «Основы ГМУ» в МГУ → готовимся параллельно!</li>
+    </ul>
+
+    <h3>📚 Чем официально прокачаться прямо сейчас</h3>
+    <ul class="cl">
+      <li>Демо и архивы «Я — профессионал»: <a class="lnk" href="https://yandex.ru/profi/archive" target="_blank">раздел «Архив материалов» портала</a> — прорешать демоверсии IX и более ранних сезонов до старта отбора.</li>
+      <li><a class="lnk" href="https://spa.msu.ru/wp-content/uploads/31_ogmu_programma_vi_mag_2025-1.pdf" target="_blank">Программа ВИ «Основы ГМУ» МГУ ФГУ (PDF)</a> — фактический список тем финала Универсиады и экзамена. Наш чек-лист подготовки.</li>
+      <li>Блоки 1–6 нашей программы к ноябрю закрывают теорию теста; кейсовый трек (02_кейсы) тренирует финалы.</li>
+    </ul>
+
+    <h3>✍️ Примеры заданий для тренировки</h3>
+    <div class="p" style="color:#64748b;font-size:12.5px">Ниже — учебные примеры, составленные по формату прошлых сезонов (не копии реальных заданий). Прорешай, потом сверяйся со скрытыми ответами.</div>
+
+    <details>
+      <summary>Тестовый вопрос формата отборочного №1 · система власти</summary>
+      <div class="ans"><b>Вопрос:</b> В соответствии со ст. 132 Конституции РФ органы местного самоуправления…<br><br>
+      ✅ <b>Ответ:</b> входят в единую систему публичной власти РФ (поправки 2020 г.), но при этом не входят в систему органов государственной власти (ст. 12). Классическая ловушка: различать «систему публичной власти» и «систему органов госвласти».</div>
+    </details>
+    <details>
+      <summary>Тестовый вопрос №2 · госслужба</summary>
+      <div class="ans"><b>Вопрос:</b> Какой документ определяет квалификационные требования для должностей гражданской службы?<br><br>
+      ✅ <b>Ответ:</b> Реестр должностей федеральной государственной гражданской службы (указ Президента) + квалификационные требования устанавливаются в соответствии с категориями и группами должностей по ФЗ-79 «О государственной гражданской службе РФ».</div>
+    </details>
+    <details>
+      <summary>Эссе формата отборочного Универсиады · план ответа</summary>
+      <div class="ans"><b>Тема-пример:</b> «Цифровая трансформация государственного управления в России: эффекты и риски».<br><br>
+      <b>Каркас из 5 блоков:</b> ① тезис: цифровизация = инструмент повышения качества решений, а не самоцель ·
+      ② понятийная база: электронное правительство, госуслуги, платформенное решение («Госуслуги», МЭШ, ЦОДы) ·
+      ③ нормативка: Указ о национальных целях 2016→474, стратегия цифровой трансформации госуправления ·
+      ④ эффекты: скорость услуг, прозрачность, антикоррупционный потенциал; риски: цифровое неравенство, безопасность данных ·
+      ⑤ вывод: успех определяют кадры и процессы, а не технологии сами по себе.</div>
+    </details>
+    <details>
+      <summary>Кейс формата финала · каркас решения</summary>
+      <div class="ans"><b>Ситуация-пример:</b> В городе N посещаемость МФЦ жителями отдалённых районов вдвое ниже средней; очереди в центре при этом сохраняются.<br><br>
+      <b>Каркас ответа:</b> ① диагностика (данные: время поездки, профиль обращений) · ② проблемы: транспортная доступность, неравномерность загрузки, слабая информированность · ③ варианты решения: мобильные выездные приёмные, выравнивание графиков «окон», продвижение удалённых каналов (госуслуги), ТОСП в сельских поселениях · ④ критерии выбора: стоимость, срок, охват · ⑤ план внедрения и KPI: среднее время получения услуги, % дистанционных обращений, удовлетворённость · ⑥ риски и меры.</div>
+    </details>
+  </div>
+
+  <!-- ══════════ КАК ГОТОВИМС ══════════ -->
+  <h2>4 · Наш план подготовки</h2>
+  <div class="card">
+    <div class="steps">
+      <div class="step">Сентябрь–октябрь: блоки 1–2 программы = база теории управления и права. Параллельно подписка на новости ЯП и контроль старта регистрации.</div>
+      <div class="step">Ноябрь–декабрь: блоки 3–4 + прорешать все доступные демоверсии ЯП. Отборочный этап ЯП (~ноябрь–декабрь) — проходим оба!</div>
+      <div class="step">Декабрь–февраль: режим интенсива перед финалами ЯП — кейсы письменно, взаимная проверка по методу Фейнмана.</div>
+      <div class="step">Январь–март: регистрация и отборочный Универсиады. Эссе пишем в декабре заранее — тема обычно известна в окно 11–15 марта, но структура должна быть отработана.</div>
+      <div class="step">Апрель: очный финал Универсиады в МГУ (3 часа, письменная работа) — репетиция августовского экзамена.</div>
+    </div>
+    <div class="p" style="margin-top:14px;color:#94a3b8">Тренировочные варианты просишь у ассистента: «Устрой тренировочный вариант Универсиады» / «Прорешаем демо Я — профессионал». Все ключевые даты уже стоят в <a class="lnk" href="календарь.html">📅 календаре года</a>.</div>
+  </div>
+
+  <div style="text-align:center;margin-top:30px;font-size:13px;color:#475569">
+    <a href="вузы.html" style="color:#38bdf8;text-decoration:none">🏛 Вузы и экзамены</a> ·
+    <a href="календарь.html" style="color:#38bdf8;text-decoration:none">📅 Календарь</a> ·
+    <a href="index.html" style="color:#38bdf8;text-decoration:none">🎓 Дашборд</a>
+  </div>
+</div>
+</body>
+</html>

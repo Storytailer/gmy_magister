@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вузы и вступительные экзамены · ГМУ-магистратура 2027</title>
+<script src="app.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Segoe UI", system-ui, sans-serif; background:#0f172a; color:#e2e8f0; padding:26px 16px 70px; }
+  .wrap { max-width:980px; margin:0 auto; }
+  a.back { display:inline-flex; align-items:center; gap:6px; color:#94a3b8; text-decoration:none; font-size:13.5px;
+    background:#1e293b; border:1px solid #334155; border-radius:999px; padding:7px 15px; margin-bottom:20px; }
+  a.back:hover { color:#6ee7b7; border-color:#10b98188; }
+  h1 { font-size:27px; color:#f8fafc; }
+  h2 { font-size:20px; color:#f1f5f9; margin:34px 0 14px; padding-left:12px; border-left:4px solid #10b981; }
+  .sub { color:#64748b; margin-top:6px; font-size:14px; line-height:1.55; max-width:780px; }
+  .uni { background:#1e293b; border:1px solid #334155; border-radius:18px; overflow:hidden; margin-bottom:24px; }
+  .uni.prio { border-color:#10b98188; box-shadow:0 0 28px rgba(16,185,129,.09); }
+  .u-head { padding:20px 26px 16px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    background:#16223a; border-bottom:1px solid #2c3b57; }
+  .u-name { font-size:19px; font-weight:800; color:#f8fafc; line-height:1.35; }
+  .u-fac { font-size:13.5px; color:#93c5fd; margin-top:4px; line-height:1.5; }
+  .u-kaf { font-size:12.5px; color:#64748b; margin-top:3px; line-height:1.5; }
+  .badges { display:flex; flex-direction:column; gap:7px; align-items:flex-end; }
+  .bdg { font-size:11.5px; font-weight:700; padding:4px 12px; border-radius:999px; white-space:nowrap; }
+  .bg-green { background:#064e3b; color:#6ee7b7; } .bg-amber { background:#78350f; color:#fcd34d; }
+  .bg-slate { background:#33415566; color:#94a3b8; }
+  .u-body { padding:16px 26px 22px; }
+  .facts { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+  .fact { background:#16223a; border:1px solid #2c3b57; border-radius:11px; padding:9px 14px; font-size:12.5px;
+    color:#cbd5e1; line-height:1.45; }
+  .fact b { color:#f1f5f9; display:block; font-size:13.5px; }
+  .exam-line { background:#0c2a44aa; border:1px solid #38bdf855; border-radius:12px; padding:11px 15px;
+    font-size:13.5px; color:#bae6fd; line-height:1.55; margin-bottom:14px; }
+  .exam-line b { color:#f8fafc; }
+  table.pr { width:100%; border-collapse:collapse; }
+  th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:#64748b; padding:6px 10px; border-bottom:1px solid #2c3b57; }
+  td { padding:9px 10px; border-bottom:1px solid #1f2d49; font-size:13.5px; vertical-align:top; line-height:1.5; }
+  tr:last-child td { border-bottom:none; }
+  td.pname { color:#e2e8f0; font-weight:600; }
+  td.pname span { display:block; font-weight:400; font-size:12px; color:#64748b; margin-top:2px; }
+  td.pex { color:#94a3b8; min-width:210px; }
+  td.pbud { white-space:nowrap; font-size:12.5px; }
+  .bud-y { color:#6ee7b7; font-weight:700; } .bud-n { color:#64748b; }
+  a.lnk { color:#38bdf8; text-decoration:none; }
+  a.lnk:hover { text-decoration:underline; }
+  .warn { background:#451a03aa; border:1px solid #d9770666; border-radius:12px; padding:13px 17px; font-size:13px;
+    color:#fcd34d; line-height:1.6; margin-top:6px; }
+  ul.cl { list-style:none; margin-top:10px; }
+  ul.cl li { padding:6px 0 6px 24px; position:relative; font-size:14px; color:#cbd5e1; line-height:1.6; }
+  ul.cl li::before { content:"▸"; position:absolute; left:6px; color:#10b981; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html">← Дашборд</a>
+  <h1>🏛 Вузы, направления, вступительные экзамены</h1>
+  <div class="sub">Цель — бюджет магистратуры <b style="color:#6ee7b7">38.04.04 «Государственное и муниципальное управление»</b>.
+  Наш бэкграунд — 46.03.02 «Организация работы с молодежью» (смежное гуманитарное), поэтому сдаём внутривузовские испытания.
+  Данные собраны с официальных сайтов приёмных комиссий 24.08.2026 по кампании-2026 — <b style="color:#fbbf24">перепроверить в мае 2027!</b></div>
+
+  <!-- ══════════ МГУ ══════════ -->
+  <h2>МГУ им. М.В. Ломоносова · ФГУ 🎯 приоритет</h2>
+  <div class="uni prio">
+    <div class="u-head">
+      <div>
+        <div class="u-name">Факультет государственного управления (ФГУ)</div>
+        <div class="u-fac">Направление «Государственное и муниципальное управление» · очная форма</div>
+        <div class="u-kaf">Кафедры и структура факультета: spa.msu.ru/about/department/ · ПК: +7 (495) 939-35-21, pk@spa.msu.ru</div>
+      </div>
+      <div class="badges"><span class="bdg bg-green">40 бюджетных мест</span><span class="bdg bg-slate">+30 платных</span><span class="bdg bg-amber">Ломоносов = max баллов ВИ</span></div>
+    </div>
+    <div class="u-body">
+      <div class="facts">
+        <div class="fact"><b>20 июня → 10 августа</b>приём документов (график кампании-2026)</div>
+        <div class="fact"><b>12–18 августа</b>вступительные испытания очно в МГУ (по графику-2026)</div>
+        <div class="fact"><b>~20–25 августа</b>конкурсные списки и зачисление</div>
+        <div class="fact"><b>1 предмет на выбор</b>из набора испытаний направления</div>
+      </div>
+
+      <div class="exam-line">📝 Испытание нашего выбора: <b>«Основы государственного и муниципального управления» (письменно)</b> ·
+      программа: <a class="lnk" href="https://spa.msu.ru/wp-content/uploads/31_ogmu_programma_vi_mag_2025-1.pdf" target="_blank">PDF 2025</a> ·
+      альтернативы: Политология / Менеджмент / Основы управления персоналом.<br>
+      🏆 Победителям и призёрам Универсиады «Ломоносов» засчитывается максимум баллов именно по этому испытанию.</div>
+
+      <table class="pr">
+        <tr><th>Профиль (магистерская программа)</th><th>Вступительное испытание</th><th>Бюджет</th></tr>
+        <tr><td class="pname">Стратегическое государственное управление<span>интегрированная магистратура</span></td><td class="pex" rowspan="12">один предмет из набора направления (рекомендуем «Основы ГМУ, письменно») — экзамен общий для всех программ группы ГМУ</td><td class="pbud bud-y">✔ в рамках 40 мест группы программ</td></tr>
+        <tr><td class="pname">Региональное и муниципальное управление<span>интегрированная магистратура · наш профильный фокус</span></td><td class="pbud bud-y">✔</td></tr>
+        <tr><td class="pname">Антикризисное управление<span>интегрированная магистратура</span></td><td class="pbud bud-y">✔</td></tr>
+        <tr><td class="pname">Управление экономикой и финансами<span>интегрированная магистратура</span></td><td class="pbud bud-y">✔</td></tr>
+        <tr><td class="pname">Современные механизмы и технологии государственного управления<span>магистерская программа</span></td><td class="pbud bud-y">✔</td></tr>
+        <tr><td class="pname">Организация деятельности высших органов публичной власти</td><td class="pbud bud-y">✔</td></tr>
+        <tr><td class="pname">Контроль и надзор в государственном и муниципальном управлении</td><td class="pbud bud-y">✔</td></tr>
+        <tr><td class="pname">Искусственный интеллект и цифровые технологии в гос. и корпоративном управлении</td><td class="pbud bud-y">✔</td></tr>
+        <tr><td class="pname">Государственное управление внешнеэкономической деятельностью</td><td class="pbud bud-n">проверить КЦП-2027</td></tr>
+        <tr><td class="pname">Глобальное управление и международные организации</td><td class="pbud bud-n">проверить КЦП-2027</td></tr>
+        <tr><td class="pname">Управление в сфере межэтнических и государственно-конфессиональных отношений</td><td class="pbud bud-n">проверить КЦП-2027</td></tr>
+        <tr><td class="pname">Кибернетическая экономика</td><td class="pbud bud-n">проверить КЦП-2027</td></tr>
+      </table>
+      <div style="margin-top:12px;font-size:13px;color:#64748b">🔗 <a class="lnk" href="https://spa.msu.ru/postuplenie/magistratura/gmu/" target="_blank">Приём на ГМУ в магистратуру ФГУ ↗</a> ·
+      <a class="lnk" href="https://spa.msu.ru/postuplenie/magistratura/" target="_blank">все 23 программы ФГУ ↗</a> ·
+      <a class="lnk" href="https://spa.msu.ru/postuplenie/kursy/" target="_blank">подготовительные курсы ↗</a></div>
+    </div>
+  </div>
+
+  <!-- ══════════ РУДН ══════════ -->
+  <h2>РУДН им. Патриса Лумумбы</h2>
+  <div class="uni">
+    <div class="u-head">
+      <div>
+        <div class="u-name">Факультет гуманитарных и социальных наук (ФГСН)</div>
+        <div class="u-fac">Направление 38.04.04 «Государственное и муниципальное управление»</div>
+        <div class="u-kaf">Выпускающие подразделения ФГСН · admission.rudn.ru · ПК: +7 (495) 787-38-27, priem@rudn.ru</div>
+      </div>
+      <div class="badges"><span class="bdg bg-green">бюджетные места есть</span><span class="bdg bg-slate">документы через Госуслуги</span></div>
+    </div>
+    <div class="u-body">
+      <div class="exam-line">📝 Вступительное испытание для имеющих высшее образование: <b>«Портфолио: государственное и муниципальное управление»</b>, минимум 30 баллов.
+      Программа испытания: <a class="lnk" href="https://admission.rudn.ru/pk/examprogs/2026/%D0%9C%D0%B0%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0/%D0%A4%D0%93%D0%A1%D0%9D/38.04.04%20%D0%93%D0%9E%D0%A1%D0%A3%D0%94%D0%90%D0%A0%D0%A1%D0%A2%D0%92%D0%95%D0%9D%D0%9D%D0%9E%D0%95%20%D0%98%20%D0%9C%D0%A3%D0%9D%D0%98%D0%A6%D0%98%D0%9F%D0%90%D0%9B%D0%AC%D0%9D%D0%9E%D0%95%20%D0%A3%D0%9F%D0%A0%D0%90%D0%92%D0%9B%D0%95%D0%9D%D0%98%D0%95.pdf" target="_blank">PDF 2026</a>. Портфолио собираем заранее: грамоты, публикации, волонтёрство и проекты молодёжной политики!</div>
+      <table class="pr">
+        <tr><th>Профиль (программа)</th><th>Форма</th><th>Бюджетные места</th><th>Стоимость/год</th></tr>
+        <tr><td class="pname">Государственное и муниципальное управление</td><td>очная</td><td class="pbud"><span class="bud-y">8</span></td><td class="pbud">390 тыс ₽</td></tr>
+        <tr><td class="pname">Устойчивое управление городом и зеленой инфраструктурой</td><td>очная</td><td class="pbud"><span class="bud-y">8</span></td><td class="pbud">407 тыс ₽</td></tr>
+        <tr><td class="pname">Государственное управление социально-экономическим развитием</td><td>очная</td><td class="pbud bud-n">— платная</td><td class="pbud">390 тыс ₽</td></tr>
+        <tr><td class="pname">Социальные процессы и социальный менеджмент</td><td>очно-заочная</td><td class="pbud bud-n">— платная</td><td class="pbud">265 тыс ₽</td></tr>
+      </table>
+      <div style="margin-top:12px;font-size:13px;color:#64748b">🔗 <a class="lnk" href="https://admission.rudn.ru/master/directions/" target="_blank">Подбор программ магистратуры РУДН ↗</a> ·
+      <a class="lnk" href="https://admission.rudn.ru/master/timing/" target="_blank">сроки приёма ↗</a> ·
+      <a class="lnk" href="https://dod.rudn.ru/" target="_blank">дни открытых дверей ↗</a></div>
+    </div>
+  </div>
+
+  <!-- ══════════ РГСУ ══════════ -->
+  <h2>РГСУ (Российский государственный социальный университет)</h2>
+  <div class="uni">
+    <div class="u-head">
+      <div>
+        <div class="u-name">Факультет экономики и управления</div>
+        <div class="u-fac">Направление 38.04.04 «Государственное и муниципальное управление»</div>
+        <div class="u-kaf">Кафедра государственного и муниципального управления (по сайту вуза) · ПК: +7 (495) 255-67-35, pk@rgsu.net · ул. Вильгельма Пика, 4</div>
+      </div>
+      <div class="badges"><span class="bdg bg-amber">форматы заочные — уточнить очку</span></div>
+    </div>
+    <div class="u-body">
+      <div class="exam-line">📝 Испытание: комплексный письменный экзамен по направлению (программу публикуют весной в разделе
+      <a class="lnk" href="https://rgsu.net/abitur/priemnaya-kampaniya-2026/vstupitelnye-ispytaniya/" target="_blank">«Вступительные испытания»</a>).
+      Практикуется дистанционная сдача. Всего в магистратуре РГСУ ~429 бюджетных мест — но распределение по программам проверить.</div>
+      <table class="pr">
+        <tr><th>Профиль (программа)</th><th>Форма</th><th>Срок</th><th>Экзамен</th></tr>
+        <tr><td class="pname">Муниципальное управление и местное самоуправление</td><td>заочная / заочно-дистанционная</td><td>от 2 лет 6 мес</td><td class="pex">комплексный письменный по направлению</td></tr>
+        <tr><td class="pname">Военно-мемориальная и государственно-патриотическая деятельность в органах гос. власти и МСУ</td><td>заочно-дистанционная</td><td>2 года 6 мес</td><td class="pex">комплексный письменный по направлению</td></tr>
+      </table>
+      <div class="warn">⚠️ По кампании-2026 программы 38.04.04 у РГСУ показаны в заочных формах. Если нужен только бюджет очно — следить,
+      появятся ли очные профили в КЦП-2027, либо рассматривать как запасной вариант.</div>
+      <div style="margin-top:12px;font-size:13px;color:#64748b">🔗 <a class="lnk" href="https://rgsu.net/abitur/priemnaya-kampaniya-2026/" target="_blank">Приёмная кампания ↗</a> ·
+      <a class="lnk" href="https://rgsu.net/abitur/proforientatsiya/open-days/" target="_blank">дни открытых дверей ↗</a> ·
+      <a class="lnk" href="https://prof.rgsu.net/" target="_blank">олимпиады РГСУ ↗</a></div>
+    </div>
+  </div>
+
+  <!-- ══════════ ЗАПАСНЫЕ ══════════ -->
+  <h2>Запасные варианты · проработать к декабрю</h2>
+  <div class="uni">
+    <div class="u-head">
+      <div>
+        <div class="u-name">РАНХиГС · Институт государственной службы и управления (ИГСУ)</div>
+        <div class="u-fac">Крупнейший центр подготовки ГМУ; организатор направления ГУ олимпиады «Я — профессионал»</div>
+        <div class="u-kaf">ranepa.ru → Поступающим · igsu.ranepa.ru</div>
+      </div>
+      <div class="badges"><span class="bdg bg-slate">на проверке</span></div>
+    </div>
+    <div class="u-body">
+      <ul class="cl">
+        <li>В ИГСУ много магистерских профилей 38.04.04 («Государственная политика и управление» и др.) — выбрать 2–3 целевых к ноябрю.</li>
+        <li>Испытания устанавливает вуз (как правило, письменный экзамен по направлению ± портфолио); дипломанты «Я — профессионал» получают льготы.</li>
+        <li>🔗 <a class="lnk" href="https://www.ranepa.ru/" target="_blank">ranepa.ru ↗</a> · <a class="lnk" href="https://igsu.ranepa.ru/profi/" target="_blank">страница олимпиады от ИГСУ ↗</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="uni">
+    <div class="u-head">
+      <div>
+        <div class="u-name">РГГУ (Российский государственный гуманитарный университет)</div>
+        <div class="u-fac">Проверить наличие набора 38.04.04 в магистратуру и профили приёмной кампании</div>
+        <div class="u-kaf">rsuh.ru → Поступление в РГГУ → Приемная кампания</div>
+      </div>
+      <div class="badges"><span class="bdg bg-slate">на проверке</span></div>
+    </div>
+    <div class="u-body">
+      <ul class="cl">
+        <li>Задача: убедиться, открывается ли набор на 38.04.04 в кампании-2027, и какие профили + испытания.</li>
+        <li>Если профиля нет — РГГУ выпадает из списка, остаёмся на связке МГУ · РУДН · РАНХиГС.</li>
+        <li>🔗 <a class="lnk" href="https://www.rsuh.ru/abiturient/" target="_blank">rsuh.ru → абитуриенту ↗</a> · <a class="lnk" href="https://www.rsuh.ru/abitur/" target="_blank">приемная кампания ↗</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════ ДОКУМЕНТЫ ══════════ -->
+  <h2>Чеклист документов · собрать к апрелю–маю 2027</h2>
+  <div class="card" style="background:#1e293b;border:1px solid #334155;border-radius:16px;padding:20px 26px">
+    <ul class="cl">
+      <li>Диплом бакалавра + приложение (оригинал и копия; сканы PDF заранее)</li>
+      <li>Паспорт, СНИЛС (копии)</li>
+      <li>Фото 3×4 — для МГУ ФГУ нужно минимум 4 шт., сделанные в году поступления</li>
+      <li>Портфолио: дипломы олимпиад («Ломоносов», «Я — профессионал»!), грамоты, публикации — особенно критично для РУДН, где портфолио = вступительный экзамен</li>
+      <li>Заявления — через Госуслуги («Поступление в вуз онлайн») или лично; контакт-центр Минобрнауки: 8 800 444-51-15</li>
+    </ul>
+    <div style="margin-top:14px;font-size:13.5px;color:#94a3b8">Все даты кампании уже отмечены в 📅 <a class="lnk" href="календарь.html">календаре года</a>.</div>
+  </div>
+
+  <div style="text-align:center;margin-top:30px;font-size:13px;color:#475569">
+    <a href="олимпиады.html" style="color:#38bdf8;text-decoration:none">🏆 Олимпиады</a> ·
+    <a href="календарь.html" style="color:#38bdf8;text-decoration:none">📅 Календарь</a> ·
+    <a href="index.html" style="color:#38bdf8;text-decoration:none">🎓 Дашборд</a>
+  </div>
+</div>
+</body>
+</html>

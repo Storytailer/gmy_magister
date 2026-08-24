@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День 1 · Введение в ГМУ</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: #0f172a; color: #e2e8f0;
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: #1e293b; border: 1px solid #334155; border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.35);
+  }
+  .crumbs { font-size: 12px; color: #64748b; letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: #f8fafc; margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: #0f172a; border: 1px solid #334155; color: #94a3b8; border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: #f1f5f9; margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: #cbd5e1; font-size: 15.5px; }
+  strong { color: #f1f5f9; }
+  .em { color: #34d399; font-weight: 600; }
+  pre {
+    background: #111c31; border: 1px solid #29354d; border-radius: 12px;
+    padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.5;
+    color: #93c5fd; margin: 14px 0; font-family: Consolas, "Courier New", monospace;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: #94a3b8; font-weight: 600; padding: 10px 12px; background: #16223a; border-bottom: 2px solid #334155; }
+  td { padding: 10px 12px; border-bottom: 1px solid #29354d; color: #cbd5e1; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  details {
+    background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+    padding: 13px 18px; margin: 12px 0; cursor: pointer;
+  }
+  summary { color: #38bdf8; font-weight: 600; font-size: 15px; }
+  summary:hover { color: #7dd3fc; }
+  details[open] summary { margin-bottom: 8px; }
+  details p { margin: 0; color: #cbd5e1; font-size: 15px; }
+  .hw {
+    background: #1e293b; border: 1px solid #f59e0b55; border-radius: 16px;
+    padding: 22px 26px; margin-top: 30px;
+  }
+  .hw h2 { margin: 0 0 14px; border-color: #f59e0b; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: #0f172a; border: 1px solid #334155; border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #f59e0b88; }
+  label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: #cbd5e1; }
+  label.task input:checked + span { color: #64748b; text-decoration: line-through; }
+  .quiz-head {
+    margin-top: 40px; background: #1e293b; border: 1px solid #334155;
+    border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
+  }
+  .quiz-body {
+    background: #1e293b; border: 1px solid #334155; border-radius: 0 0 16px 16px;
+    border-top: none; padding: 20px 26px 26px;
+  }
+  .bar { height: 6px; background: #334155; border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
+  .qnum { color: #64748b; font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: #f1f5f9; }
+  .opt {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: #0f172a; color: #cbd5e1; border: 2px solid #334155;
+    border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
+  }
+  .opt:hover:not(:disabled) { border-color: #64748b; transform: translateX(4px); }
+  .opt:disabled { cursor: default; opacity: .85; }
+  .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
+  .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
+  .explain {
+    display: none; background: #0f172a; border-left: 3px solid #38bdf8;
+    padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
+    color: #94a3b8; margin-top: 8px; line-height: 1.5;
+  }
+  .explain.show { display: block; }
+  .next, .tohome {
+    display: block; width: 100%; margin-top: 18px; cursor: pointer; text-align: center; text-decoration: none;
+    background: #10b981; color: #052e16; border: none; border-radius: 12px;
+    padding: 14px; font-size: 16px; font-weight: 700; transition: filter .15s; font-family: inherit;
+  }
+  .next:hover, .tohome:hover { filter: brightness(1.1); }
+  .tohome { display: none; }
+  .retake {
+    display: block; width: 100%; margin-top: 12px; cursor: pointer; text-align: center;
+    background: transparent; color: #10b981; border: 2px solid #10b981; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+  .result { text-align: center; padding: 18px 0 6px; }
+  .score { font-size: 52px; font-weight: 800; color: #f8fafc; }
+  .verdict { font-size: 16px; color: #94a3b8; margin: 12px 0 22px; line-height: 1.5; }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: #38bdf8; text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="crumbs">Блок 1 · Теория и история управления &nbsp;·&nbsp; Неделя 1 · Понедельник</div>
+    <h1>Введение в государственное и муниципальное управление</h1>
+    <div class="chips">
+      <span class="chip">📖 Лекция ~40 мин</span>
+      <span class="chip">🏠 Задание ~15 мин</span>
+      <span class="chip">✅ Тест дня в конце страницы</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> понимать, что такое публичное управление, из каких уровней состоит система власти в РФ и чем занимается наука ГМУ.</div>
+  </div>
+
+  <h2>1. Управление как явление</h2>
+  <p><strong>Управление</strong> — целенаправленное воздействие субъекта на объект для перевода его из фактического состояния в желаемое.</p>
+  <pre>СУБЪЕКТ ──(управляющее воздействие)──▶ ОБЪЕКТ
+   ▲                                      │
+   └────────(обратная связь / контроль)───┘</pre>
+  <table>
+    <tr><th>Элемент</th><th>Что это</th><th>Пример</th></tr>
+    <tr><td><strong>Субъект</strong></td><td>кто управляет</td><td>орган власти, должностное лицо</td></tr>
+    <tr><td><strong>Объект</strong></td><td>чем управляют</td><td>общественные процессы, территории</td></tr>
+    <tr><td><strong>Обратная связь</strong></td><td>информация о результатах</td><td>отчёты, статистика, жалобы граждан</td></tr>
+  </table>
+
+  <details>
+    <summary>❓ Вопрос себе: кто субъект и кто объект, когда администрация города ремонтирует дворы?</summary>
+    <p>Субъект — администрация города (её подразделения). Объект — процесс содержания и развития городской среды и связанные с ним общественные отношения.</p>
+  </details>
+
+  <p>Три вида управления по природе субъекта:</p>
+  <table>
+    <tr><th>Вид</th><th>Кто управляет</th><th>Пример</th></tr>
+    <tr><td>Техническое</td><td>машины, процессы</td><td>управление светофором</td></tr>
+    <tr><td>Естественное</td><td>природные системы</td><td>биорегуляция организма</td></tr>
+    <tr><td><span class="em">Социальное</span></td><td>люди и организации</td><td><strong>наше — ГМУ</strong></td></tr>
+  </table>
+
+  <h2>2. Публичная власть: два уровня одного целого</h2>
+  <p>В России действует <strong>единая система публичной власти</strong> — понятие закреплено поправками к Конституции 2020 года. Она включает:</p>
+  <p>1️⃣ <strong>Государственную власть:</strong><br>
+  • федеральный уровень (Президент, Федеральное Собрание, Правительство, суды)<br>
+  • уровень субъектов РФ (губернатор, законодательное собрание региона)</p>
+  <p>2️⃣ <strong>Местное самоуправление</strong> (муниципальный уровень) — ст. 12 Конституции: органы МСУ <strong>не входят</strong> в систему органов государственной власти, но входят в единую систему публичной власти (ст. 132).</p>
+  <p><span class="em">📌 Ключевая мысль дня:</span> государственное управление — воздействие «сверху» от государства; муниципальное — решение населением напрямую или через органы МСУ вопросов местного значения. Вместе они образуют публичное управление.</p>
+
+  <details>
+    <summary>❓ Вопрос себе: мэр города — это орган государственной власти?</summary>
+    <p>Нет. Глава муниципального образования — орган МСУ, он не входит в систему органов госвласти (ст. 12 Конституции РФ).</p>
+  </details>
+
+  <h2>3. Карта системы органов власти РФ</h2>
+  <pre>НАРОД РФ (источник власти — ст. 3 Конституции)
+│
+├── ФЕДЕРАЛЬНЫЙ УРОВЕНЬ
+│   ├── Президент РФ
+│   ├── Федеральное Собрание (Совет Федерации + Госдума)
+│   ├── Правительство РФ
+│   └── Конституционный Суд, Верховный Суд, суды
+│
+├── УРОВЕНЬ СУБЪЕКТОВ РФ (89 регионов)
+│   ├── высшее должностное лицо (губернатор/глава)
+│   ├── законодательное собрание
+│   └── правительство региона
+│
+└── МЕСТНОЕ САМОУПРАВЛЕНИЕ
+    ├── представительный орган (дума, совет депутатов)
+    ├── глава муниципалитета (мэр, глава района)
+    └── местная администрация (+ контрольно-счётный орган)</pre>
+  <p>Запомни этот скелет — на нём будут держаться право (блоки 2–3), служба (блок 7) и муниципальное управление (блок 8).</p>
+
+  <h2>4. ГМУ как наука и как практика</h2>
+  <p><strong>Как практика:</strong> профессиональная деятельность по реализации функций государства и муниципалитетов.</p>
+  <p><strong>Как наука:</strong> междисциплинарная область на стыке теории управления и менеджмента, права, экономики публичного сектора, политологии и социологии.</p>
+  <table>
+    <tr><th>Персоналия</th><th>Чем известен</th></tr>
+    <tr><td><strong>Макс Вебер</strong></td><td>концепция рациональной бюрократии</td></tr>
+    <tr><td><strong>Вудро Вильсон</strong></td><td>разделение политики и администрирования (1887)</td></tr>
+    <tr><td><strong>Анри Файоль</strong></td><td>функции управления</td></tr>
+  </table>
+
+  <h2>📌 Термины дня</h2>
+  <table>
+    <tr><th>Термин</th><th>Значение</th></tr>
+    <tr><td>Публичная власть</td><td>государственная власть + МСУ</td></tr>
+    <tr><td>Субъект управления</td><td>управляющий элемент (орган, лицо)</td></tr>
+    <tr><td>Объект управления</td><td>управляемые процессы и отношения</td></tr>
+    <tr><td>Обратная связь</td><td>данные о результате для корректировки</td></tr>
+    <tr><td>Вопросы местного значения</td><td>перечень полномочий МСУ (ФЗ-131)</td></tr>
+    <tr><td>Единая система публичной власти</td><td>норма ст. 132 Конституции (2020)</td></tr>
+  </table>
+
+  <div class="hw">
+    <h2>🏠 Задание на вечер</h2>
+    <label class="task"><input type="checkbox" data-hw="0"><span>Написать своими руками 5 предложений: чем государственное управление отличается от муниципального.</span></label>
+    <label class="task"><input type="checkbox" data-hw="1"><span>Найти одну новость за последний месяц про действие органа власти (любого уровня) и определить: субъект, объект, вид воздействия.</span></label>
+  </div>
+
+  <div class="quiz-head">
+    <h1 style="font-size:16px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;">✅ Тест дня</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:#f8fafc;margin-top:6px;">Введение в ГМУ · 10 вопросов</div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+  </div>
+  <div class="quiz-body" id="card"></div>
+
+  <div class="footer-nav">
+    <a href="../../../index.html">← Дашборд курса</a>
+    <span style="color:#475569">Завтра: цели и функции гос. управления</span>
+  </div>
+
+</div>
+<script src="../../../app.js"></script>
+<script>
+const KEY_DONE = window.uKey("done_b1_w1_d1");
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+document.querySelectorAll("[data-hw]").forEach(box => {
+  const k = "hw_" + KEY_DONE + "_" + box.dataset.hw;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => lsSet(k, box.checked ? "1" : "0"));
+});
+
+const QUESTIONS = [
+  { q: "Управление — это...",
+    opts: ["любое взаимодействие людей в обществе","целенаправленное воздействие субъекта на объект для достижения желаемого состояния","контроль за исполнением законов","процесс принятия политических решений"],
+    a: 1,
+    ex: "Ключевые слова определения: целенаправленность и перевод объекта из фактического состояния в желаемое." },
+  { q: "Объект управления в системе ГМУ — это...",
+    opts: ["органы власти и должностные лица","государственные программы","общественные процессы, отношения, территории","бюджетные средства"],
+    a: 2,
+    ex: "Субъект — кто управляет (орган власти), объект — чем управляют (общественные процессы и отношения)." },
+  { q: "Что закрепили поправки к Конституции РФ 2020 года?",
+    opts: ["упразднение местного самоуправления","единую систему публичной власти","четырёхуровневую структуру бюджета","запрет на совмещение постов"],
+    a: 1,
+    ex: "Ст. 132: органы МСУ и органы гос. власти входят в единую систему публичной власти." },
+  { q: "Органы местного самоуправления входят в систему органов государственной власти РФ?",
+    opts: ["да, всегда","нет — это следует из ст. 12 Конституции","только в городах-миллионниках","по решению губернатора региона"],
+    a: 1,
+    ex: "Ст. 12 Конституции: органы МСУ не входят в систему органов государственной власти. Но в единую систему публичной власти входят." },
+  { q: "Какой элемент НЕ относится к федеральному уровню власти?",
+    opts: ["Правительство РФ","Совет Федерации","законодательное собрание региона","Конституционный Суд"],
+    a: 2,
+    ex: "Законодательное собрание — орган субъекта РФ, региональный уровень." },
+  { q: "Исполнительную власть в РФ осуществляет...",
+    opts: ["Федеральное Собрание","Правительство РФ","Президент","Верховный Суд"],
+    a: 1,
+    ex: "Разделение властей: законодательная — парламент, исполнительная — правительство, судебная — суды." },
+  { q: "Представительный орган муниципального образования — это...",
+    opts: ["местная администрация","дума / совет депутатов","прокуратура города","отдел по вопросам ЖКХ"],
+    a: 1,
+    ex: "Представительный орган избирается населением: дума, совет депутатов, собрание представителей." },
+  { q: "Зачем управлению обратная связь?",
+    opts: ["чтобы увеличить численность аппарата","чтобы получать информацию о результатах и корректировать решения","чтобы дублировать функции органов власти","обратная связь нужна только в технике"],
+    a: 1,
+    ex: "Без обратной связи управление слепо: нет данных о результате — нет возможности скорректировать курс." },
+  { q: "Наука ГМУ является междисциплинарной. Какие области она объединяет?",
+    opts: ["только юриспруденцию","только менеджмент и экономику","теорию управления, право, экономику, политологию, социологию","историю и философию исключительно"],
+    a: 2,
+    ex: "ГМУ стоит на стыке пяти ключевых областей — поэтому наш курс охватывает право, экономику, менеджмент, политику." },
+  { q: "Макс Вебер вошёл в историю науки управления как автор концепции...",
+    opts: ["человеческих отношений","научной организации труда","рациональной бюрократии","общественного выбора"],
+    a: 2,
+    ex: "Вебер описал идеальную модель рациональной бюрократии: иерархия, компетентность, безличные правила. Человеческие отношения — Мэйо, научная организация труда — Тейлор." }
+];
+
+let idx = 0, score = 0;
+const card = document.getElementById("card");
+
+function render() {
+  if (idx >= QUESTIONS.length) return renderResult();
+  const item = QUESTIONS[idx];
+  document.getElementById("barfill").style.width = Math.round(idx / QUESTIONS.length * 100) + "%";
+  card.innerHTML = `
+    <div class="qnum">Вопрос ${idx + 1} из ${QUESTIONS.length} · верных: ${score}</div>
+    <div class="qtext">${item.q}</div>
+    ${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join("")}
+    <div class="explain" id="ex">${item.ex}</div>
+    <button class="next" id="next" style="display:none">${idx + 1 === QUESTIONS.length ? "Результат →" : "Далее →"}</button>
+  `;
+  card.querySelectorAll(".opt").forEach(btn =>
+    btn.addEventListener("click", () => answer(+btn.dataset.i))
+  );
+}
+
+function answer(i) {
+  const item = QUESTIONS[idx];
+  card.querySelectorAll(".opt").forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === item.a) btn.classList.add("correct");
+    else if (j === i) btn.classList.add("wrong");
+  });
+  if (i === item.a) score++;
+  document.getElementById("ex").classList.add("show");
+  const n = document.getElementById("next");
+  n.style.display = "block";
+  n.addEventListener("click", () => { idx++; render(); });
+}
+
+function renderResult() {
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  let verdict, passed = pct >= 70;
+  if (pct >= 90) verdict = "🔥 Отлично! Материал дня усвоен.";
+  else if (passed) verdict = "✅ Зачёт! Загляни в объяснения ошибок перед завтрашним днём.";
+  else verdict = "📖 Пока не зачёт (<70%). Перечитай конспект выше — и пройди ещё раз.";
+  if (passed) lsSet(KEY_DONE, score + "/" + QUESTIONS.length);
+  card.innerHTML = `
+    <div class="result">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="verdict">${pct}% · ${verdict}${passed ? "<br><br>День отмечен пройденным в дашборде ✔" : ""}</div>
+      <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
+      <a class="tohome" href="../../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
+    </div>`;
+}
+
+render();
+</script>
+</body>
+</html>

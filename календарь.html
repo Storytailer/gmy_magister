@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Календарь на год · ГМУ-магистратура 2027</title>
+<script src="app.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Segoe UI", system-ui, sans-serif; background:#0f172a; color:#e2e8f0; padding:26px 16px 70px; }
+  .wrap { max-width:1060px; margin:0 auto; }
+  a.back { display:inline-flex; align-items:center; gap:6px; color:#94a3b8; text-decoration:none; font-size:13.5px;
+    background:#1e293b; border:1px solid #334155; border-radius:999px; padding:7px 15px; margin-bottom:20px; }
+  a.back:hover { color:#6ee7b7; border-color:#10b98188; }
+  h1 { font-size:27px; color:#f8fafc; }
+  .sub { color:#64748b; margin-top:6px; font-size:14px; line-height:1.5; }
+  .legend { display:flex; flex-wrap:wrap; gap:8px; margin:20px 0 6px; }
+  .lg { font-size:12.5px; padding:5px 11px; border-radius:999px; background:#1e293b; border:1px solid #334155; color:#cbd5e1; }
+  .note { font-size:12.5px; color:#64748b; margin-top:8px; }
+  .note b { color:#fbbf24; }
+
+  .chips { display:flex; gap:7px; flex-wrap:wrap; margin:18px 0 26px; position:sticky; top:0; background:#0f172a;
+    padding:10px 0; z-index:5; border-bottom:1px solid #1c2941; }
+  .chip { font-size:12.5px; color:#94a3b8; text-decoration:none; background:#16223a; border:1px solid #2c3b57;
+    border-radius:999px; padding:6px 13px; }
+  .chip:hover, .chip.now { color:#6ee7b7; border-color:#10b98188; }
+
+  .prep { background:linear-gradient(135deg,#134e4a22,#1e293b), #1e293b; border:1px solid #10b98155; border-radius:16px;
+    padding:20px 24px; margin-bottom:30px; }
+  .prep h2 { font-size:19px; color:#6ee7b7; margin-bottom:4px; }
+  .prep .psub { color:#94a3b8; font-size:13.5px; margin-bottom:14px; }
+  .prow { display:flex; gap:12px; padding:9px 0; border-top:1px solid #233150; font-size:14px; align-items:baseline; }
+  .pd { min-width:92px; color:#93c5fd; font-weight:700; font-size:13px; }
+  .pt { color:#cbd5e1; line-height:1.5; }
+  .pt a { color:#38bdf8; text-decoration:none; }
+  .pt a:hover { text-decoration:underline; }
+
+  .month { background:#1e293b; border:1px solid #334155; border-radius:16px; padding:18px 20px 16px; margin-bottom:22px; scroll-margin-top:64px; }
+  .m-head { display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .m-title { font-size:18px; font-weight:800; color:#f1f5f9; }
+  .m-block { font-size:12px; color:#6ee7b7; background:#064e3b; padding:3px 11px; border-radius:999px; font-weight:700; }
+  table.cal { width:100%; border-collapse:collapse; table-layout:fixed; }
+  th { font-size:11.5px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:.5px; padding-bottom:8px; }
+  td { height:52px; vertical-align:top; padding:2px; }
+  .daycell { position:relative; width:100%; height:100%; border-radius:9px; border:1px solid transparent;
+    padding:5px 6px; cursor:pointer; text-align:left; font-size:12.5px; color:#cbd5e1; background:#16223a; }
+  .daycell:hover { border-color:#10b98166; }
+  .daycell.out { visibility:hidden; }
+  .daycell.today { border-color:#10b981; box-shadow:0 0 0 1px #10b98166, 0 0 16px rgba(16,185,129,.15); }
+  .daycell.today::after { content:"сегодня"; position:absolute; top:-9px; right:5px; font-size:9px; color:#6ee7b7;
+    background:#0f172a; padding:0 4px; border-radius:4px; }
+  .dn { font-weight:700; color:#e2e8f0; }
+  .dtask { font-size:10.5px; color:#64748b; line-height:1.25; margin-top:2px; overflow:hidden; max-height:24px; }
+  .dots { position:absolute; bottom:4px; left:6px; display:flex; gap:3px; }
+  .dot-i { width:7px; height:7px; border-radius:50%; }
+  .t-olymp { background:#f59e0b; } .t-admis { background:#38bdf8; } .t-dod { background:#a78bfa; }
+  .t-dead { background:#ef4444; } .t-exam { background:#f472b6; } .t-slice { background:#10b981; }
+  .ev-list { margin-top:14px; border-top:1px solid #233150; padding-top:10px; }
+  .ev-row { display:flex; gap:10px; align-items:flex-start; padding:7px 0; font-size:13.5px; line-height:1.45; }
+  .ev-d { min-width:74px; font-weight:700; color:#93c5fd; font-size:12.5px; }
+  .ev-t { color:#cbd5e1; }
+  .ev-t a { color:#38bdf8; text-decoration:none; }
+  .ev-t a:hover { text-decoration:underline; }
+  .appr { color:#fbbf24; font-size:11px; border:1px dashed #fbbf2455; border-radius:6px; padding:0 5px; margin-left:5px; white-space:nowrap; }
+  .none { color:#475569; font-size:12.5px; padding-top:8px; }
+
+  /* всплывающая карточка дня */
+  #daypop { position:fixed; inset:auto 0 0 0; z-index:50; transform:translateY(105%); transition:transform .25s ease; }
+  #daypop.open { transform:translateY(0); }
+  #daypop .inner { max-width:560px; margin:0 auto 14px; background:#1e293b; border:1px solid #334155; border-radius:16px;
+    padding:18px 22px; box-shadow:0 -10px 40px rgba(0,0,0,.55); }
+  .dp-date { font-size:12.5px; color:#64748b; }
+  .dp-title { font-size:17px; font-weight:800; color:#f8fafc; margin:4px 0 10px; }
+  .dp-desc { font-size:13.5px; color:#94a3b8; line-height:1.55; margin-bottom:12px; }
+  .dp-ev { font-size:13px; color:#cbd5e1; padding:6px 0; border-top:1px solid #233150; line-height:1.5; }
+  .btn-go { display:inline-block; background:linear-gradient(90deg,#059669,#10b981); color:#fff; font-weight:700;
+    font-size:14px; border:none; border-radius:11px; padding:11px 20px; cursor:pointer; text-decoration:none; margin-right:10px; }
+  .btn-go:hover { filter:brightness(1.1); }
+  .btn-close { background:#16223a; color:#94a3b8; border:1px solid #334155; border-radius:11px; padding:11px 16px;
+    cursor:pointer; font-size:13px; }
+  .btn-close:hover { color:#e2e8f0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html">← Дашборд</a>
+  <h1>📅 Календарь на год</h1>
+  <div class="sub">Сентябрь 2026 → август 2027 · каждый день — конкретное задание, клик по дню открывает карточку с переходом к обучению.<br>
+  Ключевые даты олимпиад, приёмных комиссий и дней открытых дверей отмечены точками под числом.</div>
+
+  <div class="legend">
+    <span class="lg"><i class="dot-i t-olymp" style="display:inline-block"></i> Олимпиады</span>
+    <span class="lg"><i class="dot-i t-admis" style="display:inline-block"></i> Приёмная комиссия</span>
+    <span class="lg"><i class="dot-i t-dod" style="display:inline-block"></i> День открытых дверей</span>
+    <span class="lg"><i class="dot-i t-dead" style="display:inline-block"></i> Дедлайн</span>
+    <span class="lg"><i class="dot-i t-exam" style="display:inline-block"></i> Вступительный экзамен</span>
+    <span class="lg"><i class="dot-i t-slice" style="display:inline-block"></i> Срез блока</span>
+  </div>
+  <div class="note">⚠️ <b>≈</b> — ориентировочная дата (график прошлого сезона). Точные даты сезона 2026/27 появляются осенью — обновим, как объявят.</div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="prep">
+    <h2>🚀 Предстартовая неделя · план до конца недели</h2>
+    <div class="psub">24–30 августа 2026 · курс официально стартует 1 сентября, но готовимся уже сейчас</div>
+    <div class="prow"><div class="pd">Пн · 24 авг</div><div class="pt">Запуск: обновлены разделы сайта, настроены два профиля. Отправить другу ссылку с <code>?user=friend</code>.</div></div>
+    <div class="prow"><div class="pd">Вт · 25 авг</div><div class="pt">Разобрать структуру курса: README, карту блоков, листать учебный план МГУ ФГУ (pdf в папке проекта).</div></div>
+    <div class="prow"><div class="pd">Ср · 26 авг</div><div class="pt">Олимпиадная разведка: подписаться на новости «Я — профессионал», изучить раздел <a href="олимпиады.html">🏆 Олимпиады</a> и демо-материалы.</div></div>
+    <div class="prow"><div class="pd">Чт · 27 авг</div><div class="pt">Первый учебный день: лекция №1 «Введение в ГМУ» + тест дня → <a href="01_программа/блок_01_теория_и_история_управления/неделя_01/день_01.html">открыть день 1</a></div></div>
+    <div class="prow"><div class="pd">Пт · 28 авг</div><div class="pt">Разбор ошибок теста дня. Договориться с другом о совместном слоте (например, воскресенье, 1 час).</div></div>
+    <div class="prow"><div class="pd">Сб · 29 авг</div><div class="pt">Входная диагностика: попросить ассистента сгенерировать пробный тест по базе ГМУ — замерить стартовый уровень обоих.</div></div>
+    <div class="prow"><div class="pd">Вс · 30 авг</div><div class="pt">Итоги недели, план на сентябрь. Проверить, что оба профиля работают: прогресс не смешивается.</div></div>
+  </div>
+
+  <div id="months"></div>
+
+  <div class="links" style="text-align:center;margin-top:34px;font-size:13px;color:#475569">
+    <a href="олимпиады.html" style="color:#38bdf8;text-decoration:none">🏆 Олимпиады</a> ·
+    <a href="вузы.html" style="color:#38bdf8;text-decoration:none">🏛 Вузы и экзамены</a> ·
+    <a href="index.html" style="color:#38bdf8;text-decoration:none">🎓 Дашборд</a>
+  </div>
+</div>
+
+<div id="daypop"><div class="inner">
+  <div class="dp-date" id="dpDate"></div>
+  <div class="dp-title" id="dpTitle"></div>
+  <div class="dp-desc" id="dpDesc"></div>
+  <div id="dpEvents"></div>
+  <div style="margin-top:14px">
+    <a class="btn-go" id="dpGo" href="#">▶ Перейти к обучению</a>
+    <button class="btn-close" onclick="document.getElementById('daypop').classList.remove('open')">Закрыть</button>
+  </div>
+</div></div>
+
+<script>
+/* ── константы программы ─────────────────────────────────────── */
+const START = new Date(2026, 7, 31);          // пн 31 авг 2026 — неделя 1
+const END   = new Date(2027, 7, 29);          // вс 29 авг 2027 — неделя 52
+const BLOCKS = [
+  ["Теория и история управления","Основы ГМУ · теория управления · история ГУ"],
+  ["Право I","Правоведение · Конституционное право · муниципальное право"],
+  ["Право II","Административное · гражданское · трудовое · финансовое"],
+  ["Экономика","Эк. теория · мировая экономика · статистика · полугодовой экзамен"],
+  ["Финансы публичного сектора","Бюджетная система · ГМ финансы · налоги"],
+  ["Менеджмент и решения","Стратегия · управленческие решения · HR · коммуникации"],
+  ["Госслужба и процессы","ФЗ-79 · этика · делопроизводство · электронное правительство"],
+  ["Регион и муниципалитет","Региональное управление · терпланирование · МСУ"],
+  ["Политика и общество","Политология · социология · психология"],
+  ["Стратегии и антикризис","Наццели · антикризис · риски · годовой экзамен"],
+  ["Повторение + вступительные","Программы испытаний · пробные билеты"],
+  ["Финишная прямая","Экзамены · конкурсные списки · зачисление 🎓"]
+];
+const MONTHS = ["январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"];
+const DOW_TASKS = {
+  1:["📖 Лекция-конспект I","Читаем первую часть темы недели + вопросы-спойлеры"],
+  2:["📖 Лекция-конспект II","Вторая часть темы + задание на вечер"],
+  3:["🎬 Видеолекция","Смотрим видео по теме, дополняем конспект"],
+  4:["🧩 Кейс: разбор","Разбираем практическую ситуацию вместе с разбором"],
+  5:["🧩 Кейс: решение","Пишем собственное решение письменно, сверяем"],
+  6:["✅ Тест самопроверки","~10 вопросов с мгновенной проверкой"],
+  7:["⏱ Срезовый тест недели","Зачёт: ≥70% — неделя сдана"]
+};
+const DAY1_URL = "01_программа/блок_01_теория_и_история_управления/неделя_01/день_01.html";
+
+/* ── ключевые даты года ──────────────────────────────────────── */
+const EVENTS = [
+  { d:"2026-09-18", t:"dod",   n:'День открытых дверей РУДН «Путёвка в мир РУДН»', u:"https://dod.rudn.ru/" },
+  { d:"2026-09-15", t:"admis", n:"Старт подготовительных курсов ФГУ МГУ (следить: spa.msu.ru/postuplenie/kursy)", u:"https://spa.msu.ru/postuplenie/kursy/", a:true },
+  { d:"2026-09-27", t:"dod",   n:"День открытых дверей РГСУ (расписание: rgsu.net → Поступающим)", u:"https://rgsu.net/abitur/proforientatsiya/open-days/", a:true },
+  { d:"2026-10-01", t:"olymp", n:"Открытие регистрации «Я — профессионал» X сезона", u:"https://yandex.ru/profi/", a:true },
+  { d:"2026-10-25", t:"dod",   n:"Осенний день открытых дверей РГСУ / РУДН — проверить расписание", u:"https://admission.rudn.ru/event_list/", a:true },
+  { d:"2026-11-11", t:"dead",  n:"Дедлайн регистрации «Я — профессионал» (в IX сезоне — до 11 ноября)", a:true },
+  { d:"2026-11-14", t:"olymp", n:"Старт отборочного этапа «Я — профессионал» (онлайн-тест)", a:true },
+  { d:"2026-12-01", t:"olymp", n:"Финиш отборочного этапа «Я — профессионал»", a:true },
+  { d:"2026-12-27", t:"exam",  n:"Полугодовой итог: повторение перед экзаменационной неделей" },
+  { d:"2027-01-10", t:"olymp", n:"Подведение итогов отбора «Я — профессионал» (декабрь–январь)", a:true },
+  { d:"2027-01-15", t:"olymp", n:"Открытие регистрации Универсиады «Ломоносов» 2027", u:"https://universiade.msu.ru/", a:true },
+  { d:"2027-02-01", t:"olymp", n:"Начало очных финалов «Я — профессионал» (февраль–апрель)", a:true },
+  { d:"2027-03-10", t:"dead",  n:"Последний день регистрации Универсиады «Ломоносов» (после этой даты нельзя)", u:"https://universiade.msu.ru/", a:true },
+  { d:"2027-03-11", t:"olymp", n:"Окно отборочного этапа Универсиады: творческая работа 11–15 марта", a:true },
+  { d:"2027-04-05", t:"admis", n:"Регистрация на заключительный этап Универсиады (1–7 апреля)", a:true },
+  { d:"2027-04-11", t:"olymp", n:"⭐ Очный финал Универсиады «Ломоносов» в ФГУ МГУ, 3 часа (в 2026 — 11 апреля)", u:"https://spa.msu.ru/students/universiada-lomonosov-po-gosudarstvennomu-upravleniyu/", a:true },
+  { d:"2027-04-25", t:"dod",   n:"Весенние дни открытых дверей магистратур: РГСУ, РУДН, МГУ — мониторить", u:"https://rgsu.net/abitur/proforientatsiya/open-days/", a:true },
+  { d:"2027-06-20", t:"admis", n:"Старт приёма документов в магистратуру МГУ ФГУ (в 2026 стартовал 20 июня)", u:"https://spa.msu.ru/postuplenie/magistratura/priyom-dokumentov/", a:true },
+  { d:"2027-07-05", t:"exam",  n:"Окно вступительных экзаменов РГСУ и РУДН (июль)", a:true },
+  { d:"2027-08-10", t:"dead",  n:"Дедлайн приёма документов МГУ ФГУ (в 2026 — до 10 августа включительно)", a:true },
+  { d:"2027-08-12", t:"exam",  n:"Вступительный экзамен «Основы ГМУ (письменно)» МГУ ФГУ (в 2026 — 12 августа)", u:"https://spa.msu.ru/postuplenie/magistratura/gmu/", a:true },
+  { d:"2027-08-20", t:"admis", n:"Конкурсные списки и зачисление на бюджет 🎓 (20–25 августа)", a:true }
+];
+
+/* ── утилиты ─────────────────────────────────────────────────── */
+function iso(dt){ return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0"); }
+function evMap(){ const m={}; EVENTS.forEach(e=>{ (m[e.d]=m[e.d]||[]).push(e); }); return m; }
+const EMAP = evMap();
+
+function progInfo(dt){
+  const diff = Math.floor((dt - START)/86400000);
+  const week = Math.floor(diff/7)+1;
+  const dow = dt.getDay()===0 ? 7 : dt.getDay();
+  const mi = (dt.getFullYear()-2026)*12 + dt.getMonth() - 8;      // 0..11
+  if (mi>11 || dt<new Date(START.getFullYear(),START.getMonth(),START.getDate()) || dt>END) return null;
+  return { week, dow, block: Math.min(12, Math.max(1, mi+1)) };   // 31 авг 2026 → блок 1
+}
+
+/* ── рендер ──────────────────────────────────────────────────── */
+const monthsBox = document.getElementById("months");
+let html = "";
+for (let m=0;m<12;m++){
+  const y = m<4 ? 2026 : 2027;
+  const mo = (8+m)%12+1;                       // номер месяца 9..12,1..8
+  const first = new Date(y,mo-1,1);
+  const days = new Date(y,mo,0).getDate();
+  const off = (first.getDay()+6)%7;
+  const bname = BLOCKS[m][0];
+
+  html += `<div class="month" id="m${m}"><div class="m-head">
+    <div class="m-title">${MONTHS[mo-1]} ${y}</div><div class="m-block">Блок ${m+1} · ${bname}</div></div>
+    <table class="cal"><tr>${["Пн","Вт","Ср","Чт","Пт","Сб","Вс"].map(d=>`<th>${d}</th>`).join("")}</tr><tr>`;
+  for(let i=0;i<off;i++) html += "<td></td>";
+  for(let dnum=1;dnum<=days;dnum++){
+    const dt = new Date(y,mo-1,dnum);
+    const p = progInfo(dt);
+    const evs = EMAP[iso(dt)]||[];
+    const isToday = iso(dt)===iso(new Date());
+    const dots = evs.map(e=>`<i class="dot-i t-${e.t}"></i>`).join("");
+    const cls = "daycell"+(p?"":" out")+((p&&isToday)?" today":"");
+    const task = p ? DOW_TASKS[p.dow][0] : "";
+    html += `<td><button class="${cls}" data-date="${iso(dt)}"${p?' data-prog="1"':''}>
+      <span class="dn">${dnum}</span>${p?`<div class="dtask">${task}</div>`:""}${dots?`<span class="dots">${dots}</span>`:""}</button></td>`;
+    if ((off+dnum)%7===0 && dnum<days) html += "</tr><tr>";
+  }
+  html += "</tr></table>";
+
+  /* события месяца списком */
+  const mev = Object.keys(EMAP).filter(k=>k.startsWith(y+"-"+String(mo).padStart(2,"0"))).sort();
+  /* срезы блоков: последнее вс месяца */
+  const lastDay = new Date(y,mo,0);
+  const lastSunday = new Date(lastDay); lastSunday.setDate(lastDay.getDate()-lastDay.getDay());
+  html += '<div class="ev-list">';
+  if (!mev.length) html += '<div class="none">— ключевых событий нет; идут плановые занятия недели</div>';
+  else mev.forEach(k=>{
+    EMAP[k].forEach(e=>{
+      const dd=k.slice(8);
+      html += `<div class="ev-row"><span class="ev-d">${dd}.${String(mo).padStart(2,"0")}</span>
+        <span class="ev-t">${e.n}${e.a?'<span class="appr">≈ дата ориентировочная</span>':""}
+        ${e.u?` · <a href="${e.u}" target="_blank">подробнее ↗</a>`:""}</span></div>`;
+    });
+  });
+  html += `</div><div class="ev-row"><span class="ev-d">${lastSunday.getDate()}.${String(mo).padStart(2,"0")}</span>
+    <span class="ev-t">⏱ Большой срез блока ${m+1}: 40–60 вопросов + кейс-задача + разбор ошибок</span></div></div>`;
+}
+monthsBox.innerHTML = html;
+
+/* чипсы навигации */
+document.getElementById("chips").innerHTML =
+  Array.from({length:12},(_,m)=>{
+    const y=m<4?2026:2027, mo=(8+m)%12+1;
+    const now=new Date();
+    const cur = now.getFullYear()===y && now.getMonth()===mo-1;
+    return `<a class="chip${cur?" now":""}" href="#m${m}">${MONTHS[mo-1].slice(0,3)}</a>`;
+  }).join("");
+
+/* ── карточка дня ────────────────────────────────────────────── */
+monthsBox.addEventListener("click", function(e){
+  const btn = e.target.closest(".daycell");
+  if (!btn) return;
+  const p = btn.dataset.prog ? progInfo(new Date(btn.dataset.date+"T00:00:00")) : null;
+  const evs = EMAP[btn.dataset.date]||[];
+  const dt = new Date(btn.dataset.date+"T00:00:00");
+  document.getElementById("dpDate").textContent =
+    dt.toLocaleDateString("ru-RU",{weekday:"long", day:"numeric", month:"long", year:"numeric"});
+  const go = document.getElementById("dpGo");
+
+  if (p){
+    const t = DOW_TASKS[p.dow];
+    document.getElementById("dpTitle").textContent = t[0];
+    document.getElementById("dpDesc").innerHTML =
+      `${t[1]}<br><br>Неделя ${p.week} года · Блок ${p.block} «${BLOCKS[p.block-1][0]}»`;
+    if (p.week===1 && (p.dow===1)) { go.style.display=""; go.href = DAY1_URL; go.textContent="▶ Открыть день 1"; }
+    else { go.style.display=""; go.href="#";
+      go.textContent="🔒 Материал ещё не создан";
+      go.onclick = function(ev){ ev.preventDefault(); this.textContent="✍️ Скажи ассистенту: «Сделай неделю "+p.week+"»";
+        setTimeout(()=>{ this.textContent="🔒 Материал ещё не создан"; },2500); }; }
+  } else {
+    document.getElementById("dpTitle").textContent = "Вне учебного года";
+    document.getElementById("dpDesc").textContent = "Программа идёт с 31 августа 2026 по 29 августа 2027.";
+    go.style.display="none";
+  }
+  document.getElementById("dpEvents").innerHTML = evs.map(e=>
+    `<div class="dp-ev">${e.n}${e.u?` · <a href="${e.u}" target="_blank" style="color:#38bdf8">подробнее ↗</a>`:""}</div>`).join("");
+  document.getElementById("daypop").classList.add("open");
+});
+</script>
+</body>
+</html>

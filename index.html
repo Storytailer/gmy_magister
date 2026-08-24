@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ГМУ-магистратура 2027 · Дашборд</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: #0f172a; color: #e2e8f0; padding: 30px 16px 60px;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 34px; }
+  h1 { font-size: 30px; color: #f8fafc; }
+  .sub { color: #64748b; margin-top: 8px; font-size: 15px; line-height: 1.5; }
+  .bigbar { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 22px 26px; margin-bottom: 26px; }
+  .stat-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
+  .stat-num { font-size: 40px; font-weight: 800; color: #f8fafc; }
+  .stat-label { color: #94a3b8; font-size: 14px; }
+  .bar { height: 8px; background: #334155; border-radius: 4px; margin-top: 14px; overflow: hidden; }
+  .bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#10b981,#34d399); transition: width .4s ease; }
+  h2 { font-size: 20px; color: #f1f5f9; margin: 30px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .block-card {
+    background: #1e293b; border: 1px solid #334155; border-radius: 14px;
+    padding: 18px 20px; position: relative;
+  }
+  .block-card.locked { opacity: .45; }
+  .block-card.active { border-color: #10b98188; box-shadow: 0 0 24px rgba(16,185,129,.08); }
+  .month { font-size: 11.5px; color: #64748b; text-transform: uppercase; letter-spacing: .6px; }
+  .bname { font-weight: 700; color: #f1f5f9; margin-top: 4px; font-size: 15.5px; line-height: 1.35; }
+  .bdisc { font-size: 13px; color: #94a3b8; margin-top: 8px; line-height: 1.5; }
+  .badge {
+    position: absolute; top: 14px; right: 16px; font-size: 11px; font-weight: 700;
+    background: #064e3b; color: #6ee7b7; border-radius: 999px; padding: 3px 10px;
+  }
+  .week-card { background: #1e293b; border: 1px solid #334155; border-radius: 14px; overflow: hidden; }
+  .week-head { padding: 16px 22px 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .week-title { font-weight: 700; color: #f1f5f9; font-size: 16px; }
+  .week-theme { font-size: 13.5px; color: #94a3b8; }
+  .day-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 22px; border-top: 1px solid #26334d; text-decoration: none;
+  }
+  a.day-row:hover { background: #16223a; }
+  .day-icon { font-size: 19px; width: 28px; text-align: center; flex-shrink: 0; }
+  .day-name { font-size: 14px; color: #f1f5f9; font-weight: 600; min-width: 118px; }
+  .day-desc { font-size: 13.5px; color: #94a3b8; flex: 1; }
+  .status { font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 3px 11px; flex-shrink: 0; }
+  .st-done { background: #064e3b; color: #6ee7b7; }
+  .st-go { background: #1d4ed855; color: #93c5fd; }
+  .st-wait { background: #33415566; color: #64748b; }
+  .links { text-align: center; margin-top: 36px; font-size: 13.5px; color: #475569; line-height: 2; }
+  .links a { color: #38bdf8; text-decoration: none; margin: 0 8px; }
+  .links a:hover { text-decoration: underline; }
+  .sec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+  .sec-card {
+    display: block; text-decoration: none; background: linear-gradient(150deg,#1e293b,#182338);
+    border: 1px solid #334155; border-radius: 16px; padding: 20px 22px; transition: transform .15s ease, border-color .15s ease;
+  }
+  .sec-card:hover { transform: translateY(-3px); border-color: #10b98188; }
+  .sec-ico { font-size: 30px; }
+  .sec-name { font-weight: 800; color: #f1f5f9; font-size: 16.5px; margin-top: 10px; }
+  .sec-desc { font-size: 13px; color: #94a3b8; margin-top: 6px; line-height: 1.5; }
+  .friend-box { background: #16223a; border: 1px solid #38bdf855; border-radius: 14px; padding: 16px 20px;
+    margin-top: 14px; font-size: 13.5px; color: #94a3b8; line-height: 1.6; }
+  .friend-box b { color: #93c5fd; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>🎓 ГМУ-магистратура 2027</h1>
+    <div class="sub">Путь к бюджету в магистратуру · МГУ ФГУ · РГСУ · РУДН<br>Программа на базе учебного плана бакалавриата ГМУ МГУ</div>
+  </header>
+
+  <div class="bigbar">
+    <div class="stat-row">
+      <div>
+        <div class="stat-num" id="doneCount">0</div>
+        <div class="stat-label">дней сдано на зачёт (тест ≥70%)</div>
+      </div>
+      <div class="stat-label" style="text-align:right">12 блоков · 52 недели · до августа 2027</div>
+    </div>
+    <div class="bar"><div class="bar-fill" id="globalfill"></div></div>
+  </div>
+
+  <h2>Текущая неделя</h2>
+  <div class="week-card">
+    <div class="week-head">
+      <div>
+        <div class="week-title">Неделя 1 · Блок 1 «Теория и история управления»</div>
+        <div class="week-theme">Введение в ГМУ и публичную власть</div>
+      </div>
+      <span class="status st-go">идёт сейчас</span>
+    </div>
+    <a class="day-row" href="01_программа/блок_01_теория_и_история_управления/неделя_01/день_01.html">
+      <span class="day-icon">📖</span>
+      <span class="day-name">День 1 · Пн</span>
+      <span class="day-desc">Лекция: введение в ГМУ, публичная власть, карта органов власти РФ + тест дня</span>
+      <span class="status st-done" id="st_d1" style="display:none">сдано ✔</span>
+      <span class="status st-go" id="go_d1">начать →</span>
+    </a>
+    <div class="day-row">
+      <span class="day-icon">📖</span>
+      <span class="day-name">День 2 · Вт</span>
+      <span class="day-desc">Лекция: цели и функции государственного управления</span>
+      <span class="status st-wait">по запросу</span>
+    </div>
+    <div class="day-row">
+      <span class="day-icon">🎬</span>
+      <span class="day-name">День 3 · Ср</span>
+      <span class="day-desc">Видеолекция недели + разбор конспекта</span>
+      <span class="status st-wait">по запросу</span>
+    </div>
+    <div class="day-row">
+      <span class="day-icon">🧩</span>
+      <span class="day-name">День 4–5 · Чт–Пт</span>
+      <span class="day-desc">Кейс недели: администрация города N снижает аварийность</span>
+      <span class="status st-wait">по запросу</span>
+    </div>
+    <div class="day-row">
+      <span class="day-icon">⏱</span>
+      <span class="day-name">Сб · Вс</span>
+      <span class="day-desc">Тест самопроверки → воскресный срез недели (зачёт от 70%)</span>
+      <span class="status st-wait">в конце недели</span>
+    </div>
+  </div>
+
+  <h2>Карта года · 12 блоков</h2>
+  <div class="grid" id="blocks"></div>
+
+  <h2>Разделы сайта</h2>
+  <div class="sec-grid">
+    <a class="sec-card" href="календарь.html">
+      <div class="sec-ico">📅</div>
+      <div class="sec-name">Календарь на год</div>
+      <div class="sec-desc">Каждый день — конкретное задание с переходом к обучению. Плюс дедлайны олимпиад, дни открытых дверей и даты приёмных комиссий.</div>
+    </a>
+    <a class="sec-card" href="олимпиады.html">
+      <div class="sec-ico">🏆</div>
+      <div class="sec-name">Олимпиады</div>
+      <div class="sec-desc">«Я — профессионал» и Универсиада «Ломоносов»: актуальные даты, официальные ссылки, примеры заданий и план подготовки.</div>
+    </a>
+    <a class="sec-card" href="вузы.html">
+      <div class="sec-ico">🏛</div>
+      <div class="sec-name">Вузы и экзамены</div>
+      <div class="sec-desc">Карточки МГУ ФГУ, РУДН, РГСУ + запасные: факультеты, профили магистерских программ и вступительные испытания по каждому.</div>
+    </a>
+  </div>
+
+  <div class="friend-box">
+    👥 <b>Заниматься вдвоём:</b> нажми на значок внизу справа → «Скопировать ссылку для друга» и отправь её другу.
+    Он будет учиться по той же ссылке, но его зачёты и тесты сохраняются отдельно — твой прогресс он не видит.
+    Переключение профилей — там же.
+  </div>
+
+  <div class="links">
+    md-файлы планов открывай в Obsidian / VS Code — или проси меня сделать их HTML-версией
+  </div>
+
+</div>
+<script src="app.js"></script>
+<script>
+const BLOCKS = [
+  ["Сентябрь","Теория и история управления","Основы ГМУ · теория управления · история ГУ", true],
+  ["Октябрь","Право I","Правоведение · Конституционное право · муниципальное право"],
+  ["Ноябрь","Право II","Административное право · гражданское · трудовое · финансовое"],
+  ["Декабрь","Экономика","Экон. теория · мировая экономика · статистика · полугодовой экзамен"],
+  ["Январь","Финансы публичного сектора","Бюджетная система · ГМ финансы · налоги · госрегулирование"],
+  ["Февраль","Менеджмент и решения","Стратменеджмент · решения · HR · коммуникации"],
+  ["Март","Госслужба и процессы","ФЗ-79 · этика · госрешения · делопроизводство · электронное правительство"],
+  ["Апрель","Регион и муниципалитет","Региональное управление · терпланирование · МСУ · демография"],
+  ["Май","Политика и общество","Политология · социология · психология · мировая политика"],
+  ["Июнь","Стратегии и антикризис","Наццели · антикризис · риски · зарубежный опыт · годовой экзамен"],
+  ["Июль","Повторение + вступительные","Программы испытаний вузов · пробные билеты · экзамены РГСУ, РУДН"],
+  ["Август","Финишная прямая","Экзамен МГУ · конкурсные списки · зачисление 🎓"]
+];
+document.getElementById("blocks").innerHTML = BLOCKS.map((b, i) => `
+  <div class="block-card ${i === 0 ? "active" : "locked"}">
+    ${i === 0 ? '<span class="badge">активен</span>' : ""}
+    <div class="month">${b[0]} 202${i < 4 ? "6" : "7"}</div>
+    <div class="bname">${i + 1}. ${b[1]}</div>
+    <div class="bdisc">${b[2]}</div>
+  </div>`).join("");
+
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+const PFX = window.userPrefix();
+let done = 0;
+try {
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith(PFX + "done_")) done++;
+  }
+} catch(e){}
+document.getElementById("doneCount").textContent = done;
+if (lsGet(window.uKey("done_b1_w1_d1"))) {
+  document.getElementById("st_d1").style.display = "";
+  document.getElementById("go_d1").textContent = "открыть снова";
+}
+</script>
+</body>
+</html>
