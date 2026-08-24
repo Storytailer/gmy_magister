@@ -8,64 +8,64 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    background: #0f172a; color: #e2e8f0; padding: 30px 16px 60px;
+    background: var(--bg); color: var(--txt); padding: 30px 16px 60px;
   }
   .wrap { max-width: 900px; margin: 0 auto; }
   header { text-align: center; margin-bottom: 34px; }
-  h1 { font-size: 30px; color: #f8fafc; }
-  .sub { color: #64748b; margin-top: 8px; font-size: 15px; line-height: 1.5; }
-  .bigbar { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 22px 26px; margin-bottom: 26px; }
+  h1 { font-size: 30px; color: var(--head); }
+  .sub { color: var(--muted); margin-top: 8px; font-size: 15px; line-height: 1.5; }
+  .bigbar { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px 26px; margin-bottom: 26px; }
   .stat-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
-  .stat-num { font-size: 40px; font-weight: 800; color: #f8fafc; }
-  .stat-label { color: #94a3b8; font-size: 14px; }
-  .bar { height: 8px; background: #334155; border-radius: 4px; margin-top: 14px; overflow: hidden; }
+  .stat-num { font-size: 40px; font-weight: 800; color: var(--head); }
+  .stat-label { color: var(--txt2); font-size: 14px; }
+  .bar { height: 8px; background: var(--line); border-radius: 4px; margin-top: 14px; overflow: hidden; }
   .bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#10b981,#34d399); transition: width .4s ease; }
-  h2 { font-size: 20px; color: #f1f5f9; margin: 30px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  h2 { font-size: 20px; color: var(--head); margin: 30px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
   .block-card {
-    background: #1e293b; border: 1px solid #334155; border-radius: 14px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
     padding: 18px 20px; position: relative;
   }
   .block-card.locked { opacity: .45; }
   .block-card.active { border-color: #10b98188; box-shadow: 0 0 24px rgba(16,185,129,.08); }
-  .month { font-size: 11.5px; color: #64748b; text-transform: uppercase; letter-spacing: .6px; }
-  .bname { font-weight: 700; color: #f1f5f9; margin-top: 4px; font-size: 15.5px; line-height: 1.35; }
-  .bdisc { font-size: 13px; color: #94a3b8; margin-top: 8px; line-height: 1.5; }
+  .month { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+  .bname { font-weight: 700; color: var(--head); margin-top: 4px; font-size: 15.5px; line-height: 1.35; }
+  .bdisc { font-size: 13px; color: var(--txt2); margin-top: 8px; line-height: 1.5; }
   .badge {
     position: absolute; top: 14px; right: 16px; font-size: 11px; font-weight: 700;
     background: #064e3b; color: #6ee7b7; border-radius: 999px; padding: 3px 10px;
   }
-  .week-card { background: #1e293b; border: 1px solid #334155; border-radius: 14px; overflow: hidden; }
+  .week-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
   .week-head { padding: 16px 22px 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-  .week-title { font-weight: 700; color: #f1f5f9; font-size: 16px; }
-  .week-theme { font-size: 13.5px; color: #94a3b8; }
+  .week-title { font-weight: 700; color: var(--head); font-size: 16px; }
+  .week-theme { font-size: 13.5px; color: var(--txt2); }
   .day-row {
     display: flex; align-items: center; gap: 14px;
-    padding: 13px 22px; border-top: 1px solid #26334d; text-decoration: none;
+    padding: 13px 22px; border-top: 1px solid var(--soft); text-decoration: none;
   }
-  a.day-row:hover { background: #16223a; }
+  a.day-row:hover { background: var(--card2); }
   .day-icon { font-size: 19px; width: 28px; text-align: center; flex-shrink: 0; }
-  .day-name { font-size: 14px; color: #f1f5f9; font-weight: 600; min-width: 118px; }
-  .day-desc { font-size: 13.5px; color: #94a3b8; flex: 1; }
+  .day-name { font-size: 14px; color: var(--head); font-weight: 600; min-width: 118px; }
+  .day-desc { font-size: 13.5px; color: var(--txt2); flex: 1; }
   .status { font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 3px 11px; flex-shrink: 0; }
   .st-done { background: #064e3b; color: #6ee7b7; }
-  .st-go { background: #1d4ed855; color: #93c5fd; }
-  .st-wait { background: #33415566; color: #64748b; }
-  .links { text-align: center; margin-top: 36px; font-size: 13.5px; color: #475569; line-height: 2; }
-  .links a { color: #38bdf8; text-decoration: none; margin: 0 8px; }
+  .st-go { background: rgba(29,78,216,.33); color: var(--link); }
+  .st-wait { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+  .links { text-align: center; margin-top: 36px; font-size: 13.5px; color: var(--muted); line-height: 2; }
+  .links a { color: var(--link); text-decoration: none; margin: 0 8px; }
   .links a:hover { text-decoration: underline; }
   .sec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
   .sec-card {
-    display: block; text-decoration: none; background: linear-gradient(150deg,#1e293b,#182338);
-    border: 1px solid #334155; border-radius: 16px; padding: 20px 22px; transition: transform .15s ease, border-color .15s ease;
+    display: block; text-decoration: none; background: linear-gradient(150deg,var(--card),var(--card2));
+    border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; transition: transform .15s ease, border-color .15s ease;
   }
   .sec-card:hover { transform: translateY(-3px); border-color: #10b98188; }
   .sec-ico { font-size: 30px; }
-  .sec-name { font-weight: 800; color: #f1f5f9; font-size: 16.5px; margin-top: 10px; }
-  .sec-desc { font-size: 13px; color: #94a3b8; margin-top: 6px; line-height: 1.5; }
-  .friend-box { background: #16223a; border: 1px solid #38bdf855; border-radius: 14px; padding: 16px 20px;
-    margin-top: 14px; font-size: 13.5px; color: #94a3b8; line-height: 1.6; }
-  .friend-box b { color: #93c5fd; }
+  .sec-name { font-weight: 800; color: var(--head); font-size: 16.5px; margin-top: 10px; }
+  .sec-desc { font-size: 13px; color: var(--txt2); margin-top: 6px; line-height: 1.5; }
+  .friend-box { background: var(--card2); border: 1px solid #38bdf855; border-radius: 14px; padding: 16px 20px;
+    margin-top: 14px; font-size: 13.5px; color: var(--txt2); line-height: 1.6; }
+  .friend-box b { color: var(--link); }
 </style>
 </head>
 <body>

@@ -1,20 +1,29 @@
 /* ГМУ-2027 · общий скрипт всех страниц
-   Мультипользовательский режим:
-   ?user=friend  → прогресс пишется под префиксом friend::
-   без параметра → основной пользователь (префикса нет).
-   Ссылка для друга: <адрес сайта>/index.html?user=friend
-
-   Плюс персональное приветствие при входе (splash-экран).            */
+   · Мультипользовательский режим (?user=friend → префикс friend:: в localStorage)
+   · Темы: тёмная по умолчанию, светлая по кнопке ☀️/🌙 (запоминается)
+   · Адаптив под телефоны (общие media-query для всех страниц)          */
 (function () {
   var USERS = {
     main:   { label: "Я",    name: "Сергей",             greet: "С возвращением, Сергей" },
     friend: { label: "Друг", name: "Алексей Николаевич", greet: "Здравствуйте, Алексей Николаевич" }
   };
   var LS_KEY = "gmu_user";
+  var TH_KEY = "gmu_theme";
 
   function rawGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function rawSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
+  /* ── тема: применяем как можно раньше, чтобы не мигало ──────── */
+  var THEME = rawGet(TH_KEY);
+  if (THEME !== "light" && THEME !== "dark") THEME = "dark";
+  window.CURRENT_THEME = THEME;
+  function applyTheme(t) {
+    document.documentElement.classList.toggle("theme-light", t === "light");
+    window.CURRENT_THEME = t;
+  }
+  applyTheme(THEME);
+
+  /* ── пользователь ───────────────────────────────────────────── */
   var fromUrl = new URLSearchParams(location.search).get("user");
   if (fromUrl && USERS[fromUrl]) rawSet(LS_KEY, fromUrl);
   var cur = rawGet(LS_KEY);
@@ -22,7 +31,6 @@
   window.CURRENT_USER = cur;
   window.USER_NAME = USERS[cur].name;
 
-  /* ключ хранилища с учётом пользователя */
   window.uKey = function (k) {
     return cur === "main" ? k : cur.replace(/[^a-z0-9_-]/gi, "") + "::" + k;
   };
@@ -30,7 +38,7 @@
     return cur === "main" ? "" : cur.replace(/[^a-z0-9_-]/gi, "") + "::";
   };
 
-  /* все внутренние ссылки автоматически несут ?user=… , чтобы друг не потерялся */
+  /* внутренние ссылки автоматически несут ?user=… */
   document.addEventListener("click", function (e) {
     var a = e.target.closest ? e.target.closest('a[href]') : null;
     if (!a) return;
@@ -45,9 +53,33 @@
     } catch (err) {}
   }, true);
 
+  /* ── глобальные переменные тем + адаптив (общие для сайта) ──── */
+  function globalCss() {
+    var st = document.createElement("style");
+    st.id = "gmu-global-css";
+    st.textContent =
+      ":root{--bg:#0f172a;--card:#1e293b;--card2:#16223a;--line:#334155;--line2:#2c3b57;--soft:#22304d;" +
+      "--head:#f8fafc;--txt:#e2e8f0;--txt2:#94a3b8;--muted:#64748b;--link:#38bdf8;--good:#6ee7b7;" +
+      "--ambert:#fbbf24;--warnbg:rgba(69,26,3,.67);--warnc:#fcd34d;--warnb:rgba(217,119,6,.4);" +
+      "--infobg:rgba(12,42,68,.67);--inforc:#bae6fd;--infob:rgba(56,189,248,.35)}" +
+      "html.theme-light{--bg:#eef2f7;--card:#ffffff;--card2:#e9eef6;--line:#c9d4e3;--line2:#d5deea;--soft:#dfe6f0;" +
+      "--head:#0f172a;--txt:#25314a;--txt2:#55637c;--muted:#8090a6;--link:#0369a1;--good:#047857;" +
+      "--ambert:#b45309;--warnbg:#fff7ed;--warnc:#9a3412;--warnb:rgba(180,83,9,.35);" +
+      "--infobg:#eff8ff;--inforc:#075985;--infob:rgba(3,105,161,.25)}" +
+      "@media(max-width:640px){body{padding-left:10px;padding-right:10px}.wrap{max-width:100%}h1{font-size:23px}" +
+      ".bigbar,.block-card,.week-card,.month,.card,.prep{padding-left:16px;padding-right:16px}" +
+      ".day-row{flex-wrap:wrap;gap:6px}.day-name{min-width:96px;font-size:13px}.stat-num{font-size:32px}" +
+      "td{height:40px}.daycell{padding:3px 4px;font-size:11px;border-radius:7px}.dtask{display:none}" +
+      ".daycell.today::after{display:none}.ev-d{min-width:58px;font-size:11.5px}" +
+      "table.tl td:first-child{white-space:normal;min-width:0}.u-head{flex-direction:column}" +
+      ".badges{flex-direction:row;align-items:flex-start;flex-wrap:wrap}" +
+      "#splash .hi{font-size:clamp(21px,6vw,30px)}#splash .q{font-size:15px}}" +
+      "@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}";
+    document.head.appendChild(st);
+  }
+
   /* ── приветствие при входе ──────────────────────────────────── */
   function splash(force) {
-    /* показываем один раз за вкладку; но если в ссылке есть ?user= — это явный вход по ссылке, показываем всегда */
     if (!force) {
       try { if (sessionStorage.getItem("gmu_splash")) return; } catch (e) {}
     }
@@ -56,13 +88,13 @@
     var st = document.createElement("style");
     st.textContent =
       "#splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;" +
-      "background:radial-gradient(60% 60% at 50% 38%,#134e4a55,#0f172a 70%),#0f172a;" +
+      "background:radial-gradient(60% 60% at 50% 38%,rgba(16,185,129,.18),transparent 70%),var(--bg);" +
       "opacity:1;transition:opacity .6s ease;font-family:'Segoe UI',system-ui,sans-serif}" +
       "#splash.hide{opacity:0;pointer-events:none}" +
       "#splash .sp{text-align:center;padding:20px;animation:spUp .7s ease both}" +
       "@keyframes spUp{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}" +
-      "#splash .hi{font-size:30px;color:#f8fafc;font-weight:800;line-height:1.35}" +
-      "#splash .q{margin-top:12px;font-size:17px;color:#94a3b8}" +
+      "#splash .hi{font-size:30px;color:var(--head);font-weight:800;line-height:1.35}" +
+      "#splash .q{margin-top:12px;font-size:17px;color:var(--txt2)}" +
       "#splash .go{margin-top:26px;background:linear-gradient(90deg,#059669,#10b981);color:#fff;border:none;" +
       "border-radius:13px;padding:13px 28px;font-size:15px;font-weight:700;cursor:pointer;" +
       "box-shadow:0 10px 30px rgba(16,185,129,.25)}" +
@@ -85,31 +117,50 @@
     setTimeout(close, 3200);
   }
 
-  /* ── виджет пользователя + ссылка для друга ─────────────────── */
+  /* ── виджеты: тема + пользователь ───────────────────────────── */
   function inject() {
+    globalCss();
     splash(new URLSearchParams(location.search).has("user"));
 
     var st = document.createElement("style");
     st.textContent =
       "#upill{position:fixed;right:14px;bottom:14px;z-index:999;font-family:'Segoe UI',system-ui,sans-serif}" +
-      "#upill .up-btn{display:flex;align-items:center;gap:8px;background:#1e293b;color:#e2e8f0;border:1px solid #334155;" +
-      "border-radius:999px;padding:8px 16px;cursor:pointer;font-size:13.5px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.45)}" +
+      "#tbtn{position:fixed;right:14px;bottom:62px;z-index:999;width:41px;height:41px;border-radius:50%;" +
+      "background:var(--card,#1e293b);border:1px solid var(--line,#334155);cursor:pointer;font-size:17px;" +
+      "display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.35)}" +
+      "#tbtn:hover{border-color:#10b98188}" +
+      "#upill .up-btn{display:flex;align-items:center;gap:8px;background:var(--card,#1e293b);color:var(--txt,#e2e8f0);border:1px solid var(--line,#334155);" +
+      "border-radius:999px;padding:8px 16px;cursor:pointer;font-size:13.5px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.35)}" +
       "#upill .up-btn:hover{border-color:#10b98188}" +
       "#upill .dot{width:9px;height:9px;border-radius:50%;background:" + (cur === "main" ? "#10b981" : "#38bdf8") + "}" +
-      "#upill .panel{display:none;position:absolute;right:0;bottom:46px;width:270px;background:#1e293b;border:1px solid #334155;" +
-      "border-radius:14px;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,.5)}" +
+      "#upill .panel{display:none;position:absolute;right:0;bottom:46px;width:270px;background:var(--card,#1e293b);border:1px solid var(--line,#334155);" +
+      "border-radius:14px;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,.4)}" +
       "#upill .panel.open{display:block}" +
-      "#upill .u-row{display:flex;flex-direction:column;gap:2px;width:100%;background:#16223a;border:1px solid #2c3b57;color:#cbd5e1;" +
+      "#upill .u-row{display:flex;flex-direction:column;gap:2px;width:100%;background:var(--card2,#16223a);border:1px solid var(--line2,#2c3b57);color:var(--txt,#cbd5e1);" +
       "border-radius:10px;padding:9px 11px;margin-bottom:7px;cursor:pointer;font-size:13px;text-align:left}" +
       "#upill .u-row:hover{border-color:#10b98188}" +
-      "#upill .u-row.act{border-color:#10b981;color:#6ee7b7}" +
-      "#upill .u-row small{color:#64748b;font-size:11px}" +
-      "#upill .hint{font-size:11.5px;color:#64748b;line-height:1.45;margin-top:4px}" +
-      "#upill .copy{width:100%;background:#1d4ed855;color:#93c5fd;border:1px solid #3b82f666;border-radius:10px;" +
+      "#upill .u-row.act{border-color:#10b981;color:var(--good,#6ee7b7)}" +
+      "#upill .u-row small{color:var(--muted,#64748b);font-size:11px}" +
+      "#upill .hint{font-size:11.5px;color:var(--muted,#64748b);line-height:1.45;margin-top:4px}" +
+      "#upill .copy{width:100%;background:rgba(29,78,216,.33);color:var(--link,#93c5fd);border:1px solid rgba(59,130,246,.4);border-radius:10px;" +
       "padding:9px 11px;cursor:pointer;font-size:13px;font-weight:600}" +
-      "#upill .copy:hover{border-color:#93c5fd}";
+      "#upill .copy:hover{filter:brightness(1.15)}";
     document.head.appendChild(st);
 
+    /* кнопка темы */
+    var tb = document.createElement("button");
+    tb.id = "tbtn";
+    tb.title = "Сменить тему";
+    tb.textContent = THEME === "dark" ? "☀️" : "🌙";
+    tb.addEventListener("click", function () {
+      THEME = THEME === "dark" ? "light" : "dark";
+      rawSet(TH_KEY, THEME);
+      applyTheme(THEME);
+      tb.textContent = THEME === "dark" ? "☀️" : "🌙";
+    });
+    document.body.appendChild(tb);
+
+    /* пользователь */
     var w = document.createElement("div");
     w.id = "upill";
     w.innerHTML =

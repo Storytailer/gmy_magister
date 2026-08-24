@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -8,81 +8,81 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    background: #0f172a; color: #e2e8f0;
+    background: var(--bg); color: var(--txt);
     padding: 24px 16px 60px; line-height: 1.7;
   }
   .wrap { max-width: 800px; margin: 0 auto; }
   .hero {
-    background: #1e293b; border: 1px solid #334155; border-radius: 16px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
     padding: 26px 28px; margin-bottom: 24px;
-    box-shadow: 0 10px 40px rgba(0,0,0,.35);
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
   }
-  .crumbs { font-size: 12px; color: #64748b; letter-spacing: .5px; text-transform: uppercase; }
-  h1 { font-size: 27px; color: #f8fafc; margin-top: 6px; line-height: 1.25; }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-  .chip { background: #0f172a; border: 1px solid #334155; color: #94a3b8; border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
   .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
-  h2 { font-size: 21px; color: #f1f5f9; margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
-  p { margin-bottom: 12px; color: #cbd5e1; font-size: 15.5px; }
-  strong { color: #f1f5f9; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
   .em { color: #34d399; font-weight: 600; }
   pre {
-    background: #111c31; border: 1px solid #29354d; border-radius: 12px;
+    background: var(--card2); border: 1px solid var(--soft); border-radius: 12px;
     padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.5;
     color: #93c5fd; margin: 14px 0; font-family: Consolas, "Courier New", monospace;
   }
   table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
-  th { text-align: left; color: #94a3b8; font-weight: 600; padding: 10px 12px; background: #16223a; border-bottom: 2px solid #334155; }
-  td { padding: 10px 12px; border-bottom: 1px solid #29354d; color: #cbd5e1; vertical-align: top; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
   tr:last-child td { border-bottom: none; }
   details {
-    background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
     padding: 13px 18px; margin: 12px 0; cursor: pointer;
   }
-  summary { color: #38bdf8; font-weight: 600; font-size: 15px; }
+  summary { color: var(--link); font-weight: 600; font-size: 15px; }
   summary:hover { color: #7dd3fc; }
   details[open] summary { margin-bottom: 8px; }
-  details p { margin: 0; color: #cbd5e1; font-size: 15px; }
+  details p { margin: 0; color: var(--txt); font-size: 15px; }
   .hw {
-    background: #1e293b; border: 1px solid #f59e0b55; border-radius: 16px;
+    background: var(--card); border: 1px solid #f59e0b55; border-radius: 16px;
     padding: 22px 26px; margin-top: 30px;
   }
   .hw h2 { margin: 0 0 14px; border-color: #f59e0b; }
   label.task {
     display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
-    background: #0f172a; border: 1px solid #334155; border-radius: 12px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
     padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
   }
   label.task:hover { border-color: #f59e0b88; }
   label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
-  label.task span { font-size: 15px; color: #cbd5e1; }
-  label.task input:checked + span { color: #64748b; text-decoration: line-through; }
+  label.task span { font-size: 15px; color: var(--txt); }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
   .quiz-head {
-    margin-top: 40px; background: #1e293b; border: 1px solid #334155;
+    margin-top: 40px; background: var(--card); border: 1px solid var(--line);
     border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
   }
   .quiz-body {
-    background: #1e293b; border: 1px solid #334155; border-radius: 0 0 16px 16px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 0 0 16px 16px;
     border-top: none; padding: 20px 26px 26px;
   }
-  .bar { height: 6px; background: #334155; border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
   .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
-  .qnum { color: #64748b; font-size: 13px; margin-bottom: 8px; }
-  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: #f1f5f9; }
+  .qnum { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: var(--head); }
   .opt {
     display: block; width: 100%; text-align: left; cursor: pointer;
-    background: #0f172a; color: #cbd5e1; border: 2px solid #334155;
+    background: var(--bg); color: var(--txt); border: 2px solid var(--line);
     border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
     font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
   }
-  .opt:hover:not(:disabled) { border-color: #64748b; transform: translateX(4px); }
+  .opt:hover:not(:disabled) { border-color: var(--muted); transform: translateX(4px); }
   .opt:disabled { cursor: default; opacity: .85; }
   .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
   .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
   .explain {
-    display: none; background: #0f172a; border-left: 3px solid #38bdf8;
+    display: none; background: var(--bg); border-left: 3px solid #38bdf8;
     padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
-    color: #94a3b8; margin-top: 8px; line-height: 1.5;
+    color: var(--txt2); margin-top: 8px; line-height: 1.5;
   }
   .explain.show { display: block; }
   .next, .tohome {
@@ -98,10 +98,10 @@
     padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
   }
   .result { text-align: center; padding: 18px 0 6px; }
-  .score { font-size: 52px; font-weight: 800; color: #f8fafc; }
-  .verdict { font-size: 16px; color: #94a3b8; margin: 12px 0 22px; line-height: 1.5; }
+  .score { font-size: 52px; font-weight: 800; color: var(--head); }
+  .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
   .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
-  .footer-nav a { color: #38bdf8; text-decoration: none; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
   .footer-nav a:hover { text-decoration: underline; }
 </style>
 </head>
@@ -205,15 +205,15 @@
   </div>
 
   <div class="quiz-head">
-    <h1 style="font-size:16px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;">✅ Тест дня</h1>
-    <div class="topic" style="font-size:21px;font-weight:700;color:#f8fafc;margin-top:6px;">Введение в ГМУ · 10 вопросов</div>
+    <h1 style="font-size:16px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;">✅ Тест дня</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:var(--head);margin-top:6px;">Введение в ГМУ · 10 вопросов</div>
     <div class="bar"><div class="bar-fill" id="barfill"></div></div>
   </div>
   <div class="quiz-body" id="card"></div>
 
   <div class="footer-nav">
     <a href="../../../index.html">← Дашборд курса</a>
-    <span style="color:#475569">Завтра: цели и функции гос. управления</span>
+    <span style="color:var(--muted)">Завтра: цели и функции гос. управления</span>
   </div>
 
 </div>

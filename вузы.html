@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -7,48 +7,48 @@
 <script src="app.js"></script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:"Segoe UI", system-ui, sans-serif; background:#0f172a; color:#e2e8f0; padding:26px 16px 70px; }
+  body { font-family:"Segoe UI", system-ui, sans-serif; background:var(--bg); color:var(--txt); padding:26px 16px 70px; }
   .wrap { max-width:980px; margin:0 auto; }
-  a.back { display:inline-flex; align-items:center; gap:6px; color:#94a3b8; text-decoration:none; font-size:13.5px;
-    background:#1e293b; border:1px solid #334155; border-radius:999px; padding:7px 15px; margin-bottom:20px; }
+  a.back { display:inline-flex; align-items:center; gap:6px; color:var(--txt2); text-decoration:none; font-size:13.5px;
+    background:var(--card); border:1px solid var(--line); border-radius:999px; padding:7px 15px; margin-bottom:20px; }
   a.back:hover { color:#6ee7b7; border-color:#10b98188; }
-  h1 { font-size:27px; color:#f8fafc; }
-  h2 { font-size:20px; color:#f1f5f9; margin:34px 0 14px; padding-left:12px; border-left:4px solid #10b981; }
-  .sub { color:#64748b; margin-top:6px; font-size:14px; line-height:1.55; max-width:780px; }
-  .uni { background:#1e293b; border:1px solid #334155; border-radius:18px; overflow:hidden; margin-bottom:24px; }
+  h1 { font-size:27px; color:var(--head); }
+  h2 { font-size:20px; color:var(--head); margin:34px 0 14px; padding-left:12px; border-left:4px solid #10b981; }
+  .sub { color:var(--muted); margin-top:6px; font-size:14px; line-height:1.55; max-width:780px; }
+  .uni { background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden; margin-bottom:24px; }
   .uni.prio { border-color:#10b98188; box-shadow:0 0 28px rgba(16,185,129,.09); }
   .u-head { padding:20px 26px 16px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
-    background:#16223a; border-bottom:1px solid #2c3b57; }
-  .u-name { font-size:19px; font-weight:800; color:#f8fafc; line-height:1.35; }
-  .u-fac { font-size:13.5px; color:#93c5fd; margin-top:4px; line-height:1.5; }
-  .u-kaf { font-size:12.5px; color:#64748b; margin-top:3px; line-height:1.5; }
+    background:var(--card2); border-bottom:1px solid var(--line2); }
+  .u-name { font-size:19px; font-weight:800; color:var(--head); line-height:1.35; }
+  .u-fac { font-size:13.5px; color:var(--link); margin-top:4px; line-height:1.5; }
+  .u-kaf { font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.5; }
   .badges { display:flex; flex-direction:column; gap:7px; align-items:flex-end; }
   .bdg { font-size:11.5px; font-weight:700; padding:4px 12px; border-radius:999px; white-space:nowrap; }
   .bg-green { background:#064e3b; color:#6ee7b7; } .bg-amber { background:#78350f; color:#fcd34d; }
-  .bg-slate { background:#33415566; color:#94a3b8; }
+  .bg-slate { background:transparent; color:var(--muted); border:1px dashed var(--line); }
   .u-body { padding:16px 26px 22px; }
   .facts { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
-  .fact { background:#16223a; border:1px solid #2c3b57; border-radius:11px; padding:9px 14px; font-size:12.5px;
-    color:#cbd5e1; line-height:1.45; }
-  .fact b { color:#f1f5f9; display:block; font-size:13.5px; }
-  .exam-line { background:#0c2a44aa; border:1px solid #38bdf855; border-radius:12px; padding:11px 15px;
-    font-size:13.5px; color:#bae6fd; line-height:1.55; margin-bottom:14px; }
-  .exam-line b { color:#f8fafc; }
+  .fact { background:var(--card2); border:1px solid var(--line2); border-radius:11px; padding:9px 14px; font-size:12.5px;
+    color:var(--txt); line-height:1.45; }
+  .fact b { color:var(--head); display:block; font-size:13.5px; }
+  .exam-line { background:var(--infobg); border:1px solid var(--infob); border-radius:12px; padding:11px 15px;
+    font-size:13.5px; color:var(--inforc); line-height:1.55; margin-bottom:14px; }
+  .exam-line b { color:var(--head); }
   table.pr { width:100%; border-collapse:collapse; }
-  th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:#64748b; padding:6px 10px; border-bottom:1px solid #2c3b57; }
-  td { padding:9px 10px; border-bottom:1px solid #1f2d49; font-size:13.5px; vertical-align:top; line-height:1.5; }
+  th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); padding:6px 10px; border-bottom:1px solid var(--line2); }
+  td { padding:9px 10px; border-bottom:1px solid var(--soft); font-size:13.5px; vertical-align:top; line-height:1.5; }
   tr:last-child td { border-bottom:none; }
-  td.pname { color:#e2e8f0; font-weight:600; }
-  td.pname span { display:block; font-weight:400; font-size:12px; color:#64748b; margin-top:2px; }
-  td.pex { color:#94a3b8; min-width:210px; }
+  td.pname { color:var(--txt); font-weight:600; }
+  td.pname span { display:block; font-weight:400; font-size:12px; color:var(--muted); margin-top:2px; }
+  td.pex { color:var(--txt2); min-width:210px; }
   td.pbud { white-space:nowrap; font-size:12.5px; }
-  .bud-y { color:#6ee7b7; font-weight:700; } .bud-n { color:#64748b; }
-  a.lnk { color:#38bdf8; text-decoration:none; }
+  .bud-y { color:var(--good); font-weight:700; } .bud-n { color:var(--muted); }
+  a.lnk { color:var(--link); text-decoration:none; }
   a.lnk:hover { text-decoration:underline; }
-  .warn { background:#451a03aa; border:1px solid #d9770666; border-radius:12px; padding:13px 17px; font-size:13px;
-    color:#fcd34d; line-height:1.6; margin-top:6px; }
+  .warn { background:var(--warnbg); border:1px solid var(--warnb); border-radius:12px; padding:13px 17px; font-size:13px;
+    color:var(--warnc); line-height:1.6; margin-top:6px; }
   ul.cl { list-style:none; margin-top:10px; }
-  ul.cl li { padding:6px 0 6px 24px; position:relative; font-size:14px; color:#cbd5e1; line-height:1.6; }
+  ul.cl li { padding:6px 0 6px 24px; position:relative; font-size:14px; color:var(--txt); line-height:1.6; }
   ul.cl li::before { content:"▸"; position:absolute; left:6px; color:#10b981; }
 </style>
 </head>
@@ -57,9 +57,9 @@
 
   <a class="back" href="index.html">← Дашборд</a>
   <h1>🏛 Вузы, направления, вступительные экзамены</h1>
-  <div class="sub">Цель — бюджет магистратуры <b style="color:#6ee7b7">38.04.04 «Государственное и муниципальное управление»</b>.
+  <div class="sub">Цель — бюджет магистратуры <b style="color:var(--good)">38.04.04 «Государственное и муниципальное управление»</b>.
   Наш бэкграунд — 39.03.03 «Организация работы с молодежью» (смежное гуманитарное), поэтому сдаём внутривузовские испытания.
-  Данные собраны с официальных сайтов приёмных комиссий 24.08.2026 по кампании-2026 — <b style="color:#fbbf24">перепроверить в мае 2027!</b></div>
+  Данные собраны с официальных сайтов приёмных комиссий 24.08.2026 по кампании-2026 — <b style="color:var(--ambert)">перепроверить в мае 2027!</b></div>
 
   <!-- ══════════ МГУ ══════════ -->
   <h2>МГУ им. М.В. Ломоносова · ФГУ 🎯 приоритет</h2>
@@ -100,7 +100,7 @@
         <tr><td class="pname">Управление в сфере межэтнических и государственно-конфессиональных отношений</td><td class="pbud bud-n">проверить КЦП-2027</td></tr>
         <tr><td class="pname">Кибернетическая экономика</td><td class="pbud bud-n">проверить КЦП-2027</td></tr>
       </table>
-      <div style="margin-top:12px;font-size:13px;color:#64748b">🔗 <a class="lnk" href="https://spa.msu.ru/postuplenie/magistratura/gmu/" target="_blank">Приём на ГМУ в магистратуру ФГУ ↗</a> ·
+      <div style="margin-top:12px;font-size:13px;color:var(--muted)">🔗 <a class="lnk" href="https://spa.msu.ru/postuplenie/magistratura/gmu/" target="_blank">Приём на ГМУ в магистратуру ФГУ ↗</a> ·
       <a class="lnk" href="https://spa.msu.ru/postuplenie/magistratura/" target="_blank">все 23 программы ФГУ ↗</a> ·
       <a class="lnk" href="https://spa.msu.ru/postuplenie/kursy/" target="_blank">подготовительные курсы ↗</a></div>
     </div>
@@ -127,7 +127,7 @@
         <tr><td class="pname">Государственное управление социально-экономическим развитием</td><td>очная</td><td class="pbud bud-n">— платная</td><td class="pbud">390 тыс ₽</td></tr>
         <tr><td class="pname">Социальные процессы и социальный менеджмент</td><td>очно-заочная</td><td class="pbud bud-n">— платная</td><td class="pbud">265 тыс ₽</td></tr>
       </table>
-      <div style="margin-top:12px;font-size:13px;color:#64748b">🔗 <a class="lnk" href="https://admission.rudn.ru/master/directions/" target="_blank">Подбор программ магистратуры РУДН ↗</a> ·
+      <div style="margin-top:12px;font-size:13px;color:var(--muted)">🔗 <a class="lnk" href="https://admission.rudn.ru/master/directions/" target="_blank">Подбор программ магистратуры РУДН ↗</a> ·
       <a class="lnk" href="https://admission.rudn.ru/master/timing/" target="_blank">сроки приёма ↗</a> ·
       <a class="lnk" href="https://dod.rudn.ru/" target="_blank">дни открытых дверей ↗</a></div>
     </div>
@@ -155,7 +155,7 @@
       </table>
       <div class="warn">⚠️ По кампании-2026 программы 38.04.04 у РГСУ показаны в заочных формах. Если нужен только бюджет очно — следить,
       появятся ли очные профили в КЦП-2027, либо рассматривать как запасной вариант.</div>
-      <div style="margin-top:12px;font-size:13px;color:#64748b">🔗 <a class="lnk" href="https://rgsu.net/abitur/priemnaya-kampaniya-2026/" target="_blank">Приёмная кампания ↗</a> ·
+      <div style="margin-top:12px;font-size:13px;color:var(--muted)">🔗 <a class="lnk" href="https://rgsu.net/abitur/priemnaya-kampaniya-2026/" target="_blank">Приёмная кампания ↗</a> ·
       <a class="lnk" href="https://rgsu.net/abitur/proforientatsiya/open-days/" target="_blank">дни открытых дверей ↗</a> ·
       <a class="lnk" href="https://prof.rgsu.net/" target="_blank">олимпиады РГСУ ↗</a></div>
     </div>
@@ -201,7 +201,7 @@
 
   <!-- ══════════ ДОКУМЕНТЫ ══════════ -->
   <h2>Чеклист документов · собрать к апрелю–маю 2027</h2>
-  <div class="card" style="background:#1e293b;border:1px solid #334155;border-radius:16px;padding:20px 26px">
+  <div class="card" style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 26px">
     <ul class="cl">
       <li>Диплом бакалавра + приложение (оригинал и копия; сканы PDF заранее)</li>
       <li>Паспорт, СНИЛС (копии)</li>
@@ -209,13 +209,13 @@
       <li>Портфолио: дипломы олимпиад («Ломоносов», «Я — профессионал»!), грамоты, публикации — особенно критично для РУДН, где портфолио = вступительный экзамен</li>
       <li>Заявления — через Госуслуги («Поступление в вуз онлайн») или лично; контакт-центр Минобрнауки: 8 800 444-51-15</li>
     </ul>
-    <div style="margin-top:14px;font-size:13.5px;color:#94a3b8">Все даты кампании уже отмечены в 📅 <a class="lnk" href="календарь.html">календаре года</a>.</div>
+    <div style="margin-top:14px;font-size:13.5px;color:var(--txt2)">Все даты кампании уже отмечены в 📅 <a class="lnk" href="календарь.html">календаре года</a>.</div>
   </div>
 
-  <div style="text-align:center;margin-top:30px;font-size:13px;color:#475569">
-    <a href="олимпиады.html" style="color:#38bdf8;text-decoration:none">🏆 Олимпиады</a> ·
-    <a href="календарь.html" style="color:#38bdf8;text-decoration:none">📅 Календарь</a> ·
-    <a href="index.html" style="color:#38bdf8;text-decoration:none">🎓 Дашборд</a>
+  <div style="text-align:center;margin-top:30px;font-size:13px;color:var(--muted)">
+    <a href="олимпиады.html" style="color:var(--link);text-decoration:none">🏆 Олимпиады</a> ·
+    <a href="календарь.html" style="color:var(--link);text-decoration:none">📅 Календарь</a> ·
+    <a href="index.html" style="color:var(--link);text-decoration:none">🎓 Дашборд</a>
   </div>
 </div>
 </body>
