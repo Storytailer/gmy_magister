@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День · 30 августа · Итоги предстартовой недели</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--txt);
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
+  .em { color: #34d399; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .checklist { margin-top: 6px; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #10b98188; }
+  label.task input { width: 18px; height: 18px; accent-color: #10b981; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: var(--txt); line-height: 1.55; }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .progress-note { font-size: 13.5px; color: var(--txt2); margin-top: 4px; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s, box-shadow .2s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .closeday.ready { box-shadow: 0 0 0 3px rgba(245,158,11,.25), 0 8px 24px rgba(245,158,11,.35); animation: pulse 1.6s ease infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(245,158,11,.08), 0 8px 24px rgba(245,158,11,.35); } }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; }
+  .btnnext:hover { filter: brightness(1.08); }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap" id="content">
+
+  <div class="hero">
+    <div class="crumbs">Предстартовая неделя &nbsp;·&nbsp; Воскресенье · 30 августа 2026</div>
+    <h1>Итоги недели · план на сентябрь</h1>
+    <div class="chips">
+      <span class="chip">✅ Чек-лист готовности</span>
+      <span class="chip">🗓 План на блок 1</span>
+      <span class="chip">⏱ ~20 минут</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> убедиться, что всё настроено для старта курса, зафиксировать план сентября и войти в учебный ритм с понедельника.</div>
+  </div>
+
+  <h2>1. Чек-лист готовности</h2>
+  <p class="progress-note">Отметь выполненное — когда все пункты закрыты, кнопка «Закрыть день» засветится.</p>
+  <div class="checklist" id="cl">
+    <label class="task"><input type="checkbox" data-cl><span>Оба профиля работают: мой прогресс и прогресс друга (<code>?user=friend</code>) не смешиваются.</span></label>
+    <label class="task"><input type="checkbox" data-cl><span>Тест дня 1 сдан на зачёт (или ошибки разобраны и назначен ретейк).</span></label>
+    <label class="task"><input type="checkbox" data-cl><span>Учебный план МГУ ФГУ пролистан, незнакомые дисциплины отмечены.</span></label>
+    <label class="task"><input type="checkbox" data-cl><span>Даты олимпиад внесены в телефон (регистрация «ЯП» ~1 окт, дедлайн ~11 нояб, Универсиада с ~15 янв).</span></label>
+    <label class="task"><input type="checkbox" data-cl><span>Выбран постоянный слот занятий на год (дни + время) и совместный воскресный час с другом.</span></label>
+    <label class="task"><input type="checkbox" data-cl><span>Входная диагностика пройдена, результаты записаны у обоих.</span></label>
+  </div>
+
+  <h2>2. Сентябрь · Блок 1 «Теория и история управления»</h2>
+  <table>
+    <tr><th>Неделя</th><th>Тема</th></tr>
+    <tr><td><strong>Неделя 1</strong> (31 авг – 6 сен)</td><td>Что такое ГМУ; государство как субъект управления; система госорганов РФ</td></tr>
+    <tr><td>Неделя 2</td><td>Теория управления: школы, функции, цикл управления</td></tr>
+    <tr><td>Неделя 3</td><td>История гос. управления России: от князей до Империи</td></tr>
+    <tr><td>Неделя 4</td><td>Советский период + реформы 1990-х–2000-х; административные реформы РФ</td></tr>
+  </table>
+  <p>🏁 В конце месяца — большой срез блока: 40–60 вопросов + кейс «Проектируем структуру управления».</p>
+
+  <h2>3. Правила года (напоминание)</h2>
+  <table>
+    <tr><th>#</th><th>Правило</th></tr>
+    <tr><td>1</td><td>Не пропускать воскресные срезы — главный индикатор прогресса</td></tr>
+    <tr><td>2</td><td>Провалил срез → повтор темы на следующий день, ретейк во вторник</td></tr>
+    <tr><td>3</td><td>Раз в месяц — совместный разбор блока по видеосвязи (метод Фейнмана)</td></tr>
+    <tr><td>4</td><td>Кейсы решаем письменно, потом сверяем</td></tr>
+    <tr><td>5</td><td>Дедлайны олимпиад — священны</td></tr>
+  </table>
+  <p><span class="em">📌 Завтра официальный старт:</span> Неделя 1 начинается в понедельник 31 августа. Страница старта уже ждёт — она откроется сразу после закрытия сегодняшнего дня.</p>
+
+  <button class="closeday" data-close id="closeBtn">✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ Предстартовая неделя завершена!</b>
+    <p>Осталось открыть страницу старта — и с понедельника начинаем Блок 1 по полному ритму: лекции → видео → кейсы → воскресный срез.</p>
+    <a class="btnnext" href="день_31.html">▶ Открыть старт Недели 1</a>
+  </div>
+
+  <div class="footer-nav">
+    <a href="../../index.html">← Дашборд курса</a>
+    <a href="день_31.html">Завтра: старт Недели 1 🚀</a>
+  </div>
+
+</div>
+<script src="../../app.js?v=3"></script>
+<script>
+const DAY = window.initDayPage ? window.initDayPage("d20260830", { home: "../../index.html" }) : { locked: false, autoClose(){} };
+
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+const boxes = Array.from(document.querySelectorAll("[data-cl]"));
+const btn = document.getElementById("closeBtn");
+
+boxes.forEach((box, i) => {
+  const k = "precl_" + window.userPrefix() + i;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => {
+    lsSet(k, box.checked ? "1" : "0");
+    update();
+  });
+});
+
+function update() {
+  if (!DAY.locked && boxes.length && boxes.every(b => b.checked)) btn.classList.add("ready");
+  else btn.classList.remove("ready");
+}
+update();
+</script>
+</body>
+</html>

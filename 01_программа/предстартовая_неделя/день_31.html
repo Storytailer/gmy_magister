@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День · 31 августа · Старт Недели 1 🚀</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--txt);
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: var(--card); border: 1px solid #10b98188; border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25), 0 0 30px rgba(16,185,129,.08);
+  }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
+  .em { color: #34d399; font-weight: 600; }
+  pre {
+    background: var(--card2); border: 1px solid var(--soft); border-radius: 12px;
+    padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.55;
+    color: #93c5fd; margin: 14px 0; font-family: Consolas, "Courier New", monospace;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 18px; margin: 12px 0; cursor: pointer;
+  }
+  summary { color: var(--link); font-weight: 600; font-size: 15px; }
+  summary:hover { color: #7dd3fc; }
+  details[open] summary { margin-bottom: 8px; }
+  details p { margin: 0; color: var(--txt); font-size: 15px; }
+  a.bl { color:#38bdf8; text-decoration:none; }
+  a.bl:hover { text-decoration:underline; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #f59e0b88; }
+  label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: var(--txt); }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .quiz-head {
+    margin-top: 40px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
+  }
+  .quiz-body {
+    background: var(--card); border: 1px solid var(--line); border-radius: 0 0 16px 16px;
+    border-top: none; padding: 20px 26px 26px;
+  }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
+  .qnum { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: var(--head); }
+  .opt {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: var(--bg); color: var(--txt); border: 2px solid var(--line);
+    border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--muted); transform: translateX(4px); }
+  .opt:disabled { cursor: default; opacity: .85; }
+  .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
+  .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
+  .explain {
+    display: none; background: var(--bg); border-left: 3px solid #38bdf8;
+    padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
+    color: var(--txt2); margin-top: 8px; line-height: 1.5;
+  }
+  .explain.show { display: block; }
+  .next, .tohome {
+    display: block; width: 100%; margin-top: 18px; cursor: pointer; text-align: center; text-decoration: none;
+    background: #10b981; color: #052e16; border: none; border-radius: 12px;
+    padding: 14px; font-size: 16px; font-weight: 700; transition: filter .15s; font-family: inherit;
+  }
+  .next:hover, .tohome:hover { filter: brightness(1.1); }
+  .tohome { display: none; }
+  .retake {
+    display: block; width: 100%; margin-top: 12px; cursor: pointer; text-align: center;
+    background: transparent; color: #10b981; border: 2px solid #10b981; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+  .result { text-align: center; padding: 18px 0 6px; }
+  .score { font-size: 52px; font-weight: 800; color: var(--head); }
+  .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; line-height: 1.6; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; margin-right: 10px; margin-bottom: 8px; }
+  .btnnext:hover { filter: brightness(1.08); }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap" id="content">
+
+  <div class="hero">
+    <div class="crumbs">Блок 1 · Теория и история управления &nbsp;·&nbsp; Понедельник · 31 августа 2026</div>
+    <h1>🚀 Старт Недели 1 · «Введение в ГМУ и публичную власть»</h1>
+    <div class="chips">
+      <span class="chip">🏁 Организационный день · ~20 мин</span>
+      <span class="chip">✅ Тест дня в конце страницы</span>
+      <span class="chip">📖 Учебные дни — по плану ниже</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> официально запустить учебный год: зафиксировать план первой недели, понять структуру учебного дня и войти в режим.</div>
+  </div>
+
+  <h2>1. План недели 1</h2>
+  <table>
+    <tr><th>День</th><th>Активность</th></tr>
+    <tr><td><strong>Пн · 31 авг</strong></td><td>🚀 этот день: запуск недели + повторение дня 1 (страница открыта)</td></tr>
+    <tr><td>Вт · 1 сен</td><td>📖 Лекция-конспект I: цели и функции государственного управления</td></tr>
+    <tr><td>Ср · 2 сен</td><td>🎬 Видеолекция по теме недели + дополнение конспекта</td></tr>
+    <tr><td>Чт–Пт · 3–4 сен</td><td>🧩 Кейс: администрация города N снижает аварийность (разбор → своё решение)</td></tr>
+    <tr><td>Сб · 5 сен</td><td>✅ Тест самопроверки (~10 вопросов)</td></tr>
+    <tr><td>Вс · 6 сен</td><td>⏱ <strong>СРЕЗ НЕДЕЛИ:</strong> зачёт от 70%</td></tr>
+  </table>
+
+  <h2>2. Как устроен каждый учебный день</h2>
+  <p>Каждый день — одна HTML-страница с одинаковым скелетом:</p>
+  <pre>┌─ Конспект темы (со схемами и таблицами)
+├─ ❓ Вопросы-спойлеры по ходу чтения
+├─ 🏠 Задание на вечер (чекбоксы)
+└─ ✅ Тест дня → зачёт от 70% = день закрыт</pre>
+  <p>Материалы дней создаются ассистентом под ваш запрос: напиши <em>«Сделай день N»</em> или <em>«Сделай неделю N блока M»</em> — страница появится в нужной папке и встанет в цепочку дней.</p>
+
+  <h2>3. Что сделать прямо сейчас</h2>
+  <label class="task"><input type="checkbox" data-hw="0"><span>Повторить день 1 (<a class="bl" href="../блок_01_теория_и_история_управления/неделя_01/день_01.html">открыть лекцию «Введение в ГМУ»</a>) — он фундамент всей недели.</span></label>
+  <label class="task"><input type="checkbox" data-hw="1"><span>Попросить ассистента создать завтрашний день: <em>«Сделай день 2»</em>.</span></label>
+  <label class="task"><input type="checkbox" data-hw="2"><span>Сверить время занятий на неделю с расписанием друга (воскресный совместный час).</span></label>
+
+  <details>
+    <summary>❓ Если к вечеру вторника дня 2 ещё нет — что делать?</summary>
+    <p>Не терять день: перечитать конспект дня 1 сплошным текстом без теста, выписать 3 самых сложных места — и запросить у ассистента создание следующего дня.</p>
+  </details>
+
+  <div class="quiz-head">
+    <h1 style="font-size:16px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;">✅ Тест дня</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:var(--head);margin-top:6px;">Ритм курса · 5 вопросов</div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+  </div>
+  <div class="quiz-body" id="card"></div>
+
+  <button class="closeday" data-close>✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ Стартовый день закрыт — курс пошёл!</b>
+    <p>Дальше работают обычные правила: материалы каждого дня появляются по запросу ассистенту («Сделай день N»). Завтра — лекция «Цели и функции государственного управления».</p>
+    <a class="btnnext" href="../блок_01_теория_и_история_управления/неделя_01/день_01.html">↻ Повторить день 1</a>
+    <a class="tohome" href="../../index.html" style="display:inline-block;background:var(--card2,#16223a);color:var(--link);border:1px solid var(--line);border-radius:11px;padding:12px 22px;text-decoration:none;">← На дашборд</a>
+  </div>
+
+  <div class="footer-nav">
+    <a href="../../index.html">← Дашборд курса</a>
+    <span style="color:var(--muted)">Завтра: цели и функции гос. управления 📖</span>
+  </div>
+
+</div>
+<script src="../../app.js?v=3"></script>
+<script>
+const DAY = window.initDayPage ? window.initDayPage("d20260831", { home: "../../index.html" }) : { locked: false, autoClose(){} };
+
+const KEY_DONE = window.uKey("done_pre_0831");
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+document.querySelectorAll("[data-hw]").forEach(box => {
+  const k = "hw_" + KEY_DONE + "_" + box.dataset.hw;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => lsSet(k, box.checked ? "1" : "0"));
+});
+
+const QUESTIONS = [
+  { q: "Какая активность закреплена за воскресеньем?",
+    opts: ["видеолекция","кейс","срезовый тест недели: зачёт от 70%","тест самопроверки"],
+    a: 2,
+    ex: "Воскресенье — срез недели. ≥70% = неделя сдана." },
+  { q: "Провалил воскресный срез. Правильное действие?",
+    opts: ["пропустить неделю","повторить тему в понедельник и пересдать во вторник","сменить вуз","пройти тест заново 10 раз подряд"],
+    a: 1,
+    ex: "Правило №2: повтор темы на следующий день + ретейк во вторник. Осмысленное повторение важнее лихорадочных пересдач." },
+  { q: "Чем заканчивается каждый месяц учёбы?",
+    opts: ["отпуском","большим срезом блока: 40–60 вопросов + кейс + разбор ошибок","экзаменом в вузе","ничем особенным"],
+    a: 1,
+    ex: "Последние два дня месяца — большой срез блока с полным разбором ошибок." },
+  { q: "Как появляются материалы новых учебных дней?",
+    opts: ["все сразу лежат на сайте","генерируются ассистентом по запросу («Сделай день N»)","приходят по почте","скачиваются из ФГУ МГУ"],
+    a: 1,
+    ex: "Контент создаётся по запросу, чтобы не держать гигантские объёмы заранее. Запросил — получил страницу дня со встроенным тестом." },
+  { q: "Что даёт метод Фейнмана, которым занимаемся с другом раз в месяц?",
+    opts: ["ускоряет чтение в 2 раза","объяснение темы друг другу = лучший способ её выучить","заменяет тесты","гарантирует диплом с отличием"],
+    a: 1,
+    ex: "Если можешь объяснить просто — значит понял. Совместный разбор блока по видеосвязи — обязательная часть года." }
+];
+
+let idx = 0, score = 0;
+const card = document.getElementById("card");
+
+function render() {
+  if (idx >= QUESTIONS.length) return renderResult();
+  const item = QUESTIONS[idx];
+  document.getElementById("barfill").style.width = Math.round(idx / QUESTIONS.length * 100) + "%";
+  card.innerHTML = `
+    <div class="qnum">Вопрос ${idx + 1} из ${QUESTIONS.length} · верных: ${score}</div>
+    <div class="qtext">${item.q}</div>
+    ${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join("")}
+    <div class="explain" id="ex">${item.ex}</div>
+    <button class="next" id="nbtn" style="display:none">${idx + 1 === QUESTIONS.length ? "Результат →" : "Далее →"}</button>
+  `;
+  card.querySelectorAll(".opt").forEach(btn =>
+    btn.addEventListener("click", () => answer(+btn.dataset.i))
+  );
+}
+
+function answer(i) {
+  const item = QUESTIONS[idx];
+  card.querySelectorAll(".opt").forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === item.a) btn.classList.add("correct");
+    else if (j === i) btn.classList.add("wrong");
+  });
+  if (i === item.a) score++;
+  document.getElementById("ex").classList.add("show");
+  const n = document.getElementById("nbtn");
+  n.style.display = "block";
+  n.addEventListener("click", () => { idx++; render(); });
+}
+
+function renderResult() {
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  let verdict, passed = pct >= 70;
+  if (pct >= 90) verdict = "🔥 Отлично! Ритм курса понятен.";
+  else if (passed) verdict = "✅ Зачёт! Можно стартовать.";
+  else verdict = "📖 Пока не зачёт (<70%). Перечитай план недели выше — и пройди снова.";
+  if (passed) lsSet(KEY_DONE, score + "/" + QUESTIONS.length);
+  card.innerHTML = `
+    <div class="result">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="verdict">${pct}% · ${verdict}${passed ? "<br><br>День отмечен пройденным в дашборде ✔" : ""}</div>
+      <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
+      <a class="tohome" href="../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
+    </div>`;
+  if (passed && !DAY.locked) DAY.autoClose();
+}
+
+render();
+</script>
+</body>
+</html>

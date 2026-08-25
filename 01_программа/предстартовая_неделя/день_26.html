@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День · 26 августа · Олимпиадная разведка</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--txt);
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
+  .em { color: #34d399; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 18px; margin: 12px 0; cursor: pointer;
+  }
+  summary { color: var(--link); font-weight: 600; font-size: 15px; }
+  summary:hover { color: #7dd3fc; }
+  details[open] summary { margin-bottom: 8px; }
+  details p { margin: 0; color: var(--txt); font-size: 15px; }
+  a.bl { color:#38bdf8; text-decoration:none; }
+  a.bl:hover { text-decoration:underline; }
+  .card2 {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 20px 24px; margin-top: 16px;
+  }
+  .card2.gold { border-color: #f59e0b55; }
+  .card2 h3 { color: var(--head); font-size: 17px; margin-bottom: 8px; }
+  .hw {
+    background: var(--card); border: 1px solid #f59e0b55; border-radius: 16px;
+    padding: 22px 26px; margin-top: 30px;
+  }
+  .hw h2 { margin: 0 0 14px; border-color: #f59e0b; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #f59e0b88; }
+  label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: var(--txt); }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .quiz-head {
+    margin-top: 40px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
+  }
+  .quiz-body {
+    background: var(--card); border: 1px solid var(--line); border-radius: 0 0 16px 16px;
+    border-top: none; padding: 20px 26px 26px;
+  }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
+  .qnum { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: var(--head); }
+  .opt {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: var(--bg); color: var(--txt); border: 2px solid var(--line);
+    border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--muted); transform: translateX(4px); }
+  .opt:disabled { cursor: default; opacity: .85; }
+  .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
+  .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
+  .explain {
+    display: none; background: var(--bg); border-left: 3px solid #38bdf8;
+    padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
+    color: var(--txt2); margin-top: 8px; line-height: 1.5;
+  }
+  .explain.show { display: block; }
+  .next, .tohome {
+    display: block; width: 100%; margin-top: 18px; cursor: pointer; text-align: center; text-decoration: none;
+    background: #10b981; color: #052e16; border: none; border-radius: 12px;
+    padding: 14px; font-size: 16px; font-weight: 700; transition: filter .15s; font-family: inherit;
+  }
+  .next:hover, .tohome:hover { filter: brightness(1.1); }
+  .tohome { display: none; }
+  .retake {
+    display: block; width: 100%; margin-top: 12px; cursor: pointer; text-align: center;
+    background: transparent; color: #10b981; border: 2px solid #10b981; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+  .result { text-align: center; padding: 18px 0 6px; }
+  .score { font-size: 52px; font-weight: 800; color: var(--head); }
+  .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; }
+  .btnnext:hover { filter: brightness(1.08); }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap" id="content">
+
+  <div class="hero">
+    <div class="crumbs">Предстартовая неделя &nbsp;·&nbsp; Среда · 26 августа 2026</div>
+    <h1>Олимпиадная разведка 🏆</h1>
+    <div class="chips">
+      <span class="chip">🔍 Разведка ~35 мин</span>
+      <span class="chip">🏠 Задание ~15 мин</span>
+      <span class="chip">✅ Тест дня в конце страницы</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> понять, какие две олимпиады могут принести нам 100 баллов за вступительные, и настроить источники, чтобы не пропустить регистрацию.</div>
+  </div>
+
+  <h2>1. Зачем нам олимпиады</h2>
+  <p>Диплом победителя/призёра профильной олимпиады = <strong>100 баллов за вступительное испытание</strong> или поступление <strong>вне конкурса</strong> (зависит от правил вуза на конкретный год). Это главный усилитель нашей заявки на бюджет — иногда единственная разница между «прошёл» и «чуть-чуть не хватило».</p>
+
+  <h2>2. Наша пара олимпиад</h2>
+  <div class="card2 gold">
+    <h3>⭐ Универсиада «Ломоносов» по государственному управлению (МГУ)</h3>
+    <p>Главная для нас: задания соответствуют программе бакалавриата ГМУ, а результаты учитываются приёмной комиссией МГУ.</p>
+    <ul style="padding-left:20px;font-size:14.5px;color:var(--txt)">
+      <li><strong>Кто может:</strong> студенты и <strong>выпускники бакалавриата</strong> (наш случай), студенты 3 курса.</li>
+      <li><strong>Направления:</strong> ГМУ или Управление персоналом — выбираешь одно.</li>
+      <li><strong>График прошлого сезона (ориентир):</strong> регистрация 15 января → 10 марта; отборочный заочно (творческая работа) 11–15 марта; финал очно в ФГУ МГУ ~11 апреля, 3 часа на задание.</li>
+      <li>Страница: <a class="bl" href="https://spa.msu.ru/students/universiada-lomonosov-po-gosudarstvennomu-upravleniyu/" target="_blank">spa.msu.ru ↗</a>, заявки: <a class="bl" href="https://universiade.msu.ru/" target="_blank">universiade.msu.ru ↗</a></li>
+    </ul>
+  </div>
+  <div class="card2">
+    <h3>«Я — профессионал» по государственному управлению</h3>
+    <p>Флагманская олимпиада страны для поступления в магистратуру. Уровень «магистратура», направление «Государственное управление», организатор — РАНХиГС (ИГСУ). Бесплатно.</p>
+    <ul style="padding-left:20px;font-size:14.5px;color:var(--txt)">
+      <li><strong>Формат:</strong> онлайн-отборочный тест + очный финал (кейсы).</li>
+      <li><strong>Типичный график:</strong> регистрация с начала октября (~до 11 ноября), отборочный ноябрь–декабрь, финалы февраль–апрель.</li>
+      <li><strong>Льготы:</strong> в вузах-партнёрах, включая ведущие московские.</li>
+      <li>Портал: <a class="bl" href="https://yandex.ru/profi/" target="_blank">yandex.ru/profi ↗</a></li>
+    </ul>
+  </div>
+
+  <details>
+    <summary>❓ Почему отборочный «ЯП» для нас некритичен уже к ноябрю?</summary>
+    <p>Отборочный — большой тест по всей теории ГМУ. Блоки 1–6 нашего курса (сентябрь–февраль) как раз закрывают эту базу. Поэтому важно не пропускать воскресные срезы — они и есть тренировка отборочного.</p>
+  </details>
+
+  <h2>3. Календарь ключевых дат (ориентировочно, сверим осенью)</h2>
+  <table>
+    <tr><th>Когда</th><th>Что делать</th></tr>
+    <tr><td>начало октября 2026</td><td>открытие регистрации «ЯП» → регистрируемся в первые дни</td></tr>
+    <tr><td>~11 ноября 2026</td><td>⚠️ дедлайн регистрации «ЯП» — после него никак</td></tr>
+    <tr><td>ноябрь–декабрь 2026</td><td>онлайн-отборочный «ЯП»</td></tr>
+    <tr><td>15 января 2027</td><td>открытие регистрации Универсиады «Ломоносов»</td></tr>
+    <tr><td>до 10 марта 2027</td><td>дедлайн регистрации Универсиады</td></tr>
+    <tr><td>11–15 марта 2027</td><td>отборочный этап Универсиады: творческая работа</td></tr>
+    <tr><td>~11 апреля 2027</td><td>⭐ очный финал Универсиады в ФГУ МГУ</td></tr>
+  </table>
+  <p>Все даты продублированы точками в <a class="bl" href="../../календарь.html">календаре года</a>. Точные даты сезона 2026/27 выходят осенью — проверяем в сентябре–октябре.</p>
+
+  <div class="hw">
+    <h2>🏠 Задание на вечер</h2>
+    <label class="task"><input type="checkbox" data-hw="0"><span>Изучить раздел сайта <a href="../../олимпиады.html" style="color:#38bdf8;text-decoration:none">🏆 Олимпиады</a> целиком, включая примеры заданий.</span></label>
+    <label class="task"><input type="checkbox" data-hw="1"><span>Открыть <a class="bl" href="https://yandex.ru/profi/" target="_blank">yandex.ru/profi</a>, найти направление «Государственное управление» и раздел «Подготовка» с демовариантами прошлых сезонов.</span></label>
+    <label class="task"><input type="checkbox" data-hw="2"><span>Внести в календарь телефона три даты: регистрация ЯП (~1 окт), дедлайн ЯП (~11 нояб), регистрация Универсиады (~15 янв).</span></label>
+  </div>
+
+  <div class="quiz-head">
+    <h1 style="font-size:16px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;">✅ Тест дня</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:var(--head);margin-top:6px;">Олимпиадный трек · 7 вопросов</div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+  </div>
+  <div class="quiz-body" id="card"></div>
+
+  <button class="closeday" data-close>✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ День 26 августа закрыт</b>
+    <p>Завтра, в четверг — первый учебный день: лекция №1 «Введение в ГМУ» с тестом дня.</p>
+    <a class="btnnext" href="../блок_01_теория_и_история_управления/неделя_01/день_01.html">▶ Открыть день 1</a>
+  </div>
+
+  <div class="footer-nav">
+    <a href="../../index.html">← Дашборд курса</a>
+    <span style="color:var(--muted)">Завтра: первая лекция «Введение в ГМУ» 📖</span>
+  </div>
+
+</div>
+<script src="../../app.js?v=3"></script>
+<script>
+const DAY = window.initDayPage ? window.initDayPage("d20260826", { home: "../../index.html" }) : { locked: false, autoClose(){} };
+
+const KEY_DONE = window.uKey("done_pre_0826");
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+document.querySelectorAll("[data-hw]").forEach(box => {
+  const k = "hw_" + KEY_DONE + "_" + box.dataset.hw;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => lsSet(k, box.checked ? "1" : "0"));
+});
+
+const QUESTIONS = [
+  { q: "Что даёт диплом победителя/призёра профильной олимпиады?",
+    opts: ["скидку на обучение","100 баллов за вступительное или поступление вне конкурса","право не сдавать сессию","льготный проезд"],
+    a: 1,
+    ex: "Главная ценность олимпиад: максимальный балл за вступительное испытание или зачисление вне конкурса (по правилам конкретного вуза)." },
+  { q: "Какая олимпиада — главная для нас из-за прямой связи с ФГУ МГУ?",
+    opts: ["«Высшая лига» ВШЭ","Универсиада «Ломоносов» по государственному управлению","«Ломоносов» многопрофильная","Всероссийская олимпиада школьников"],
+    a: 1,
+    ex: "Задания Универсиады совпадают с программой бакалавриата ГМУ, а результаты учитываются при поступлении в МГУ. Многопрофильный «Ломоносов» — про бакалавриат, не наш трек." },
+  { q: "Кто допускается к Универсиаде «Ломоносов»?",
+    opts: ["только студенты МГУ","школьники 11 класса","студенты, выпускники бакалавриата/специалитета и студенты 3 курса","только магистранты"],
+    a: 2,
+    ex: "Мы подходим как выпускники бакалавриата — это прямо наш случай." },
+  { q: "На каком уровне и направлении участвуем в «Я — профессионале»?",
+    opts: ["бакалавриат, юриспруденция","магистратура, «Государственное управление»","специалитет, экономика","любое на выбор"],
+    a: 1,
+    ex: "Направление «Государственное управление», уровень «магистратура», организатор — РАНХиГС (ИГСУ)." },
+  { q: "Когда открывается регистрация «Я — профессионала» нового сезона (ориентир)?",
+    opts: ["в начале октября","в январе","прямо перед финалом","в апреле"],
+    a: 0,
+    ex: "Регистрация стартует ~1 октября и закрывается примерно к 11 ноября. Пропуск дедлайна = минус сезон." },
+  { q: "Формат отборочного этапа Универсиады «Ломоносов»?",
+    opts: ["устный опрос по Skype","заочно: творческая работа в течение ~5 дней","письменный экзамен в аудитории","тест на 200 вопросов"],
+    a: 1,
+    ex: "Отборочный проходит заочно — творческая работа (ориентир: 11–15 марта). Финал уже очный, в ФГУ МГУ, 3 часа." },
+  { q: "Где брать демоварианты «Я — профессионала»?",
+    opts: ["нигде, они закрыты","на портале олимпиады в разделе «Подготовка»","в учебном плане МГУ","у одногруппников"],
+    a: 1,
+    ex: "Демоварианты прошлых сезонов лежат на yandex.ru/profi в разделе «Подготовка» — их нужно прорешать все до отборочного." }
+];
+
+let idx = 0, score = 0;
+const card = document.getElementById("card");
+
+function render() {
+  if (idx >= QUESTIONS.length) return renderResult();
+  const item = QUESTIONS[idx];
+  document.getElementById("barfill").style.width = Math.round(idx / QUESTIONS.length * 100) + "%";
+  card.innerHTML = `
+    <div class="qnum">Вопрос ${idx + 1} из ${QUESTIONS.length} · верных: ${score}</div>
+    <div class="qtext">${item.q}</div>
+    ${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join("")}
+    <div class="explain" id="ex">${item.ex}</div>
+    <button class="next" id="nbtn" style="display:none">${idx + 1 === QUESTIONS.length ? "Результат →" : "Далее →"}</button>
+  `;
+  card.querySelectorAll(".opt").forEach(btn =>
+    btn.addEventListener("click", () => answer(+btn.dataset.i))
+  );
+}
+
+function answer(i) {
+  const item = QUESTIONS[idx];
+  card.querySelectorAll(".opt").forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === item.a) btn.classList.add("correct");
+    else if (j === i) btn.classList.add("wrong");
+  });
+  if (i === item.a) score++;
+  document.getElementById("ex").classList.add("show");
+  const n = document.getElementById("nbtn");
+  n.style.display = "block";
+  n.addEventListener("click", () => { idx++; render(); });
+}
+
+function renderResult() {
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  let verdict, passed = pct >= 70;
+  if (pct >= 90) verdict = "🔥 Отлично! Олимпиадный трек ясен.";
+  else if (passed) verdict = "✅ Зачёт! Даты зафиксированы — главное не пропустить регистрацию.";
+  else verdict = "📖 Пока не зачёт (<70%). Перечитай раздел выше — и пройди ещё раз.";
+  if (passed) lsSet(KEY_DONE, score + "/" + QUESTIONS.length);
+  card.innerHTML = `
+    <div class="result">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="verdict">${pct}% · ${verdict}${passed ? "<br><br>День отмечен пройденным в дашборде ✔" : ""}</div>
+      <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
+      <a class="tohome" href="../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
+    </div>`;
+  if (passed && !DAY.locked) DAY.autoClose();
+}
+
+render();
+</script>
+</body>
+</html>

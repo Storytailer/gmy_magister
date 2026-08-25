@@ -215,4 +215,88 @@
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", inject);
   else inject();
+
+  /* ── дни предстартовой недели ─────────────────────────────────
+     каждый день становится активен автоматически в свою календарную дату;
+     «закрытия» остаются как отметка прогресса, но ничего не блокируют */
+  window.GMU_DAYS = ["d20260825","d20260826","d20260827","d20260828","d20260829","d20260830","d20260831"];
+  window.GMU_DATES = {
+    d20260825: [2026, 7, 25],
+    d20260826: [2026, 7, 26],
+    d20260827: [2026, 7, 27],
+    d20260828: [2026, 7, 28],
+    d20260829: [2026, 7, 29],
+    d20260830: [2026, 7, 30],
+    d20260831: [2026, 7, 31]
+  };
+
+  window.dayOpenDate = function (id) {
+    var d = window.GMU_DATES[id];
+    return d ? new Date(d[0], d[1], d[2]) : null;
+  };
+
+  window.dayIsOpen = function (id) {
+    var openAt = window.dayOpenDate(id);
+    if (!openAt) return true;
+    var now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate()) >= openAt;
+  };
+
+  window.closeDay = function (id) {
+    try { localStorage.setItem(window.uKey("closed_" + id), "1"); } catch (e) {}
+  };
+
+  window.dayClosed = function (id) {
+    try { return localStorage.getItem(window.uKey("closed_" + id)) === "1"; } catch (e) { return false; }
+  };
+
+  /* подключение страницы учебного дня: initDayPage("d20260825", { home:"../../index.html" }) */
+  window.initDayPage = function (id, opts) {
+    opts = opts || {};
+    function applyClosed() {
+      Array.prototype.forEach.call(document.querySelectorAll("[data-close]"), function (b) {
+        b.disabled = true;
+        b.textContent = "✔ День закрыт";
+        b.style.opacity = ".7";
+        b.style.cursor = "default";
+      });
+      var after = document.getElementById("afterclose");
+      if (after) after.style.display = "";
+    }
+    if (!window.dayIsOpen(id)) {
+      var openAt = window.dayOpenDate(id);
+      var when = "";
+      try { when = openAt.toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" }); } catch (e) {}
+      try {
+        var st = document.createElement("style");
+        st.textContent =
+          "#gatewrap{min-height:82vh;display:flex;align-items:center;justify-content:center;padding:24px}" +
+          ".gatecard{max-width:470px;background:var(--card,#1e293b);border:1px solid rgba(245,158,11,.45);border-radius:18px;" +
+          "padding:36px 30px;text-align:center;font-family:'Segoe UI',system-ui,sans-serif;box-shadow:0 16px 50px rgba(0,0,0,.35)}" +
+          ".gatecard .gi{font-size:46px}.gatecard h1{font-size:22px;color:var(--head,#f8fafc);margin:14px 0 10px}" +
+          ".gatecard p{font-size:14.5px;color:var(--txt2,#94a3b8);line-height:1.65;margin-bottom:24px}" +
+          ".gatecard .gd{color:#fbbf24;font-weight:700}" +
+          ".gatecard a{display:inline-block;background:linear-gradient(90deg,#059669,#10b981);color:#fff;text-decoration:none;" +
+          "font-weight:700;border-radius:11px;padding:12px 24px;font-size:14.5px}" +
+          ".gatecard a:hover{filter:brightness(1.08)}";
+        document.head.appendChild(st);
+      } catch (e) {}
+      document.body.innerHTML =
+        '<div id="gatewrap"><div class="gatecard"><div class="gi">🔒</div>' +
+        '<h1>День ещё не наступил</h1>' +
+        '<p>Этот учебный день откроется автоматически<br><span class="gd">' + when + "</span>.<br><br>" +
+        'Загляни на дашборд — там видно расписание всей недели.</p>' +
+        '<a href="' + (opts.home || "../../index.html") + '">← На дашборд</a></div></div>';
+      window.scrollTo(0, 0);
+      return { locked: true };
+    }
+    if (window.dayClosed(id)) applyClosed();
+    Array.prototype.forEach.call(document.querySelectorAll("[data-close]"), function (b) {
+      b.addEventListener("click", function () { window.closeDay(id); applyClosed(); });
+    });
+    return {
+      locked: false,
+      autoClose: function () { window.closeDay(id); applyClosed(); }
+    };
+  };
 })();

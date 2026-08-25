@@ -100,6 +100,18 @@
   .result { text-align: center; padding: 18px 0 6px; }
   .score { font-size: 52px; font-weight: 800; color: var(--head); }
   .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; }
+  .btnnext:hover { filter: brightness(1.08); }
   .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
   .footer-nav a { color: var(--link); text-decoration: none; }
   .footer-nav a:hover { text-decoration: underline; }
@@ -211,14 +223,24 @@
   </div>
   <div class="quiz-body" id="card"></div>
 
+  <button class="closeday" data-close>✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ День 1 закрыт</b>
+    <p>Завтра, в пятницу — разбор ошибок теста и закрепление терминов.</p>
+    <a class="btnnext" href="../../предстартовая_неделя/день_28.html">▶ Открыть следующий день</a>
+  </div>
+
   <div class="footer-nav">
     <a href="../../../index.html">← Дашборд курса</a>
-    <span style="color:var(--muted)">Завтра: цели и функции гос. управления</span>
+    <a href="../../предстартовая_неделя/день_28.html">Завтра: разбор ошибок теста →</a>
   </div>
 
 </div>
-<script src="../../../app.js"></script>
+<script src="../../../app.js?v=3"></script>
 <script>
+const DAY = window.initDayPage ? window.initDayPage("d20260827", { home: "../../../index.html" }) : { locked: false, autoClose(){} };
+
 const KEY_DONE = window.uKey("done_b1_w1_d1");
 function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
 function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
@@ -319,6 +341,7 @@ function renderResult() {
       <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
       <a class="tohome" href="../../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
     </div>`;
+  if (passed && !DAY.locked) DAY.autoClose();
 }
 
 render();

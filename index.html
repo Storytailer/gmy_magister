@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -87,14 +87,26 @@
     <div class="bar"><div class="bar-fill" id="globalfill"></div></div>
   </div>
 
-  <h2>Текущая неделя</h2>
+  <h2>Неделя старта · 25–31 августа</h2>
+  <div class="week-card">
+    <div class="week-head">
+      <div>
+        <div class="week-title">Предстартовая неделя</div>
+        <div class="week-theme">Каждый день открывается автоматически в свою календарную дату</div>
+      </div>
+      <span class="status st-go">идёт сейчас</span>
+    </div>
+    <div id="prepRows"></div>
+  </div>
+
+  <h2>Неделя 1 программы · старт 31 августа</h2>
   <div class="week-card">
     <div class="week-head">
       <div>
         <div class="week-title">Неделя 1 · Блок 1 «Теория и история управления»</div>
         <div class="week-theme">Введение в ГМУ и публичную власть</div>
       </div>
-      <span class="status st-go">идёт сейчас</span>
+      <span class="status st-wait">со старта курса</span>
     </div>
     <a class="day-row" href="01_программа/блок_01_теория_и_история_управления/неделя_01/день_01.html">
       <span class="day-icon">📖</span>
@@ -162,7 +174,7 @@
   </div>
 
 </div>
-<script src="app.js"></script>
+<script src="app.js?v=3"></script>
 <script>
 const BLOCKS = [
   ["Сентябрь","Теория и история управления","Основы ГМУ · теория управления · история ГУ", true],
@@ -200,6 +212,43 @@ if (lsGet(window.uKey("done_b1_w1_d1"))) {
   document.getElementById("st_d1").style.display = "";
   document.getElementById("go_d1").textContent = "открыть снова";
 }
+
+/* ── предстартовая неделя: статусы дней из цепочки открытия ── */
+const PREP = [
+  ["d20260825","25 авг · Вт","🧭","Разбор структуры курса: README, карта блоков, учебный план МГУ ФГУ"],
+  ["d20260826","26 авг · Ср","🏆","Олимпиадная разведка: «Я — профессионал» и Универсиада «Ломоносов»"],
+  ["d20260827","27 авг · Чт","📖","Первый учебный день: лекция №1 «Введение в ГМУ» + тест дня"],
+  ["d20260828","28 авг · Пт","🔁","Разбор ошибок теста дня + договориться о совместном слоте"],
+  ["d20260829","29 авг · Сб","📊","Входная диагностика: пробный тест по базе ГМУ у обоих"],
+  ["d20260830","30 авг · Вс","✅","Итоги недели, план на сентябрь, проверка профилей"],
+  ["d20260831","31 авг · Пн","🚀","Старт Недели 1 · Блок 1 «Теория и история управления»"]
+];
+const PREP_URLS = {
+  d20260825:"01_программа/предстартовая_неделя/день_25.html",
+  d20260826:"01_программа/предстартовая_неделя/день_26.html",
+  d20260827:"01_программа/блок_01_теория_и_история_управления/неделя_01/день_01.html",
+  d20260828:"01_программа/предстартовая_неделя/день_28.html",
+  d20260829:"01_программа/предстартовая_неделя/день_29.html",
+  d20260830:"01_программа/предстартовая_неделя/день_30.html",
+  d20260831:"01_программа/предстартовая_неделя/день_31.html"
+};
+const todayIso = new Date().toLocaleDateString("ru-RU");
+const hasChain = typeof window.dayClosed === "function" && typeof window.dayIsOpen === "function";
+document.getElementById("prepRows").innerHTML = PREP.map(d => {
+  const closed = hasChain ? window.dayClosed(d[0]) : false;
+  const open = hasChain ? window.dayIsOpen(d[0]) : true;
+  const isToday = todayIso.startsWith(d[1].slice(0,2) + ".");
+  let status;
+  if (closed) status = '<span class="status st-done">закрыто ✔</span>';
+  else if (open) status = '<span class="status st-go">начать →</span>';
+  else status = '<span class="status st-wait">🔒 с ' + d[0].slice(7,9) + "." + d[0].slice(5,7) + "</span>";
+  const dim = (!open && !closed) ? ' style="opacity:.55"' : "";
+  return `<a class="day-row" href="${PREP_URLS[d[0]]}"${dim}>
+    <span class="day-icon">${isToday ? "📍" : d[2]}</span>
+    <span class="day-name">${d[1]}${isToday ? " · сегодня" : ""}</span>
+    <span class="day-desc">${d[3]}</span>
+    ${status}</a>`;
+}).join("");
 </script>
 </body>
 </html>
