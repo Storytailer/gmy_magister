@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День 5 · Тест самопроверки</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--txt);
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
+  .em { color: #34d399; font-weight: 600; }
+  pre {
+    background: var(--card2); border: 1px solid var(--soft); border-radius: 12px;
+    padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.5;
+    color: #93c5fd; margin: 14px 0; font-family: Consolas, "Courier New", monospace;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 18px; margin: 12px 0; cursor: pointer;
+  }
+  summary { color: var(--link); font-weight: 600; font-size: 15px; }
+  summary:hover { color: #7dd3fc; }
+  details[open] summary { margin-bottom: 8px; }
+  details p { margin: 0; color: var(--txt); font-size: 15px; }
+  .hw {
+    background: var(--card); border: 1px solid #f59e0b55; border-radius: 16px;
+    padding: 22px 26px; margin-top: 30px;
+  }
+  .hw h2 { margin: 0 0 14px; border-color: #f59e0b; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #f59e0b88; }
+  label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: var(--txt); }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .quiz-head {
+    margin-top: 40px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
+  }
+  .quiz-body {
+    background: var(--card); border: 1px solid var(--line); border-radius: 0 0 16px 16px;
+    border-top: none; padding: 20px 26px 26px;
+  }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
+  .qnum { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: var(--head); }
+  .opt {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: var(--bg); color: var(--txt); border: 2px solid var(--line);
+    border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--muted); transform: translateX(4px); }
+  .opt:disabled { cursor: default; opacity: .85; }
+  .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
+  .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
+  .explain {
+    display: none; background: var(--bg); border-left: 3px solid #38bdf8;
+    padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
+    color: var(--txt2); margin-top: 8px; line-height: 1.5;
+  }
+  .explain.show { display: block; }
+  .next, .tohome {
+    display: block; width: 100%; margin-top: 18px; cursor: pointer; text-align: center; text-decoration: none;
+    background: #10b981; color: #052e16; border: none; border-radius: 12px;
+    padding: 14px; font-size: 16px; font-weight: 700; transition: filter .15s; font-family: inherit;
+  }
+  .next:hover, .tohome:hover { filter: brightness(1.1); }
+  .tohome { display: none; }
+  .retake {
+    display: block; width: 100%; margin-top: 12px; cursor: pointer; text-align: center;
+    background: transparent; color: #10b981; border: 2px solid #10b981; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+  .result { text-align: center; padding: 18px 0 6px; }
+  .score { font-size: 52px; font-weight: 800; color: var(--head); }
+  .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; }
+  .btnnext:hover { filter: brightness(1.08); }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="crumbs">Блок 1 · Теория и история управления &nbsp;·&nbsp; Неделя 1 · Суббота</div>
+    <h1>Тест самопроверки: вся Неделя 1</h1>
+    <div class="chips">
+      <span class="chip">✅ 10 вопросов</span>
+      <span class="chip">⏱ ~10 мин</span>
+      <span class="chip">🔁 Можно пересдать</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> проверить, насколько хорошо усвоен материал всех предыдущих дней Недели 1 — от основ ГМУ до функций управления и кейса. Завтра — срез, который нужно сдать на зачёт (≥70%).</div>
+  </div>
+
+  <h2>Подготовка к тесту</h2>
+  <p>Прежде чем начать, убедись, что ты помнишь:</p>
+  <table>
+    <tr><th>Тема дня</th><th>Ключевые моменты для повторения</th></tr>
+    <tr><td>День 1</td><td>определение управления, субъект/объект, три уровня власти, признаки государства, персоналии (Вебер, Вильсон)</td></tr>
+    <tr><td>День 2</td><td>уровни целей (стратегические/тактические/оперативные), 4 функции Файоля, цикл управления, Друкер (эффективность vs результативность), Саймон (ограниченная рациональность)</td></tr>
+    <tr><td>День 3</td><td>обзор пройденного, видеолекция — что нового узнал?</td></tr>
+    <tr><td>День 4</td><td>кейс: SMART-цели, применение функций к реальной ситуации, KPI, субъект/объект</td></tr>
+  </table>
+
+  <details>
+    <summary>💡 Совет перед тестом</summary>
+    <p>Перечитай таблицу терминов из дней 1 и 2 (или свои выписки). Обрати особое внимание на разницу между эффективностью и результативностью — это самая частая ошибка.</p>
+  </details>
+
+  <div class="quiz-head">
+    <h1 style="font-size:16px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;">✅ Тест самопроверки</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:var(--head);margin-top:6px;">Неделя 1 · 10 вопросов</div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+  </div>
+  <div class="quiz-body" id="card"></div>
+
+  <h2>📓 Журнал ошибок</h2>
+  <p>После теста <strong>обязательно</strong> выпиши ошибки. Это самый эффективный способ закрепления:</p>
+
+  <table>
+    <tr><th>№</th><th>Мой ответ</th><th>Верный ответ</th><th>Почему ошибся(лась)?</th><th>Как запомнить?</th></tr>
+    <tr><td>1</td><td style="color:var(--muted)">запиши</td><td style="color:var(--muted)">запиши</td><td style="color:var(--muted)">перепутал термины / не знал / невнимательно прочитал</td><td style="color:var(--muted)">свяжи с примером / повтори определение / проговори вслух</td></tr>
+    <tr><td>2</td><td style="color:var(--muted)">запиши</td><td style="color:var(--muted)">запиши</td><td style="color:var(--muted)"></td><td style="color:var(--muted)"></td></tr>
+    <tr><td>3</td><td style="color:var(--muted)">запиши</td><td style="color:var(--muted)">запиши</td><td style="color:var(--muted)"></td><td style="color:var(--muted)"></td></tr>
+  </table>
+
+  <details>
+    <summary>💡 Как заполнять журнал</summary>
+    <p>Не переписывай вопрос целиком — запиши только суть. В колонке «Как запомнить» используй конкретные приёмы:<br>
+    • <strong>Пример</strong> — свяжи абстрактное правило с реальной ситуацией<br>
+    • <strong>Ассоциация</strong> — найди «зацепку» в уже известном<br>
+    • <strong>Проговори</strong> — объясни правило вслух «маленькому ученику»<br>
+    • <strong>Запиши формулу</strong> — если ошибка в расчёте или порядке</p>
+  </details>
+
+  <div class="hw">
+    <h2>🏠 Задание на вечер</h2>
+    <label class="task"><input type="checkbox" data-hw="0"><span>Заполни журнал ошибок: 3 ошибки + почему произошли + как запомнить правильный ответ.</span></label>
+  </div>
+
+  <button class="closeday" data-close>✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ День 5 закрыт</b>
+    <p>Завтра — срез Недели 1 (15 вопросов, зачёт ≥70%). Повтори термины и функции!</p>
+    <a class="btnnext" href="день_06.html">▶ Открыть следующий день (срез)</a>
+  </div>
+
+  <div class="footer-nav">
+    <a href="день_04.html">← Чт–Пт: Кейс недели</a>
+    <a href="день_06.html">Вс: Срез Недели 1 →</a>
+  </div>
+
+</div>
+<script src="../../../app.js?v=3"></script>
+<script>
+const DAY = window.initDayPage ? window.initDayPage("d20260904", { home: "../../../index.html" }) : { locked: false, autoClose(){} };
+
+const KEY_DONE = window.uKey("done_b1_w1_d5");
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+document.querySelectorAll("[data-hw]").forEach(box => {
+  const k = "hw_" + KEY_DONE + "_" + box.dataset.hw;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => lsSet(k, box.checked ? "1" : "0"));
+});
+
+const QUESTIONS = [
+  { q: "Какое из перечисленных НЕ является признаком государства?",
+    opts: ["определённая территория","постоянное население","монополия на легальное принуждение","прибыльность"],
+    a: 3,
+    ex: "Признаки государства: территория, население, публичная власть, суверенитет. Прибыльность — цель коммерческой организации, а не государства." },
+  { q: "Какой элемент системы управления отвечает за получение информации о результатах?",
+    opts: ["субъект","объект","обратная связь","планирование"],
+    a: 2,
+    ex: "Обратная связь — данные о результатах управленческого воздействия (отчёты, статистика, жалобы). Без неё невозможно понять, достигнута ли цель." },
+  { q: "Поправки к Конституции РФ 2020 года закрепили понятие...",
+    opts: ["четырёхуровневой системы власти","единой системы публичной власти","муниципального парламента","президентского контроля над МСУ"],
+    a: 1,
+    ex: "Ст. 132 Конституции: органы МСУ и органы государственной власти входят в единую систему публичной власти." },
+  { q: "Стратегическая цель управления отличается от оперативной тем, что...",
+    opts: ["стратегическая более конкретная","стратегическая определяет общий вектор на 5–20 лет, а оперативная — задача до 1 года","стратегическая касается только федерального уровня","оперативная цель важнее стратегической"],
+    a: 1,
+    ex: "Стратегическая цель — долгосрочный ориентир развития (5–20 лет). Оперативная — конкретная текущая задача (до 1 года). Стратегия задаёт方向性, оперативные цели — шаги." },
+  { q: "Какая из функций Файоля отвечает за распределение обязанностей и ресурсов?",
+    opts: ["планирование","организация","мотивация","контроль"],
+    a: 1,
+    ex: "Организация: определение структуры, распределение полномочий, ответственности и ресурсов между подразделениями и сотрудниками." },
+  { q: "Питер Друкер считал, что важнее: быть эффективным или результативным?",
+    opts: ["результативность важнее","эффективность важнее — сначала выбрать правильное направление","одинаково важны","это зависит от ситуации"],
+    a: 1,
+    ex: "Друкер: «Нет ничего бесполезнее делать сgreat эффективностью то, что вообще не следует делать». Сначала — эффективность (правильные вещи), потом — результативность (правильно делаем)." },
+  { q: "Понятие «ограниченная рациональность» означает, что...",
+    opts: ["люди не способны мыслить логически","руководители ограничены в полномочиях","люди принимают не идеальные, а удовлетворительные решения из-за ограничений в информации и времени","только работники государственных органов ограничены"],
+    a: 2,
+    ex: "Саймон: реальные люди не могут обработать всю информацию. Они принимают «достаточно хорошие» (satisficing) решения в рамках имеющихся ограничений." },
+  { q: "В кейсе дня 4 мэр формулирует задачу как «надо что-то сделать с дорогами». Какая функция управления нарушена в первую очередь?",
+    opts: ["контроль","организация","планирование","мотивация"],
+    a: 2,
+    ex: "Размытое поручение без SMART-цели, сроков и исполнителя — нарушение планирования. Без чёткой цели невозможно организовать работу и контролировать результат." },
+  { q: "Какой правильный порядок цикла управления?",
+    opts: ["контроль → планирование → организация → мотивация → корректировка","планирование → мотивация → контроль → организация","планирование → организация → мотивация → контроль → корректировка","мотивация → планирование → контроль"],
+    a: 2,
+    ex: "Цикл: цель → планирование → организация → мотивация → контроль → корректировка → новое планирование. Замкнутый круг, не заканчивающийся." },
+  { q: "Органы местного самоуправления входят в систему органов государственной власти?",
+    opts: ["да, всегда","нет — это закреплено ст. 12 Конституции","только в городах-миллионниках","по решению губернатора"],
+    a: 1,
+    ex: "Ст. 12 Конституции РФ: органы МСУ НЕ входят в систему органов государственной власти. Но они входят в единую систему публичной власти (ст. 132)." }
+];
+
+let idx = 0, score = 0;
+const card = document.getElementById("card");
+
+function render() {
+  if (idx >= QUESTIONS.length) return renderResult();
+  const item = QUESTIONS[idx];
+  document.getElementById("barfill").style.width = Math.round(idx / QUESTIONS.length * 100) + "%";
+  card.innerHTML = `
+    <div class="qnum">Вопрос ${idx + 1} из ${QUESTIONS.length} · верных: ${score}</div>
+    <div class="qtext">${item.q}</div>
+    ${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join("")}
+    <div class="explain" id="ex">${item.ex}</div>
+    <button class="next" id="next" style="display:none">${idx + 1 === QUESTIONS.length ? "Результат →" : "Далее →"}</button>
+  `;
+  card.querySelectorAll(".opt").forEach(btn =>
+    btn.addEventListener("click", () => answer(+btn.dataset.i))
+  );
+}
+
+function answer(i) {
+  const item = QUESTIONS[idx];
+  card.querySelectorAll(".opt").forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === item.a) btn.classList.add("correct");
+    else if (j === i) btn.classList.add("wrong");
+  });
+  if (i === item.a) score++;
+  document.getElementById("ex").classList.add("show");
+  const n = document.getElementById("next");
+  n.style.display = "block";
+  n.addEventListener("click", () => { idx++; render(); });
+}
+
+function renderResult() {
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  let verdict, passed = pct >= 70;
+  if (pct >= 90) verdict = "🔥 Отлично! Неделя 1 усвоена — завтрашний срез тебе по плечу.";
+  else if (passed) verdict = "✅ Зачёт! Есть слабые места — перечитай объяснения ошибок и повтори перед срезом.";
+  else verdict = "📖 Пока не зачёт (<70%). Повтори конспекты и пройди тест снова перед завтрашним срезом.";
+  if (passed) lsSet(KEY_DONE, score + "/" + QUESTIONS.length);
+  card.innerHTML = `
+    <div class="result">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="verdict">${pct}% · ${verdict}${passed ? "<br><br>День отмечен пройденным в дашборде ✔" : ""}</div>
+      <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
+      <a class="tohome" href="../../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
+    </div>`;
+  if (passed && !DAY.locked) DAY.autoClose();
+}
+
+render();
+</script>
+</body>
+</html>

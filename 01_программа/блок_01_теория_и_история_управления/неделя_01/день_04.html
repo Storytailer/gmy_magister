@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День 4 · Кейс недели</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--txt);
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
+  .em { color: #34d399; font-weight: 600; }
+  pre {
+    background: var(--card2); border: 1px solid var(--soft); border-radius: 12px;
+    padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.5;
+    color: #93c5fd; margin: 14px 0; font-family: Consolas, "Courier New", monospace;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 18px; margin: 12px 0; cursor: pointer;
+  }
+  summary { color: var(--link); font-weight: 600; font-size: 15px; }
+  summary:hover { color: #7dd3fc; }
+  details[open] summary { margin-bottom: 8px; }
+  details p { margin: 0; color: var(--txt); font-size: 15px; }
+  .hw {
+    background: var(--card); border: 1px solid #f59e0b55; border-radius: 16px;
+    padding: 22px 26px; margin-top: 30px;
+  }
+  .hw h2 { margin: 0 0 14px; border-color: #f59e0b; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #f59e0b88; }
+  label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: var(--txt); }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .quiz-head {
+    margin-top: 40px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
+  }
+  .quiz-body {
+    background: var(--card); border: 1px solid var(--line); border-radius: 0 0 16px 16px;
+    border-top: none; padding: 20px 26px 26px;
+  }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
+  .qnum { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: var(--head); }
+  .opt {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: var(--bg); color: var(--txt); border: 2px solid var(--line);
+    border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--muted); transform: translateX(4px); }
+  .opt:disabled { cursor: default; opacity: .85; }
+  .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
+  .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
+  .explain {
+    display: none; background: var(--bg); border-left: 3px solid #38bdf8;
+    padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
+    color: var(--txt2); margin-top: 8px; line-height: 1.5;
+  }
+  .explain.show { display: block; }
+  .next, .tohome {
+    display: block; width: 100%; margin-top: 18px; cursor: pointer; text-align: center; text-decoration: none;
+    background: #10b981; color: #052e16; border: none; border-radius: 12px;
+    padding: 14px; font-size: 16px; font-weight: 700; transition: filter .15s; font-family: inherit;
+  }
+  .next:hover, .tohome:hover { filter: brightness(1.1); }
+  .tohome { display: none; }
+  .retake {
+    display: block; width: 100%; margin-top: 12px; cursor: pointer; text-align: center;
+    background: transparent; color: #10b981; border: 2px solid #10b981; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+  .result { text-align: center; padding: 18px 0 6px; }
+  .score { font-size: 52px; font-weight: 800; color: var(--head); }
+  .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; }
+  .btnnext:hover { filter: brightness(1.08); }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="crumbs">Блок 1 · Теория и история управления &nbsp;·&nbsp; Неделя 1 · Чт–Пт</div>
+    <h1>Кейс недели: снижение аварийности на дорогах</h1>
+    <div class="chips">
+      <span class="chip">🧩 Кейс ~40 мин</span>
+      <span class="chip">✍️ Письменное решение</span>
+      <span class="chip">✅ Тест дня в конце страницы</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> применить знания о функциях управления, цикле и SMART-целях к реальному муниципальному кейсу и научиться формулировать управленческие решения.</div>
+  </div>
+
+  <h2>1. Условия кейса</h2>
+  <p><strong>Администрация города N</strong> (200 тыс. жителей) фиксирует рост аварийности на дорогах: за полгода число ДТП выросло на 18%, 3 случая — со смертельным исходом. Мэр на совещании говорит: «Надо что-то сделать с дорогами» и поручает «кому-то» разобраться.</p>
+  <p><strong>Твоя задача:</strong> проанализировать ситуацию с точки зрения теории управления и предложить структурированное решение.</p>
+
+  <h2>2. Структура анализа (по навыкам из дней 1–2)</h2>
+
+  <h2>2.1. Определи субъект и объект управления</h2>
+  <p>Прежде чем «делать», нужно понять <strong>кто</strong> управляет и <strong>чем</strong>:</p>
+  <table>
+    <tr><th>Элемент</th><th>В данном кейсе</th></tr>
+    <tr><td><strong>Субъект</strong></td><td>администрация города, подразделение по транспорту и дорогам, ГИБДД, депутаты</td></tr>
+    <tr><td><strong>Объект</strong></td><td>транспортная безопасность, поведение водителей и пешеходов, состояние дорожной инфраструктуры</td></tr>
+    <tr><td><strong>Обратная связь</strong></td><td>статистика ГИБДД, жалобы граждан, данные мониторинга</td></tr>
+  </table>
+
+  <h2>2.2. Сформулируй SMART-цель</h2>
+  <p>Вместо размытого «надо что-то сделать» — конкретная цель:</p>
+  <pre>НЕПРАВИЛЬНО:  «Снизить аварийность»
+ПРАВИЛЬНО:    «Снизить количество ДТП с пострадавшими на 25%
+              за 12 месяцев (сентябрь 2026 — сентябрь 2027)
+              в сравнении с аналогичным периодом прошлого года»</pre>
+  <p>Разбей на уровни целей:</p>
+  <table>
+    <tr><th>Уровень</th><th>Цель</th><th>Срок</th></tr>
+    <tr><td>Стратегическая</td><td>обеспечить безопасность дорожного движения как условие качества жизни</td><td>5 лет</td></tr>
+    <tr><td>Тактическая</td><td>снизить ДТП с пострадавшими на 25% за 12 месяцев</td><td>1 год</td></tr>
+    <tr><td>Оперативная</td><td>установить 10 светофоров на аварийных перекрёстках до конца квартала</td><td>3 месяца</td></tr>
+  </table>
+
+  <details>
+    <summary>❓ А если мэр сказал «кому-то сделать» — это нарушение управления?</summary>
+    <p>Да! Неконкретное поручение без указания исполнителя, срока и показателей — классическая ошибка планирования. По Файолю, не выполнены функции планирования (нет конкретики) и организации (нет распределения полномочий).</p>
+  </details>
+
+  <h2>2.3. Разложи по циклу управления</h2>
+  <table>
+    <tr><th>Функция</th><th>Что делать в данном кейсе</th></tr>
+    <tr><td><strong>Планирование</strong></td><td>сформулировать SMART-цель, определить ресурсы (бюджет, люди), сроки, пути достижения</td></tr>
+    <tr><td><strong>Организация</strong></td><td>создать рабочую группу (Дорожная комиссия), назначить ответственных, распределить полномочия</td></tr>
+    <tr><td><strong>Мотивация</strong></td><td>включить подразделения в работу: ГИБДД — патрулирование, ЖКХ — ремонт разметки, МЧС — обустройство знаков</td></tr>
+    <tr><td><strong>Контроль</strong></td><td>ежемесячная статистика ДТП, отчёты комиссии, общественные слушания</td></tr>
+    <tr><td><strong>Корректировка</strong></td><td>если светофоры не снижают аварийность — искать другие меры (камеры, ремонт покрытия)</td></tr>
+  </table>
+
+  <h2>2.4. Определи показатели эффективности</h2>
+  <p>Как понять, что цель достигнута? Нужны <strong>измеримые показатели (KPI)</strong>:</p>
+  <p>• количество ДТП с пострадавшими (снижение на 25%)<br>
+  • количество погибших (цель — 0 к 2027 году)<br>
+  • количество установленных светофоров и знаков (цель — 10 шт.)<br>
+  • процент отремонтированных участков дорог (цель — 80%)</p>
+
+  <details>
+    <summary>❓ А эффективность или результативность здесь важнее?</summary>
+    <p>Сначала — <strong>эффективность</strong> (выбрать правильные меры: светофоры, камеры, ремонт — или просто увеличить штрафы?). Затем — <strong>результативность</strong> (выполнить эти меры без перерасхода бюджета).</p>
+  </details>
+
+  <h2>📌 Шаблон ответа по кейсу</h2>
+  <p>Используй этот алгоритм для <strong>любого</strong> кейса по ГМУ. Каждый шаг — отдельный пункт письменного ответа:</p>
+
+  <table>
+    <tr><th>Шаг</th><th>Что делать</th><th>Вопрос-подсказка</th></tr>
+    <tr><td><strong>1. Диагностика</strong></td><td>Опиши ситуацию: что произошло, какие данные есть, в чём проблема?</td><td>«Что случилось и каковы симптомы?»</td></tr>
+    <tr><td><strong>2. Проблемы</strong></td><td>Выдели корневые причины (не симптомы!). Определи субъект, объект, обратную связь.</td><td>«Почему это происходит и кто участвует?»</td></tr>
+    <tr><td><strong>3. Варианты решений</strong></td><td>Предложи 2–3 варианта действий (включая «ничего не делать»). Опиши плюсы/минусы каждого.</td><td>«Что можно сделать? Что будет, если не действовать?»</td></tr>
+    <tr><td><strong>4. Критерии выбора</strong></td><td>Определи, по каким критериям выберешь лучший вариант (бюджет, сроки, политические риски, эффективность).</td><td>«Что важнее: скорость, стоимость или качество?»</td></tr>
+    <tr><td><strong>5. План внедрения + KPI</strong></td><td>Разбей лучший вариант на шаги: SMART-цель, исполнители, сроки, KPI для контроля.</td><td>«Кто, что и когда делает? Как измерим результат?»</td></tr>
+    <tr><td><strong>6. Риски</strong></td><td>Назови 2–3 риска и меры по их минимизации.</td><td>«Что может пойти не так и как это предотвратить?»</td></tr>
+  </table>
+
+  <details>
+    <summary>💡 Как использовать шаблон</summary>
+    <p>Не обязательно писать ответ строго по шаблону — но он гарантирует, что ты не забудешь ни один аспект анализа. На экзамене такой подход экономит время и повышает оценку.</p>
+  </details>
+
+  <h2>📌 Структура письменного ответа на кейс</h2>
+  <pre>1. Анализ ситуации (субъект, объект, обратная связь)
+2. SMART-цель (конкретная, измеримая, с ограничением по времени)
+3. Уровни целей (стратегическая → тактическая → оперативная)
+4. Разбор по функциям Файоля (4 функции)
+5. Показатели контроля (KPI)
+6. Вывод: эффективность vs результативность</pre>
+
+  <div class="hw">
+    <h2>🏠 Задание на вечер</h2>
+    <label class="task"><input type="checkbox" data-hw="0"><span>Реши кейс письменно по структуре выше (6 пунктов). Объём — от 10 до 20 предложений.</span></label>
+    <label class="task"><input type="checkbox" data-hw="1"><span>Обсуди своё решение с другом/однокурсником или запиши ключевые выводы в 10 предложениях.</span></label>
+  </div>
+
+  <div class="quiz-head">
+    <h1 style="font-size:16px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;">✅ Тест дня</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:var(--head);margin-top:6px;">Применение теории · 8 вопросов</div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+  </div>
+  <div class="quiz-body" id="card"></div>
+
+  <button class="closeday" data-close>✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ День 4 закрыт</b>
+    <p>Завтра — тест самопроверки перед воскресным срезом.</p>
+    <a class="btnnext" href="день_05.html">▶ Открыть следующий день</a>
+  </div>
+
+  <div class="footer-nav">
+    <a href="день_03.html">← Ср: Видеолекция</a>
+    <a href="день_05.html">Сб: Тест самопроверки →</a>
+  </div>
+
+</div>
+<script src="../../../app.js?v=3"></script>
+<script>
+const DAY = window.initDayPage ? window.initDayPage("d20260903", { home: "../../../index.html" }) : { locked: false, autoClose(){} };
+
+const KEY_DONE = window.uKey("done_b1_w1_d4");
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+document.querySelectorAll("[data-hw]").forEach(box => {
+  const k = "hw_" + KEY_DONE + "_" + box.dataset.hw;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => lsSet(k, box.checked ? "1" : "0"));
+});
+
+const QUESTIONS = [
+  { q: "В кейсе мэр говорит «надо что-то сделать с дорогами» и поручает «кому-то». Какая функция управления не выполнена в первую очередь?",
+    opts: ["контроль","мотивация","планирование","корректировка"],
+    a: 2,
+    ex: "Планирование предполагает формулирование цели (SMART), определение сроков и исполнителя. Размытое поручение без конкретики — грубое нарушение планирования." },
+  { q: "Субъект управления в данном кейсе — это...",
+    opts: ["дороги и перекрёстки","администрация города, ГИБДД, депутаты","водители и пешеходы","бюджетные средства"],
+    a: 1,
+    ex: "Субъект — кто управляет: администрация города, подразделения, ГИБДД. Объект — дорожная безопасность и поведение участников движения." },
+  { q: "SMART-цель «снизить аварийность» — почему она НЕ является SMART?",
+    opts: ["не указана конкретная мера","не измерима, не указаны сроки и количественный показатель","слишком амбициозна","SMART适用于 коммерческим организациям, а не государственным"],
+    a: 1,
+    ex: "«Снизить аварийность» — размыто. SMART требует: на сколько (25%), за какой срок (12 мес.), как измерять (количество ДТП с пострадавшими)." },
+  { q: "Какая функция Файоля предполагает создание рабочей группы и назначение ответственных?",
+    opts: ["планирование","организация","мотивация","контроль"],
+    a: 1,
+    ex: "Организация — распределение ресурсов и полномочий: кто за что отвечает, какие подразделения вовлечены." },
+  { q: "Почему «просто увеличить штрафы» может быть НЕэффективным решением, хотя результативным?",
+    opts: ["штрафы запрещены законом","штрафы не решают проблему инфраструктуры — можно эффективно собирать деньги, но дороги останутся опасными","штрафы — это не функция управления","штрафы действуют только на пешеходов"],
+    a: 1,
+    ex: "Эффективность = «делаем правильные вещи». Штрафы могут снизить нарушения, но не исправят разбитые дороги, отсутствие разметки и знаков. Важно выбирать меры, решающие корневую причину." },
+  { q: "Какой показатель контроля (KPI) будет самым важным для оценки успеха данного кейса?",
+    opts: ["общее число штрафов","количество ДТП с пострадавшими (цель — снижение на 25%)","общая сумма бюджета, выделенного на дороги","количество новых дорожных знаков"],
+    a: 1,
+    ex: "Главный показатель — снижение ДТП с пострадавшими. Количество знаков или штрафов — это промежуточные показатели, а не конечная цель." },
+  { q: "Функцию контроля в данном кейсе лучше всего реализовать через...",
+    opts: ["ежегодный отчёт мэру","ежемесячную статистику ГИБДД + общественные слушания","просто ждать результатов в конце года","положиться на СМИ"],
+    a: 1,
+    ex: "Контроль должен быть регулярным (ежемесячно) и включать как количественные данные (статистика), так и обратную связь от населения (слушания)." },
+  { q: "Муниципальное управление в данном кейсе отличается от государственного тем, что...",
+    opts: ["МСУ не может влиять на дороги","вопросы содержания дорог — вопросы местного значения, решаемые органами МСУ напрямую","МСУ не имеет бюджета на дорожное хозяйство","государство вообще не участвует в дорожной безопасности"],
+    a: 1,
+    ex: "Содержание и ремонт местных дорог — вопросы местного значения (ФЗ-131). Органы МСУ решают их самостоятельно, в отличие от федеральных трасс, которые в ведении государства." }
+];
+
+let idx = 0, score = 0;
+const card = document.getElementById("card");
+
+function render() {
+  if (idx >= QUESTIONS.length) return renderResult();
+  const item = QUESTIONS[idx];
+  document.getElementById("barfill").style.width = Math.round(idx / QUESTIONS.length * 100) + "%";
+  card.innerHTML = `
+    <div class="qnum">Вопрос ${idx + 1} из ${QUESTIONS.length} · верных: ${score}</div>
+    <div class="qtext">${item.q}</div>
+    ${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join("")}
+    <div class="explain" id="ex">${item.ex}</div>
+    <button class="next" id="next" style="display:none">${idx + 1 === QUESTIONS.length ? "Результат →" : "Далее →"}</button>
+  `;
+  card.querySelectorAll(".opt").forEach(btn =>
+    btn.addEventListener("click", () => answer(+btn.dataset.i))
+  );
+}
+
+function answer(i) {
+  const item = QUESTIONS[idx];
+  card.querySelectorAll(".opt").forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === item.a) btn.classList.add("correct");
+    else if (j === i) btn.classList.add("wrong");
+  });
+  if (i === item.a) score++;
+  document.getElementById("ex").classList.add("show");
+  const n = document.getElementById("next");
+  n.style.display = "block";
+  n.addEventListener("click", () => { idx++; render(); });
+}
+
+function renderResult() {
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  let verdict, passed = pct >= 70;
+  if (pct >= 90) verdict = "🔥 Отлично! Ты умеешь применять теорию на практике.";
+  else if (passed) verdict = "✅ Зачёт! Хороший анализ — пройди тест самопроверки завтра.";
+  else verdict = "📖 Пока не зачёт (<70%). Перечитай структуру кейса выше и попробуй снова.";
+  if (passed) lsSet(KEY_DONE, score + "/" + QUESTIONS.length);
+  card.innerHTML = `
+    <div class="result">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="verdict">${pct}% · ${verdict}${passed ? "<br><br>День отмечен пройденным в дашборде ✔" : ""}</div>
+      <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
+      <a class="tohome" href="../../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
+    </div>`;
+  if (passed && !DAY.locked) DAY.autoClose();
+}
+
+render();
+</script>
+</body>
+</html>

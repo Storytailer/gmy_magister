@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День 3 · Видеолекция + закрепление</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--txt);
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
+  .em { color: #34d399; font-weight: 600; }
+  pre {
+    background: var(--card2); border: 1px solid var(--soft); border-radius: 12px;
+    padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.5;
+    color: #93c5fd; margin: 14px 0; font-family: Consolas, "Courier New", monospace;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 18px; margin: 12px 0; cursor: pointer;
+  }
+  summary { color: var(--link); font-weight: 600; font-size: 15px; }
+  summary:hover { color: #7dd3fc; }
+  details[open] summary { margin-bottom: 8px; }
+  details p { margin: 0; color: var(--txt); font-size: 15px; }
+  .hw {
+    background: var(--card); border: 1px solid #f59e0b55; border-radius: 16px;
+    padding: 22px 26px; margin-top: 30px;
+  }
+  .hw h2 { margin: 0 0 14px; border-color: #f59e0b; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #f59e0b88; }
+  label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: var(--txt); }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .quiz-head {
+    margin-top: 40px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
+  }
+  .quiz-body {
+    background: var(--card); border: 1px solid var(--line); border-radius: 0 0 16px 16px;
+    border-top: none; padding: 20px 26px 26px;
+  }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
+  .qnum { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: var(--head); }
+  .opt {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: var(--bg); color: var(--txt); border: 2px solid var(--line);
+    border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--muted); transform: translateX(4px); }
+  .opt:disabled { cursor: default; opacity: .85; }
+  .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
+  .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
+  .explain {
+    display: none; background: var(--bg); border-left: 3px solid #38bdf8;
+    padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
+    color: var(--txt2); margin-top: 8px; line-height: 1.5;
+  }
+  .explain.show { display: block; }
+  .next, .tohome {
+    display: block; width: 100%; margin-top: 18px; cursor: pointer; text-align: center; text-decoration: none;
+    background: #10b981; color: #052e16; border: none; border-radius: 12px;
+    padding: 14px; font-size: 16px; font-weight: 700; transition: filter .15s; font-family: inherit;
+  }
+  .next:hover, .tohome:hover { filter: brightness(1.1); }
+  .tohome { display: none; }
+  .retake {
+    display: block; width: 100%; margin-top: 12px; cursor: pointer; text-align: center;
+    background: transparent; color: #10b981; border: 2px solid #10b981; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+  .result { text-align: center; padding: 18px 0 6px; }
+  .score { font-size: 52px; font-weight: 800; color: var(--head); }
+  .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; }
+  .btnnext:hover { filter: brightness(1.08); }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="crumbs">Блок 1 · Теория и история управления &nbsp;·&nbsp; Неделя 4 · Среда</div>
+    <h1>Видеолекция: СССР → современность + тест по ней</h1>
+    <div class="chips">
+      <span class="chip">🎬 Видеолекция ~45 мин</span>
+      <span class="chip">📝 Закрепление ~20 мин</span>
+      <span class="chip">✅ Тест по видео</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> посмотреть видеолекцию по теме «СССР → современность», закрепить материал и пройти тест, проверяющий, что ты реально извлёк из лекции.</div>
+  </div>
+
+  <h2>1. Рекомендуемые видеолекции</h2>
+  <p>Сегодня — день видеолекций. Выбери один или несколько ресурсов по теме <strong>советская система и реформы</strong>:</p>
+
+  <table>
+    <tr><th>Ресурс</th><th>Где искать</th><th>Тема</th></tr>
+    <tr><td><strong>RUTUBE</strong></td><td><a href="https://rutube.ru/channel/33864361/" target="_blank">rutube.ru/channel/33864361/</a> (канал ФГУ МГУ)</td><td>лекции по истории государственного управления, эволюция системы управления в России</td></tr>
+    <tr><td><strong>OpenEdu</strong></td><td><a href="https://openedu.ru" target="_blank">openedu.ru</a></td><td>курс по основам конституционного строя / истории государственного управления</td></tr>
+    <tr><td><strong>YouTube</strong></td><td>поиск: «административная реформа 2004 Россия лекция»</td><td>Указ №314, ФЗ-131, двухуровневая система органов власти</td></tr>
+    <tr><td><strong>YouTube</strong></td><td>поиск: «Конституция РФ 1993 лекция»</td><td>разделение властей, ст. 10, президентская республика, основные положения</td></tr>
+  </table>
+
+  <h2>Как смотреть с пользой</h2>
+  <p><strong>До просмотра</strong> — ответь себе на 3 вопроса:</p>
+  <p>1) Какая структура федеральных органов власти сложилась после реформы 2004 г.?<br>
+  2) В чём принципиальное отличие Конституции 1993 от Конституции 1977?<br>
+  3) Чем программно-целевой метод отличается от советского планирования?</p>
+
+  <p><strong>В процессе</strong> — веди конспект:</p>
+  <p>Записывай даты, имена, названия документов. Обращай внимание на причинно-следственные связи: <em>почему</em> именно такая реформа последовала за таким событием.</p>
+
+  <p><strong>После просмотра</strong> — запиши 3 тезиса:</p>
+  <p>1) Что для тебя стало главным открытием?<br>
+  2) Какой вопрос остался без ответа?<br>
+  3) С каким материалом из дней 1–2 это связано?</p>
+
+  <h2>2. Конспект переходного периода (1985–2000-е)</h2>
+  <p>Перечитай конспекты дней 1 и 2 этой недели и восстанови хронологию:</p>
+
+  <pre>1985 — начало перестройки (Горбачёв)
+1989 — Съезд народных депутатов, первые альтернативные выборы
+1990 — отмена ст. 6, создание поста Президента СССР
+1991 — Августовский путч → распад СССР (8 декабря — Беловежские соглашения)
+1992 — экономическая реформа (utschein Н. Гайдара: либерализация цен, приватизация)
+1993 — Конституционный кризис → Конституция РФ 1993 г. (12 декабря — референдум)
+1994–1996 — приватизация (ваучеры, залоговые аукционы)
+1998 — финансовый кризис
+1999 — начало правления В. Путина (и.о. Президента с 31 декабря)
+2000 — принятие ФЗ «О системе государственной службы»
+2003–2004 — административная реформа (Указ Президента № 314, ФЗ-131)</pre>
+
+  <h2>3. Административная реформа 2003–2004 гг.</h2>
+  <p><span class="em">Ключевое событие</span>, определившее современную структуру федеральных органов исполнительной власти:</p>
+
+  <table>
+    <tr><th>Документ</th><th>Год</th><th>Содержание</th></tr>
+    <tr><td><strong>Указ Президента РФ № 314</strong></td><td>2004</td><td>установил двухуровневую систему: федеральные министерства (политика и нормативка) и федеральные службы/агентства (надзор и услуги)</td></tr>
+    <tr><td><strong>ФЗ «О системе федеральных органов исполнительной власти»</strong></td><td>2004</td><td>юридически закрепил трёхстороннюю структуру: министерства, службы, агентства</td></tr>
+    <tr><td><strong>ФЗ «Об общих принципах организации местного самоуправления» (№ 131)</strong></td><td>2003</td><td>реформа МСУ: чёткий перечень вопросов местного значения, разграничение полномочий</td></tr>
+  </table>
+
+  <p>Принцип: <strong>министерство</strong> = политика и нормативные акты; <strong>федеральная служба</strong> = надзор и контроль; <strong>федеральное агентство</strong> = управление государственным имуществом и оказание услуг. Это решение позволило сократить количество федеральных ведомств и убрать дублирование функций.</p>
+
+  <details>
+    <summary>❓ Вопрос себе: почему создание отдельных федеральных служб и агентств повысило эффективность?</summary>
+    <p>Разделение функций: министерство «думает» (политика), служба «следит» (контроль/надзор), агентство «управляет» (имущество/услуги). Это устранило конфликт интересов, когда один орган одновременно вырабатывал правила и контролировал их исполнение.</p>
+  </details>
+
+  <h2>4. Закрепление: ключевые связи</h2>
+  <pre>БЛОК 1 · Связь тем:
+
+Древняя Русь (вече, князь)
+    ↓
+Империя (приказы → коллегии → министерства Сперанского)
+    ↓
+Советский период (Советы → СНК → наркоматы/министерства, Госплан)
+    ↓
+Перестройка (1985–1991)
+    ↓
+Конституция 1993 (разделение властей, президентская республика)
+    ↓
+Административная реформа 2004 (министерства ↔ службы ↔ агентства)
+    ↓
+Цифровизация (Госуслуги, электронное правительство)</pre>
+
+  <h2>📌 Повторение терминов (недели 3–4)</h2>
+  <table>
+    <tr><th>Термин</th><th>Краткое определение</th></tr>
+    <tr><td>Наркомат</td><td>отраслевое ведомство в СССР до 1946 г.</td></tr>
+    <tr><td>Госплан</td><td>орган планирования, разрабатывал пятилетки</td></tr>
+    <tr><td>СНК</td><td>советское правительство (1917–1946)</td></tr>
+    <tr><td>Перестройка</td><td>политические и экономические реформы Горбачёва (1985–1991)</td></tr>
+    <tr><td>Конституция 1993</td><td>основной закон РФ, закрепивший разделение властей и рыночную экономику</td></tr>
+    <tr><td>Указ № 314</td><td>установил двухуровневую систему федеральных органов исполнительной власти (2004)</td></tr>
+    <tr><td>ФЗ-131</td><td>базовый закон о местном самоуправлении (2003)</td></tr>
+    <tr><td>Демократический центризм</td><td>принцип советской власти: выборность снизу, обязательность решений сверху</td></tr>
+  </table>
+
+  <div class="hw">
+    <h2>🏠 Задание на вечер</h2>
+    <label class="task"><input type="checkbox" data-hw="0"><span>Посмотри видеолекцию по Конституции РФ 1993 г. (рекомендованные ресурсы выше).</span></label>
+    <label class="task"><input type="checkbox" data-hw="1"><span>Перескажи (устно или письменно): как менялась система управления в России за 30 последних лет — от перестройки до цифровизации.</span></label>
+  </div>
+
+  <div class="quiz-head">
+    <h1 style="font-size:16px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;">🎬 Тест ПО ВИДЕОЛЕКЦИИ</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:var(--head);margin-top:6px;">Проверь, что ты взял из видеолекции · 8 вопросов</div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+  </div>
+  <div class="quiz-body" id="card"></div>
+
+  <button class="closeday" data-close>✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ День 3 (Неделя 4) закрыт</b>
+    <p>Завтра — кейс: плановая vs программно-целевая модель.</p>
+    <a class="btnnext" href="день_04.html">▶ Открыть следующий день</a>
+  </div>
+
+  <div class="footer-nav">
+    <a href="день_02.html">← День 2: Перестройка</a>
+    <a href="день_04.html">Завтра: Кейс →</a>
+  </div>
+
+</div>
+<script src="../../../app.js?v=3"></script>
+<script>
+const DAY = window.initDayPage ? window.initDayPage("d20260923", { home: "../../../index.html" }) : { locked: false, autoClose(){} };
+
+const KEY_DONE = window.uKey("done_b1_w4_d3");
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+document.querySelectorAll("[data-hw]").forEach(box => {
+  const k = "hw_" + KEY_DONE + "_" + box.dataset.hw;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => lsSet(k, box.checked ? "1" : "0"));
+});
+
+const QUESTIONS = [
+  { q: "В каком году была принята Конституция СССР, закрепившая руководящую роль КПСС?",
+    opts: ["1918","1924","1936","1977"],
+    a: 3,
+    ex: "Конституция СССР 1977 г. (ст. 6) юридически закрепила руководящую роль КПСС. Конституция 1936 г. формально ввела всеобщее избирательное право." },
+  { q: "Чем наркомат принципиально отличался от современного федерального министерства?",
+    opts: ["наркомат был только в исполнительной власти","наркомат совмещал политику и надзор, а современное министерство — только политика","наркомат не имел полномочий","никак — это одно и то же"],
+    a: 1,
+    ex: "После административной реформы 2004 г. министерство занимается политикой и нормативкой, а функции надзора переданы федеральным службам. В советское время наркомат совмещал обе функции." },
+  { q: "Какой документ 2004 г. установил двухуровневую систему федеральных органов исполнительной власти?",
+    opts: ["Конституция РФ","ФЗ «О системе федеральных органов исполнительной власти»","Указ Президента РФ № 314","ФЗ-131"],
+    a: 2,
+    ex: "Указ Президента РФ № 314 от 9 марта 2004 г. установил систему: федеральные министерства (политика) + федеральные службы и агентства (надзор и услуги)." },
+  { q: "Какой НЕ является формой собственности по Конституции 1993 г.?",
+    opts: ["государственная","муниципальная","частная","плановая"],
+    a: 3,
+    ex: "Плановая — не форма собственности, а тип экономической системы. Конституция 1993 г. признаёт частную, государственную, муниципальную и иные формы собственности." },
+  { q: "Госплан выполнял функцию...",
+    opts: ["надзора за соблюдением законов","разработки пятилетних планов экономического развития","распределения жилья","назначения должностных лиц"],
+    a: 1,
+    ex: "Госплан — Государственный комитет по планированию — разрабатывал пятилетние и годовые планы народного хозяйства СССР." },
+  { q: "Кто являлся главой исполнительной власти в СССР (до 1946 г.)?",
+    opts: ["генсек КПСС","Председатель ВЦИК","Председатель СНК","Председатель Президиума Верховного Совета"],
+    a: 2,
+    ex: "СНК (Совет Народных Комиссаров) — высший исполнительный и распорядительный орган, фактическое правительство. С 1946 г. он был переименован в Совет Министров." },
+  { q: "В какой последовательности правильна эволюция системы управления?",
+    opts: ["приказы → наркоматы → министерства → федеральные службы","наркоматы → приказы → федеральные агентства → министерства","коллегии → Советы → приказы → наркоматы","министерства Сперанского → наркоматы → коллегии"],
+    a: 0,
+    ex: "Правильная линия: приказы (до XVIII в.) → коллегии (Петр I) → министерства (Сперанский) → наркоматы (1917) → министерства (1946) → федеральные службы/агентства (2004)." },
+  { q: "Когда вступил в силу ФЗ «Об общих принципах организации местного самоуправления» (№ 131)?",
+    opts: ["2000","2003","2008","2014"],
+    a: 1,
+    ex: "ФЗ-131 был принят 6 октября 2003 г. и вступил в силу с 1 января 2006 г. Он определил перечень вопросов местного значения и полномочия органов МСУ." }
+];
+
+let idx = 0, score = 0;
+const card = document.getElementById("card");
+
+function render() {
+  if (idx >= QUESTIONS.length) return renderResult();
+  const item = QUESTIONS[idx];
+  document.getElementById("barfill").style.width = Math.round(idx / QUESTIONS.length * 100) + "%";
+  card.innerHTML = `
+    <div class="qnum">Вопрос ${idx + 1} из ${QUESTIONS.length} · верных: ${score}</div>
+    <div class="qtext">${item.q}</div>
+    ${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join("")}
+    <div class="explain" id="ex">${item.ex}</div>
+    <button class="next" id="next" style="display:none">${idx + 1 === QUESTIONS.length ? "Результат →" : "Далее →"}</button>
+  `;
+  card.querySelectorAll(".opt").forEach(btn =>
+    btn.addEventListener("click", () => answer(+btn.dataset.i))
+  );
+}
+
+function answer(i) {
+  const item = QUESTIONS[idx];
+  card.querySelectorAll(".opt").forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === item.a) btn.classList.add("correct");
+    else if (j === i) btn.classList.add("wrong");
+  });
+  if (i === item.a) score++;
+  document.getElementById("ex").classList.add("show");
+  const n = document.getElementById("next");
+  n.style.display = "block";
+  n.addEventListener("click", () => { idx++; render(); });
+}
+
+function renderResult() {
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  let verdict, passed = pct >= 70;
+  if (pct >= 90) verdict = "🔥 Отлично! Материал усвоен.";
+  else if (passed) verdict = "✅ Зачёт! Загляни в объяснения ошибок.";
+  else verdict = "📖 Пока не зачёт (<70%). Перечитай конспект выше — и пройди ещё раз.";
+  if (passed) lsSet(KEY_DONE, score + "/" + QUESTIONS.length);
+  card.innerHTML = `
+    <div class="result">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="verdict">${pct}% · ${verdict}${passed ? "<br><br>День отмечен пройденным в дашборде ✔" : ""}</div>
+      <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
+      <a class="tohome" href="../../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
+    </div>`;
+  if (passed && !DAY.locked) DAY.autoClose();
+}
+
+render();
+</script>
+</body>
+</html>

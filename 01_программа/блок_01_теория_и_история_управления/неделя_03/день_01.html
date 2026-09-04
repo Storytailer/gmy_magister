@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День 1 · Древняя Русь и Московское государство</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--txt);
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
+  .em { color: #34d399; font-weight: 600; }
+  pre {
+    background: var(--card2); border: 1px solid var(--soft); border-radius: 12px;
+    padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.5;
+    color: #93c5fd; margin: 14px 0; font-family: Consolas, "Courier New", monospace;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 18px; margin: 12px 0; cursor: pointer;
+  }
+  summary { color: var(--link); font-weight: 600; font-size: 15px; }
+  summary:hover { color: #7dd3fc; }
+  details[open] summary { margin-bottom: 8px; }
+  details p { margin: 0; color: var(--txt); font-size: 15px; }
+  .hw {
+    background: var(--card); border: 1px solid #f59e0b55; border-radius: 16px;
+    padding: 22px 26px; margin-top: 30px;
+  }
+  .hw h2 { margin: 0 0 14px; border-color: #f59e0b; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #f59e0b88; }
+  label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: var(--txt); }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .quiz-head {
+    margin-top: 40px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
+  }
+  .quiz-body {
+    background: var(--card); border: 1px solid var(--line); border-radius: 0 0 16px 16px;
+    border-top: none; padding: 20px 26px 26px;
+  }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
+  .qnum { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: var(--head); }
+  .opt {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: var(--bg); color: var(--txt); border: 2px solid var(--line);
+    border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--muted); transform: translateX(4px); }
+  .opt:disabled { cursor: default; opacity: .85; }
+  .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
+  .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
+  .explain {
+    display: none; background: var(--bg); border-left: 3px solid #38bdf8;
+    padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
+    color: var(--txt2); margin-top: 8px; line-height: 1.5;
+  }
+  .explain.show { display: block; }
+  .next, .tohome {
+    display: block; width: 100%; margin-top: 18px; cursor: pointer; text-align: center; text-decoration: none;
+    background: #10b981; color: #052e16; border: none; border-radius: 12px;
+    padding: 14px; font-size: 16px; font-weight: 700; transition: filter .15s; font-family: inherit;
+  }
+  .next:hover, .tohome:hover { filter: brightness(1.1); }
+  .tohome { display: none; }
+  .retake {
+    display: block; width: 100%; margin-top: 12px; cursor: pointer; text-align: center;
+    background: transparent; color: #10b981; border: 2px solid #10b981; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+  .result { text-align: center; padding: 18px 0 6px; }
+  .score { font-size: 52px; font-weight: 800; color: var(--head); }
+  .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; }
+  .btnnext:hover { filter: brightness(1.08); }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="crumbs">Блок 1 · Теория и история управления &nbsp;·&nbsp; Неделя 3 · Понедельник</div>
+    <h1>Древняя Русь и Московское государство</h1>
+    <div class="chips">
+      <span class="chip">📖 Лекция ~40 мин</span>
+      <span class="chip">🏠 Задание ~15 мин</span>
+      <span class="chip">✅ Тест дня в конце страницы</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> понимать эволюцию управления от вечевых собраний до приказной системы.</div>
+  </div>
+
+  <h2>1. Вечевая демократия: Новгород и Псков</h2>
+  <p><strong>Вече</strong> — народное собрание, высший орган власти в древнерусских городах. В Новгороде и Пскове вечевая традиция просуществовала дольше всего (до конца XV — начала XVI вв.) и представляла собой уникальную модель «ручного управления» — прямой демократии.</p>
+  <p>В Новгороде вече обладало широчайшими полномочиями:</p>
+  <ul style="margin-bottom:12px;padding-left:20px;font-size:15.5px;color:var(--txt);">
+    <li>Избрание и изгнание князя</li>
+    <li>Приглашение и заключение международных договоров</li>
+    <li>Назначение посадника и других должностных лиц</li>
+    <li>Вопросы войны и мира, налогообложения</li>
+    <li>Судебные функции (посадник — верховный судья)</li>
+  </ul>
+
+  <table>
+    <tr><th>Параметр</th><th>Новгород</th><th>Псков</th></tr>
+    <tr><td><strong>Высший орган</strong></td><td>Вече</td><td>Вече</td></tr>
+    <tr><td><strong>Глава администрации</strong></td><td>Посадник (избираемый)</td><td>Посадник</td></tr>
+    <tr><td><strong>Роль князя</strong></td><td>Военачальник, судья по \"较高\" делам</td><td>Военная роль ограничена</td></tr>
+    <tr><td><strong>Совет господ</strong></td><td>Законодательная инициатива</td><td>Псковский пригород</td></tr>
+    <tr><td><strong>Период</strong></td><td>XII–XV вв.</td><td>XIII–XV вв.</td></tr>
+  </table>
+
+  <details>
+    <summary>❓ Вопрос себе: в чём отличие новгородского вече от западноевропейского парламента?</summary>
+    <p>Новгородское вече — прямая демократия (участвовало всё свободное население), тогда как парламент — представительная система (выборные депутаты). Кроме того, вече не имело формализованного регламента и Procedures, что делало его более гибким, но и менее предсказуемым.</p>
+  </details>
+
+  <h2>2. Княжеское управление</h2>
+  <p>В большинстве русских земель верховная власть принадлежала <strong>князю</strong>. Князь являлся:</p>
+  <ul style="margin-bottom:12px;padding-left:20px;font-size:15.5px;color:var(--txt);">
+    <li>Военачальником (оборона и наступление)</li>
+    <li>Судьёй (княжеский суд)</li>
+    <li>Администратором (управление землями, сбор дани)</li>
+    <li>Дипломатом (союзы, договоры с соседями)</li>
+  </ul>
+  <p><strong>Русская Правда</strong> (XI–XII вв.) — первый писаный свод законов Руси, кодифицировавший обычное право. Она ограничивала кровную месть, устанавливала штрафы (виры) и защищала.property определённых слоёв населения.</p>
+  <p><span class="em">Ключевой переход:</span> от раздробленности (удельные княжества XII–XV вв.) к единому централизованному государству — задача, решённая Москвой.</p>
+
+  <h2>3. Монгольское иго и его влияние на систему управления</h2>
+  <p>Монгольское нашествие (1237–1240 гг.) и последующее иго (~240 лет) фундаментально изменили российскую систему управления:</p>
+  <table>
+    <tr><th>До монголов</th><th>После монголов</th></tr>
+    <tr><td>Многоцентровая система ( удельные княжества)</td><td>Единая «орда-метрополия» → тенденция к централизации</td></tr>
+    <tr><td>Вечевые традиции (Новгород, Псков)</td><td>Ослабление вечевых институтов, усиление княжеской власти</td></tr>
+    <tr><td>Налоговая система неупорядочена</td><td>Систематический сбор дани — ясак; появление «баскаков»</td></tr>
+    <tr><td>Церковь — моральный авторитет</td><td>Церковь получает привилегии от Орды (освобождение от налогов) → усиление роли митрополита</td></tr>
+    <tr><td>Военная организация — дружины</td><td>Переход к «пешему строю» и поместной коннице</td></tr>
+  </table>
+  <p>Монголы привили русским князьям привычку к <strong>жёсткой административной вертикали</strong>, систематическому сбору сведений о подданных (переписи) и жёсткой ответственности за неуплату налогов. Именно эта модель позже была воспринята Московским княжеством.</p>
+
+  <details>
+    <summary>❓ Вопрос себе: что такого полезного для управления дало монгольское иго?</summary>
+    <p>Иго привило систему организации large-scale administration: перепись населения (для распределения дани), почтовую систему (ямы), чёткую иерархию подчинения и идею «единого центра», который управляет всей территорией. Московские князья использовали этот опыт для централизации.</p>
+  </details>
+
+  <h2>4. Московское централизованное государство</h2>
+  <p><strong>Иван III (1462–1505):</strong></p>
+  <ul style="margin-bottom:12px;padding-left:20px;font-size:15.5px;color:var(--txt);">
+    <li>«Сбор земель» — присоединение Новгорода (1478), Твери, Вятки и других княжеств</li>
+    <li>«Стояние на Угре» (1480) — конец монгольского ига</li>
+    <li>Принятие титула «Государь всея Руси»</li>
+    <li>Законодательное ограничение перехода крестьян (заповедные лета)</li>
+    <li>Создание системы приказов (переход от княжеской дворцовой системы)</li>
+  </ul>
+  <p><strong>Иван IV Грозный (1533–1584):</strong></p>
+  <ul style="margin-bottom:12px;padding-left:20px;font-size:15.5px;color:var(--txt);">
+    <li>Первый коронованный царь (1547)</li>
+    <li>Земские соборы (1549, 1566) — сословно-представительная монархия</li>
+    <li>Стоглавый собор (1551) — реформа церковного управления</li>
+    <li>«Судебник» 1550 г. — реформа судопроизводства</li>
+    <li><span class="em">Опричнина (1565–1572):</span> разделение государства на «земщину» и «опричнину» — попытка подавить боярскую оппозицию силовым путём</li>
+    <li>Присоединение Казанского (1552) и Астраханского (1556) ханств</li>
+  </ul>
+
+  <h2>5. Приказная система как прообраз министерств</h2>
+  <p><strong>Приказы</strong> — центральные органы управления Московского государства XVI–XVII вв., каждый из которых отвечал за определённую отрасль или территорию.</p>
+  <table>
+    <tr><th>Приказ</th><th>Функция</th><th>Современный аналог</th></tr>
+    <tr><td><strong>Посольский</strong></td><td>Внешняя политика, дипломатия</td><td>МИД</td></tr>
+    <tr><td><strong>Разрядный</strong></td><td>Управление военными назначениями</td><td>Генштаб / МО</td></tr>
+    <tr><td><strong>Поместный</strong></td><td>Управление земельными пожалованиями</td><td>Минземель / Росреестр</td></tr>
+    <tr><td><strong>Разбойный</strong></td><td>Борьба с преступностью</td><td>МВД</td></tr>
+    <tr><td><strong>Приказ Большой казны</strong></td><td>Финансы</td><td>Минфин</td></tr>
+    <tr><td><strong>Челобитный</strong></td><td>Приём жалоб от населения</td><td>Прокуратура / аппарат омбудсмена</td></tr>
+  </table>
+
+  <details>
+    <summary>❓ Вопрос себе: почему приказы называют «прообразом» министерств, а не самими министерствами?</summary>
+    <p>Приказы не были специализированными отраслевыми органами в современном смысле: один приказ мог совмещать функции несколько отраслей, а аппарат приказа не имел чёткой профессиональной специализации. Тем не менее, принцип отраслевого разделения управления был заложен уже тогда.</p>
+  </details>
+
+  <h2>📌 Термины дня</h2>
+  <table>
+    <tr><th>Термин</th><th>Значение</th></tr>
+    <tr><td>Вече</td><td>народное собрание — высший орган власти в ряде древнерусских городов</td></tr>
+    <tr><td>Князь</td><td>феодальный правитель, военачальник и судья в древнерусском государстве</td></tr>
+    <tr><td>Русская Правда</td><td>свод законов XI–XII вв., кодификация обычного права</td></tr>
+    <tr><td>Ясак</td><td>дань, взимавшаяся монголами с покорённых народов</td></tr>
+    <tr><td>Опричнина</td><td>политика Ивана IV: разделение государства на «опричнину» и «земщину» для подавления оппозиции</td></tr>
+    <tr><td>Приказы</td><td>централизованные органы управления XVI–XVII вв. — отраслевые подразделения</td></tr>
+    <tr><td>Земские соборы</td><td>сословно-представительные учреждения XVI–XVII вв.</td></tr>
+    <tr><td>Посадник</td><td>выборный глава администрации в Новгороде/Пскове</td></tr>
+  </table>
+
+  <div class="hw">
+    <h2>🏠 Задание на вечер</h2>
+    <label class="task"><input type="checkbox" data-hw="0"><span>Составь хронологическую таблицу: главные реформы управления от Рюрика до Ивана IV.</span></label>
+    <label class="task"><input type="checkbox" data-hw="1"><span>Сравни приказную систему с современными министерствами: что общего?</span></label>
+  </div>
+
+  <div class="quiz-head">
+    <h1 style="font-size:16px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;">✅ Тест дня</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:var(--head);margin-top:6px;">Древняя Русь и Московское государство · 10 вопросов</div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+  </div>
+  <div class="quiz-body" id="card"></div>
+
+  <button class="closeday" data-close>✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ День 1 недели 3 закрыт</b>
+    <p>Завтра — реформы Петра I и Екатерины II.</p>
+    <a class="btnnext" href="день_02.html">▶ Открыть следующий день</a>
+  </div>
+
+  <div class="footer-nav">
+    <a href="../неделя_02/день_05.html">← Предыдущий день</a>
+    <a href="день_02.html">Завтра: Реформы Петра I и Екатерины II →</a>
+  </div>
+
+</div>
+<script src="../../../app.js?v=3"></script>
+<script>
+const DAY = window.initDayPage ? window.initDayPage("d20260914", { home: "../../../index.html" }) : { locked: false, autoClose(){} };
+
+const KEY_DONE = window.uKey("done_b1_w3_d1");
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+document.querySelectorAll("[data-hw]").forEach(box => {
+  const k = "hw_" + KEY_DONE + "_" + box.dataset.hw;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => lsSet(k, box.checked ? "1" : "0"));
+});
+
+const QUESTIONS = [
+  { q: "Вече — это...",
+    opts: ["совет бояр при князе","народное собрание, высший орган власти в ряде древнерусских городов","орган церковной власти","временный военный совет"],
+    a: 1,
+    ex: "Вече было высшим органом власти в Новгороде, Пскове и ряде других городов. Боярский совет — консультативный орган при князе." },
+  { q: "В Новгороде вече имело право...",
+    opts: ["только обсуждать налоги","приглашать и изгонять князя, заключать международные договоры","решать только судебные дела","вмешиваться только в церковные дела"],
+    a: 1,
+    ex: "Новгородское вече обладало неограниченной властью: избрание/изгнание князя, послов, вопросы войны и мира, налогообложения." },
+  { q: "Монгольское иго (~1240–1480) наиболее повлияло на:",
+    opts: ["развитие ремёсел","возникновение профессиональной армии","укрепление вертикали власти и систематизацию сбора дани","развитие городского самоуправления"],
+    a: 2,
+    ex: "Иго привило русским князьям идею жёсткой административной вертикали, систематический сбор сведений о населении и безусловное подчинение центру." },
+  { q: "Иван III (1462–1505) прославился тем, что:",
+    opts: ["провёл опричнину","впервые короновался как царь","сверг монгольское иго и создал единое государство","учредил земские соборы"],
+    a: 2,
+    ex: "Иван III присоединил Новгород, Тверь и другие земли, принял титул «Государь всея Руси» и поставил точку на монгольском иге (стояние на Угре, 1480)." },
+  { q: "Опричнина (1565–1572) — это...",
+    opts: ["административная реформа по созданию приказов","разделение государства на «опричнину» и «земщину» для подавления боярской оппозиции","военная кампания по присоединению Казани","первая налоговая реформа"],
+    a: 1,
+    ex: "Опричнина была политикой terror и репрессий: Иван IV создал параллельную структуру власти с целью подавления реальной и мнимой оппозиции." },
+  { q: "Приказы в Московском государстве — это...",
+    opts: ["судебные органы только для простого народа","централизованные органы управления, каждый из которых отвечал за определённую отрасль","временные военные комиссии","представительные учреждения"],
+    a: 1,
+    ex: "Приказы — прообраз министерств: Посольский (МИД), Разбойный (МВД), Разрядный (МО) и др. Каждый отвечал за свою сферу." },
+  { q: "Какой приказ отвечал за внешнюю политику?",
+    opts: ["Разбойный","Поместный","Посольский","Большой казны"],
+    a: 2,
+    ex: "Посольский приказ ведал дипломатическими сношениями — прямой аналог современного МИД." },
+  { q: "Земские соборы XVI–XVII вв. — это...",
+    opts: ["народные вечевые собрания","сословно-представительные учреждения при царе","судебные органы","советы митрополитов"],
+    a: 1,
+    ex: "Земские соборы собирались при Иване IV и других царях — в них участвовали представители бояр, духовенства, стрельцов и посадских людей. Это компромисс между самодержавием и сословиями." },
+  { q: "Судебник 1550 г. был принят при...",
+    opts: ["Иване III","Иване IV Грозном","Борисе Годунове","Алексее Михайловиче"],
+    a: 1,
+    ex: "Судебник 1550 г. — свод законов, принятый при Иване IV, ограничивавший произвол наместников и вводивший единые нормы судопроизводства." },
+  { q: "Какой слой населения наибольше пострадал от монгольского ига в плане подчинения?",
+    opts: ["бояре","духовенство","крестьяне и простой люд","купцы"],
+    a: 2,
+    ex: "Крестьяне несли основную тяжесть дани (ясака) и работали на общинных землях. Духовенство, наоборот, получило привилегии от Орды — освобождение от налогов." },
+  { q: "Стояние на Угре (1480) ознаменовало...",
+    opts: ["конец феодальной раздробленности","начало опричнины","конец монгольского ига","принятие христианства"],
+    a: 2,
+    ex: "В 1480 г. монгольские войска отступили, и Русь окончательно освободилась от ига при Иване III." }
+];
+
+let idx = 0, score = 0;
+const card = document.getElementById("card");
+
+function render() {
+  if (idx >= QUESTIONS.length) return renderResult();
+  const item = QUESTIONS[idx];
+  document.getElementById("barfill").style.width = Math.round(idx / QUESTIONS.length * 100) + "%";
+  card.innerHTML = `
+    <div class="qnum">Вопрос ${idx + 1} из ${QUESTIONS.length} · верных: ${score}</div>
+    <div class="qtext">${item.q}</div>
+    ${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join("")}
+    <div class="explain" id="ex">${item.ex}</div>
+    <button class="next" id="next" style="display:none">${idx + 1 === QUESTIONS.length ? "Результат →" : "Далее →"}</button>
+  `;
+  card.querySelectorAll(".opt").forEach(btn =>
+    btn.addEventListener("click", () => answer(+btn.dataset.i))
+  );
+}
+
+function answer(i) {
+  const item = QUESTIONS[idx];
+  card.querySelectorAll(".opt").forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === item.a) btn.classList.add("correct");
+    else if (j === i) btn.classList.add("wrong");
+  });
+  if (i === item.a) score++;
+  document.getElementById("ex").classList.add("show");
+  const n = document.getElementById("next");
+  n.style.display = "block";
+  n.addEventListener("click", () => { idx++; render(); });
+}
+
+function renderResult() {
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  let verdict, passed = pct >= 70;
+  if (pct >= 90) verdict = "Отлично! Материал дня усвоен.";
+  else if (passed) verdict = "Зачёт! Загляни в объяснения ошибок перед завтрашним днём.";
+  else verdict = "Пока не зачёт (<70%). Перечитай конспект выше — и пройди ещё раз.";
+  if (passed) lsSet(KEY_DONE, score + "/" + QUESTIONS.length);
+  card.innerHTML = `
+    <div class="result">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="verdict">${pct}% · ${verdict}${passed ? "<br><br>День отмечен пройденным в дашборде ✔" : ""}</div>
+      <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
+      <a class="tohome" href="../../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
+    </div>`;
+  if (passed && !DAY.locked) DAY.autoClose();
+}
+
+render();
+</script>
+</body>
+</html>

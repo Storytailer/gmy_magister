@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>День 3 · Видеолекция + тест по ней</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--txt);
+    padding: 24px 16px 60px; line-height: 1.7;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 28px; margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .crumbs { font-size: 12px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  h1 { font-size: 27px; color: var(--head); margin-top: 6px; line-height: 1.25; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg); border: 1px solid var(--line); color: var(--txt2); border-radius: 999px; padding: 5px 14px; font-size: 13px; }
+  .goal { margin-top: 16px; background: #052e2b; border: 1px solid #10b98155; color: #a7f3d0; border-radius: 12px; padding: 12px 16px; font-size: 14.5px; }
+  h2 { font-size: 21px; color: var(--head); margin: 34px 0 14px; padding-left: 12px; border-left: 4px solid #10b981; }
+  p { margin-bottom: 12px; color: var(--txt); font-size: 15.5px; }
+  strong { color: var(--head); }
+  .em { color: #34d399; font-weight: 600; }
+  pre {
+    background: var(--card2); border: 1px solid var(--soft); border-radius: 12px;
+    padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.5;
+    color: #93c5fd; margin: 14px 0; font-family: Consolas, "Courier New", monospace;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  th { text-align: left; color: var(--txt2); font-weight: 600; padding: 10px 12px; background: var(--card2); border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--soft); color: var(--txt); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 18px; margin: 12px 0; cursor: pointer;
+  }
+  summary { color: var(--link); font-weight: 600; font-size: 15px; }
+  summary:hover { color: #7dd3fc; }
+  details[open] summary { margin-bottom: 8px; }
+  details p { margin: 0; color: var(--txt); font-size: 15px; }
+  .hw {
+    background: var(--card); border: 1px solid #f59e0b55; border-radius: 16px;
+    padding: 22px 26px; margin-top: 30px;
+  }
+  .hw h2 { margin: 0 0 14px; border-color: #f59e0b; }
+  label.task {
+    display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s;
+  }
+  label.task:hover { border-color: #f59e0b88; }
+  label.task input { width: 18px; height: 18px; accent-color: #f59e0b; margin-top: 3px; flex-shrink: 0; }
+  label.task span { font-size: 15px; color: var(--txt); }
+  label.task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .quiz-head {
+    margin-top: 40px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px 16px 0 0; border-bottom: none; padding: 22px 26px 0;
+  }
+  .quiz-body {
+    background: var(--card); border: 1px solid var(--line); border-radius: 0 0 16px 16px;
+    border-top: none; padding: 20px 26px 26px;
+  }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 20px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#10b981,#34d399); width: 0%; transition: width .3s ease; }
+  .qnum { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .qtext { font-size: 18.5px; line-height: 1.45; margin-bottom: 18px; color: var(--head); }
+  .opt {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: var(--bg); color: var(--txt); border: 2px solid var(--line);
+    border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.4; transition: all .15s ease; font-family: inherit;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--muted); transform: translateX(4px); }
+  .opt:disabled { cursor: default; opacity: .85; }
+  .opt.correct { border-color: #10b981; background: #064e3b; color: #d1fae5; }
+  .opt.wrong   { border-color: #ef4444; background: #7f1d1d; color: #fee2e2; }
+  .explain {
+    display: none; background: var(--bg); border-left: 3px solid #38bdf8;
+    padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: 14px;
+    color: var(--txt2); margin-top: 8px; line-height: 1.5;
+  }
+  .explain.show { display: block; }
+  .next, .tohome {
+    display: block; width: 100%; margin-top: 18px; cursor: pointer; text-align: center; text-decoration: none;
+    background: #10b981; color: #052e16; border: none; border-radius: 12px;
+    padding: 14px; font-size: 16px; font-weight: 700; transition: filter .15s; font-family: inherit;
+  }
+  .next:hover, .tohome:hover { filter: brightness(1.1); }
+  .tohome { display: none; }
+  .retake {
+    display: block; width: 100%; margin-top: 12px; cursor: pointer; text-align: center;
+    background: transparent; color: #10b981; border: 2px solid #10b981; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+  .result { text-align: center; padding: 18px 0 6px; }
+  .score { font-size: 52px; font-weight: 800; color: var(--head); }
+  .verdict { font-size: 16px; color: var(--txt2); margin: 12px 0 22px; line-height: 1.5; }
+  .closeday {
+    display: block; width: 100%; margin-top: 26px; cursor: pointer; text-align: center;
+    background: #f59e0b; color: #451a03; border: none; border-radius: 12px;
+    padding: 15px; font-size: 15.5px; font-weight: 800; font-family: inherit; transition: filter .15s;
+  }
+  .closeday:hover { filter: brightness(1.08); }
+  .afterwrap { margin-top: 20px; background: linear-gradient(135deg,#052e2b33,var(--card)); border: 1px solid #10b98166; border-radius: 16px; padding: 20px 24px; }
+  .afterwrap b { color: #6ee7b7; font-size: 16px; }
+  .afterwrap p { margin: 8px 0 14px; color: var(--txt2); font-size: 14px; }
+  .btnnext { display: inline-block; background: linear-gradient(90deg,#059669,#10b981); color: #fff; font-weight: 700;
+    font-size: 14.5px; border-radius: 11px; padding: 12px 22px; text-decoration: none; }
+  .btnnext:hover { filter: brightness(1.08); }
+  .footer-nav { display: flex; justify-content: space-between; margin-top: 36px; font-size: 14px; }
+  .footer-nav a { color: var(--link); text-decoration: none; }
+  .footer-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="crumbs">Блок 1 · Теория и история управления &nbsp;·&nbsp; Неделя 1 · Среда</div>
+    <h1>Видеолекция + тест по ней</h1>
+    <div class="chips">
+      <span class="chip">🎬 Видео ~40–60 мин</span>
+      <span class="chip">📝 Конспект ~15 мин</span>
+      <span class="chip">✅ Тест ПО ВИДЕОЛЕКЦИИ в конце</span>
+    </div>
+    <div class="goal"><strong>Цель дня:</strong> посмотреть видеолекцию по основам ГМУ, сделать активные заметки и проверить, что вынес из лекции через тематический тест.</div>
+  </div>
+
+  <h2>1. Выбери видеолекцию</h2>
+  <p>Видеолекция — <strong>центральный элемент дня</strong>. Выбери один из проверенных ресурсов и посмотри <strong>минимум 40 минут</strong>:</p>
+  <table>
+    <tr><th>Платформа</th><th>Что искать</th><th>Ссылка / Примечание</th></tr>
+    <tr><td><strong>RUTUBE</strong></td><td>«Государственное и муниципальное управление лекция 1»</td><td><a href="https://rutube.ru/channel/33864361/" target="_blank" style="color:var(--link)">rutube.ru/channel/33864361/</a> · канал ФГУ МГУ</td></tr>
+    <tr><td><strong>OpenEdu</strong></td><td>Курс «Государственное и муниципальное управление»</td><td><a href="https://openedu.ru" target="_blank" style="color:var(--link)">openedu.ru</a> · бесплатные курсы от ведущих вузов</td></tr>
+    <tr><td><strong>YouTube</strong></td><td>«Основы ГМУ лекция введение»</td><td>Ищи лекции от РАНХиГС / МГУ</td></tr>
+  </table>
+
+  <details>
+    <summary>❓ Стоит ли смотреть всё подряд или выбрать одну лекцию?</summary>
+    <p>Выбери <strong>одну качественную лекцию</strong> (40–60 мин) и посмотри её полностью. Лучше разобрать одну глубоко, чем пролистать пять поверхностно.</p>
+  </details>
+
+  <h2>2. Как смотреть с пользой (метод активного просмотра)</h2>
+  <p>Не смотри пассивно — используй трёхэтапный метод:</p>
+
+  <h3>До просмотра (5 мин)</h3>
+  <p>Сформулируй 3 вопроса, на которые хочешь найти ответ в лекции:</p>
+  <table>
+    <tr><th>Вопрос</th><th>Твой ответ (до просмотра)</th></tr>
+    <tr><td>1. Что такое публичная власть и из чего она состоит?</td><td style="color:var(--muted)">запиши до просмотра</td></tr>
+    <tr><td>2. Чем государственное управление отличается от муниципального?</td><td style="color:var(--muted)">запиши до просмотра</td></tr>
+    <tr><td>3. Какие уровни управления существуют в РФ?</td><td style="color:var(--muted)">запиши до просмотра</td></tr>
+  </table>
+
+  <h3>Во время просмотра (40–60 мин)</h3>
+  <p>Делай <strong>конспект своими словами</strong>: не копируй слайды, а пересказывай основную мысль каждой части. Отмечай:</p>
+  <p>• <span class="em">?</span> — что-то непонятно, вернусь позже<br>
+  • <span class="em">!</span> — важный тезис, пригодится для теста<br>
+  • <span class="em">→</span> — связь с материалом дней 1–2</p>
+
+  <h3>После просмотра (10 мин)</h3>
+  <p>Запиши:</p>
+  <p>1. <strong>3 тезиса</strong>, которые ты вынес из лекции<br>
+  2. <strong>1 вопрос лектору</strong> (или к материалу) — то, что хочется разобрать глубже</p>
+
+  <details>
+    <summary>💡 Зачем это нужно?</summary>
+    <p>Активное просмотра повышает усвоение на 40–60% по сравнению с пассивным просмотром. Записывая вопросы до и после, ты направляешь внимание на ключевые идеи и создаёшь «зацепки» для запоминания.</p>
+  </details>
+
+  <h2>3. Что вспомнить после просмотра</h2>
+  <p>После видеолекции быстро проверь себя по ключевым темам первых двух дней:</p>
+
+  <table>
+    <tr><th>Тема</th><th>Проверь себя</th></tr>
+    <tr><td>Определение управления</td><td>Можешь ли объяснить: субъект, объект, обратная связь?</td></tr>
+    <tr><td>Три уровня власти</td><td>Федеральный → региональный → муниципальный?</td></tr>
+    <tr><td>Конституция</td><td>Поправки 2020 года — единая система публичной власти (ст. 132)?</td></tr>
+    <tr><td>Функции Файоля</td><td>Планирование → Организация → Мотивация → Контроль?</td></tr>
+    <tr><td>Эффективность vs результативность</td><td>Друкер: «делаем правильные вещи» vs «правильно делаем»?</td></tr>
+  </table>
+
+  <h2>📌 Сводка ключевых идей первых двух дней</h2>
+  <pre>ДЕНЬ 1: управление = субъект → объект (+ обратная связь)
+         три уровня публичной власти: ФЕД → РЕГ → МСУ
+         ГМУ = наука + практика на стыке 5 дисциплин
+
+ДЕНЬ 2: цели: стратегические / тактические / оперативные
+         функции: планирование → организация → мотивация → контроль
+         цикл управления — замкнут, никогда не заканчивается
+         Друкер: эффективность > результативность
+         Саймон: решения — не идеальные, а удовлетворительные</pre>
+
+  <div class="hw">
+    <h2>🏠 Задание на вечер</h2>
+    <label class="task"><input type="checkbox" data-hw="0"><span>Посмотри одну видеолекцию по основам ГМУ (таблица ресурсов выше) и выпиши 3 главных тезиса + 1 вопрос лектору.</span></label>
+    <label class="task"><input type="checkbox" data-hw="1"><span>Заполни «Как смотреть с пользой»: 3 вопроса до просмотра, конспект во время, 3 тезиса + 1 вопрос после.</span></label>
+  </div>
+
+  <div class="quiz-head">
+    <h1 style="font-size:16px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;">🎬 Тест ПО ВИДЕОЛЕКЦИИ</h1>
+    <div class="topic" style="font-size:21px;font-weight:700;color:var(--head);margin-top:6px;">проверь, что ты вынес из лекции · 8 вопросов</div>
+    <div class="bar"><div class="bar-fill" id="barfill"></div></div>
+  </div>
+  <div class="quiz-body" id="card"></div>
+
+  <button class="closeday" data-close>✔ Закрыть день</button>
+
+  <div class="afterwrap" id="afterclose" style="display:none">
+    <b>✔ День 3 закрыт</b>
+    <p>Завтра — кейс недели: применишь теорию на практике!</p>
+    <a class="btnnext" href="день_04.html">▶ Открыть следующий день</a>
+  </div>
+
+  <div class="footer-nav">
+    <a href="день_02.html">← Вт: Цели и функции ГУ</a>
+    <a href="день_04.html">Чт: Кейс недели →</a>
+  </div>
+
+</div>
+<script src="../../../app.js?v=3"></script>
+<script>
+const DAY = window.initDayPage ? window.initDayPage("d20260902", { home: "../../../index.html" }) : { locked: false, autoClose(){} };
+
+const KEY_DONE = window.uKey("done_b1_w1_d3");
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+document.querySelectorAll("[data-hw]").forEach(box => {
+  const k = "hw_" + KEY_DONE + "_" + box.dataset.hw;
+  if (lsGet(k) === "1") box.checked = true;
+  box.addEventListener("change", () => lsSet(k, box.checked ? "1" : "0"));
+});
+
+const QUESTIONS = [
+  { q: "Какие три уровня публичной власти существуют в РФ?",
+    opts: ["президентский, парламентский, судебный","федеральный, региональный, муниципальный","законодательный, исполнительный, надзорный","местный, региональный, глобальный"],
+    a: 1,
+    ex: "Публичная власть в РФ: федеральный уровень (Президент, Правительство), региональный (губернаторы, собрания), муниципальный (МСУ). Это закреплено в Конституции." },
+  { q: "Органы местного самоуправления входят в систему органов государственной власти?",
+    opts: ["да, это прямо указано в Конституции","нет — ст. 12 Конституции разделяет их","только в городах-миллионниках","по решению главы региона"],
+    a: 1,
+    ex: "Ст. 12 Конституции РФ: органы МСУ не входят в систему органов государственной власти. Но они входят в единую систему публичной власти (ст. 132)." },
+  { q: "Что такое «ограниченная рациональность» по Саймону?",
+    opts: ["люди вообще не способны принимать решения","решения всегда оптимальны","люди принимают удовлетворительные решения, а не идеальные","только руководители ограничены в рациональности"],
+    a: 2,
+    ex: "Саймон: люди не могут обработать всю информацию. Они принимают не оптимальные, а «достаточно хорошие» (satisficing) решения в рамках имеющихся ограничений." },
+  { q: "Какая функция управления по Файолю отвечает за распределение ресурсов и полномочий?",
+    opts: ["планирование","организация","мотивация","контроль"],
+    a: 1,
+    ex: "Организация — функция, которая определяет структуру, распределяет обязанности и ресурсы. «Кто за что отвечает?»" },
+  { q: "Эффективность по Друкеру — это...",
+    opts: ["быстрая работа без ошибок","использование ресурсов с минимальными потерями","выбор правильных целей («делаем правильные вещи»)","способность руководителя мотивировать команду"],
+    a: 2,
+    ex: "Эффективность (effectiveness) — «делаем ли мы правильные вещи?» (выбор направления). Результативность (efficiency) — «делаем ли мы вещи правильно?» (оптимизация)." },
+  { q: "Признаки государства — это...",
+    opts: ["территория, население, публичная власть, суверенитет","прибыль, рынок, конкуренция, инвестиции","наука, культура, спорт, образование","армия, полиция, суд, тюрьма"],
+    a: 0,
+    ex: "Классические признаки государства: определённая территория, постоянное население, публичная власть и суверенитет (независимость от внешних сил)." },
+  { q: "Правильный порядок цикла управления:",
+    opts: ["контроль → планирование → организация → мотивация","планирование → мотивация → контроль → организация","планирование → организация → мотивация → контроль → корректировка","мотивация → планирование → контроль"],
+    a: 2,
+    ex: "Цикл: цель → планирование → организация → мотивация → контроль → корректировка → новое планирование. Функции следуют друг за другом и образуют замкнутый круг." },
+  { q: "Какой вклад внёс Макс Вебер в теорию управления?",
+    opts: ["разделил политику и администрирование","ввёл понятие эффективности и результативности","описал модель рациональной бюрократии","сформулировал SMART-цели"],
+    a: 2,
+    ex: "Вебер описал идеальную модель рациональной бюрократии: иерархия, компетентность, безличные правила. Вильсон разделил политику и администрирование, Друкер — эффективность." }
+];
+
+let idx = 0, score = 0;
+const card = document.getElementById("card");
+
+function render() {
+  if (idx >= QUESTIONS.length) return renderResult();
+  const item = QUESTIONS[idx];
+  document.getElementById("barfill").style.width = Math.round(idx / QUESTIONS.length * 100) + "%";
+  card.innerHTML = `
+    <div class="qnum">Вопрос ${idx + 1} из ${QUESTIONS.length} · верных: ${score}</div>
+    <div class="qtext">${item.q}</div>
+    ${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join("")}
+    <div class="explain" id="ex">${item.ex}</div>
+    <button class="next" id="next" style="display:none">${idx + 1 === QUESTIONS.length ? "Результат →" : "Далее →"}</button>
+  `;
+  card.querySelectorAll(".opt").forEach(btn =>
+    btn.addEventListener("click", () => answer(+btn.dataset.i))
+  );
+}
+
+function answer(i) {
+  const item = QUESTIONS[idx];
+  card.querySelectorAll(".opt").forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === item.a) btn.classList.add("correct");
+    else if (j === i) btn.classList.add("wrong");
+  });
+  if (i === item.a) score++;
+  document.getElementById("ex").classList.add("show");
+  const n = document.getElementById("next");
+  n.style.display = "block";
+  n.addEventListener("click", () => { idx++; render(); });
+}
+
+function renderResult() {
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  let verdict, passed = pct >= 70;
+  if (pct >= 90) verdict = "🔥 Отлично! База двух дней усвоена на ура.";
+  else if (passed) verdict = "✅ Зачёт! Есть пробелы — допиши конспект сегодня вечером.";
+  else verdict = "📖 Пока не зачёт (<70%). Перечитай конспекты дней 1–2 и пройди видеолекцию ещё раз.";
+  if (passed) lsSet(KEY_DONE, score + "/" + QUESTIONS.length);
+  card.innerHTML = `
+    <div class="result">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="verdict">${pct}% · ${verdict}${passed ? "<br><br>День отмечен пройденным в дашборде ✔" : ""}</div>
+      <button class="retake" onclick="location.reload()">↻ Пройти заново</button>
+      <a class="tohome" href="../../../index.html" style="display:block;margin-top:12px;">← На дашборд курса</a>
+    </div>`;
+  if (passed && !DAY.locked) DAY.autoClose();
+}
+
+render();
+</script>
+</body>
+</html>
